@@ -1,6 +1,10 @@
-module Lib
-    ( someFunc
-    ) where
+{-# LANGUAGE OverloadedStrings #-}
 
-someFunc :: IO ()
-someFunc = putStrLn "someFunc"
+module Lib
+  ( helloWorld
+  ) where
+
+import Data.Text.Lazy (Text)
+
+helloWorld :: Text
+helloWorld = "hello world."

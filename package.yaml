@@ -24,6 +24,8 @@ dependencies:
 
 library:
   source-dirs: src
+  dependencies:
+  - text
 
 executables:
   azure-exporter-exe:
@@ -35,6 +37,8 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - azure-exporter
+    - scotty >= 0.11 && < 0.12
+    - text
 
 tests:
   azure-exporter-test:
