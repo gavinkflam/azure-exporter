@@ -1,0 +1,4 @@
+# azure-exporter
+
+## License
+MIT
