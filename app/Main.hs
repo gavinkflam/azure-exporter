@@ -26,13 +26,13 @@ main = do
         Nothing -> raise "No metrics found"
         Just m  -> text $ L.pack $ show m
 
-listMetricValuesParams :: Text -> M.ListMetricValuesParams
+listMetricValuesParams :: Text -> M.Params
 listMetricValuesParams resourceId =
-  M.ListMetricValuesParams { M._aggregation = "average"
-                           , M._metricNames = "Percentage CPU"
-                           , M._resourceId  = resourceId
-                           , M._timespan    = "2018-09-26T04:03:30.843Z/2018-09-26T04:04:30.843Z"
-                           }
+  M.Params { M._aggregation = "average"
+           , M._metricNames = "Percentage CPU"
+           , M._resourceId  = resourceId
+           , M._timespan    = "2018-09-26T04:03:30.843Z/2018-09-26T04:04:30.843Z"
+           }
 
 acquireTokenParams :: Config -> T.Params
 acquireTokenParams c =

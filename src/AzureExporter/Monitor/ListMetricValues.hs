@@ -2,8 +2,8 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module AzureExporter.Monitor.ListMetricValues
-  ( ListMetricValuesParams (..)
-  , ListMetricValuesResponse (..)
+  ( Params (..)
+  -- Request
   , listMetricValues
   ) where
 
@@ -18,14 +18,14 @@ import Network.HTTP.Client
 import Network.HTTP.Client.TLS (tlsManagerSettings)
 
 -- Request parameters
-data ListMetricValuesParams =
-  ListMetricValuesParams { _aggregation :: Text
-                         , _metricNames :: Text
-                         , _resourceId  :: Text
-                         , _timespan    :: Text
-                         } deriving Show
+data Params =
+  Params { _aggregation :: Text
+         , _metricNames :: Text
+         , _resourceId  :: Text
+         , _timespan    :: Text
+         } deriving Show
 
-makeLenses ''ListMetricValuesParams
+makeLenses ''Params
 
 -- Request utilities
 listMetricValuesUrl :: Text -> String
@@ -34,7 +34,7 @@ listMetricValuesUrl resourceId =
   <> unpack resourceId
   <> "/providers/microsoft.insights/metrics"
 
-queryParams :: ListMetricValuesParams -> [(ByteString, Maybe ByteString)]
+queryParams :: Params -> [(ByteString, Maybe ByteString)]
 queryParams p =
   [ ("api-version", Just "2018-01-01")
   , ("aggregation", Just $ encodeUtf8 $ p ^. aggregation)
@@ -42,7 +42,8 @@ queryParams p =
   , ("timespan",    Just $ encodeUtf8 $ p ^. timespan)
   ]
 
-listMetricValues :: Text -> ListMetricValuesParams -> IO (Maybe ListMetricValuesResponse)
+-- Request
+listMetricValues :: Text -> Params -> IO (Maybe ListMetricValuesResponse)
 listMetricValues token p = do
   manager <- newManager tlsManagerSettings
   req <- parseRequest $ listMetricValuesUrl $ p ^. resourceId
