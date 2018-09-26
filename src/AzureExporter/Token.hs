@@ -7,11 +7,14 @@ module AzureExporter.Token
   , acquireToken
   ) where
 
-import Control.Applicative (empty)
-import Control.Lens (makeLenses, (^.), (^?))
-import Data.Aeson
-import Data.Text.Lazy (Text, unpack)
-import Network.Wreq
+import           Control.Applicative (empty)
+import           Control.Lens (makeLenses, (^.))
+import           Data.Aeson
+import           Data.Text (Text, unpack)
+import           Data.Text.Encoding (encodeUtf8)
+import qualified Data.ByteString as B
+import           Network.HTTP.Client
+import           Network.HTTP.Client.TLS (tlsManagerSettings)
 
 data AcquireTokenParams =
   AcquireTokenParams { _clientId     :: Text
@@ -38,15 +41,18 @@ acquireTokenUrl :: Text -> String
 acquireTokenUrl tenantId =
   "https://login.microsoftonline.com/" <> unpack tenantId <> "/oauth2/token"
 
-acquireTokenForm :: AcquireTokenParams -> [FormParam]
+acquireTokenForm :: AcquireTokenParams -> [(B.ByteString, B.ByteString)]
 acquireTokenForm p =
-  [ "grant_type"    := ("client_credentials" :: Text)
-  , "resource"      := ("https://management.azure.com/" :: Text)
-  , "client_id"     := p ^. clientId
-  , "client_secret" := p ^. clientSecret
+  [ ("grant_type",    "client_credentials")
+  , ("resource",      "https://management.azure.com/")
+  , ("client_id",     encodeUtf8 $ p ^. clientId)
+  , ("client_secret", encodeUtf8 $ p ^. clientSecret)
   ]
 
 acquireToken :: AcquireTokenParams -> IO (Maybe AcquireTokenResponse)
 acquireToken p = do
-  r <- post (acquireTokenUrl $ p ^. tenantId) $ acquireTokenForm p
-  return $ decode (r ^. responseBody)
+  manager <- newManager tlsManagerSettings
+  req <- parseRequest $ acquireTokenUrl $ p ^. tenantId
+  let req' = urlEncodedBody (acquireTokenForm p) $ req { method = "POST" }
+  res <- httpLbs req' manager
+  return $ decode $ responseBody res
