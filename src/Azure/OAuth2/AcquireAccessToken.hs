@@ -10,7 +10,7 @@ module Azure.OAuth2.AcquireAccessToken
 
 import Azure.OAuth2.Data.AcquireAccessTokenResponse (AcquireAccessTokenResponse)
 import Control.Lens (makeLenses, (^.))
-import Data.Aeson (decode)
+import Data.Aeson (eitherDecode)
 import Data.Text (Text, unpack)
 import Data.Text.Encoding (encodeUtf8)
 import Data.ByteString (ByteString)
@@ -40,11 +40,11 @@ acquireTokenForm p =
   ]
 
 -- Request
-acquireAccessToken :: Params -> IO (Maybe AcquireAccessTokenResponse)
+acquireAccessToken :: Params -> IO (Either String AcquireAccessTokenResponse)
 acquireAccessToken p = do
   manager <- newManager tlsManagerSettings
   req <- parseRequest $ acquireTokenUrl $ p ^. tenantId
 
   let req' = urlEncodedBody (acquireTokenForm p) $ req { method = "POST" }
   res <- httpLbs req' manager
-  return $ decode $ responseBody res
+  return $ eitherDecode $ responseBody res

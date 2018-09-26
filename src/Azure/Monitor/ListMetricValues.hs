@@ -10,7 +10,7 @@ module Azure.Monitor.ListMetricValues
 import Azure.Monitor.Data.ListMetricValuesResponse (ListMetricValuesResponse)
 import Azure.Monitor.Contract (withAuth)
 import Control.Lens (makeLenses, (^.))
-import Data.Aeson (decode)
+import Data.Aeson (eitherDecode)
 import Data.Text (Text, unpack)
 import Data.Text.Encoding (encodeUtf8)
 import Data.ByteString (ByteString)
@@ -43,10 +43,10 @@ queryParams p =
   ]
 
 -- Request
-listMetricValues :: Text -> Params -> IO (Maybe ListMetricValuesResponse)
+listMetricValues :: Text -> Params -> IO (Either String ListMetricValuesResponse)
 listMetricValues token p = do
   manager <- newManager tlsManagerSettings
   req <- parseRequest $ listMetricValuesUrl $ p ^. resourceId
   let req' = setQueryString (queryParams p) $ withAuth token req
   res <- httpLbs req' manager
-  return $ decode $ responseBody res
+  return $ eitherDecode $ responseBody res

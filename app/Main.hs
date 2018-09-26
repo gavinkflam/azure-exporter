@@ -19,31 +19,31 @@ main = do
   scotty 3000 $ do
     get "/monitor/metrics" $ do
       resourceId <- param "resourceId"
-      token      <- liftIO $ acquireAccessToken config
-      metrics    <-
-        liftIO $ M.listMetricValues token $ listMetricValuesParams resourceId
-      case metrics of
-        Nothing -> raise "No metrics found"
-        Just m  -> text $ L.pack $ show m
+      token      <- eitherRaise $ liftIO $ acquireAccessToken config
 
-listMetricValuesParams :: Text -> M.Params
-listMetricValuesParams resourceId =
-  M.Params { M._aggregation = "average"
-           , M._metricNames = "Percentage CPU"
-           , M._resourceId  = resourceId
-           , M._timespan    = "2018-09-26T04:03:30.843Z/2018-09-26T04:04:30.843Z"
-           }
+      let params = M.Params { M._aggregation = "average"
+                            , M._metricNames = "Percentage CPU"
+                            , M._resourceId  = resourceId
+                            , M._timespan    = dummyTimespan
+                            }
+      metrics <- eitherRaise $ liftIO $ M.listMetricValues token params
+      text $ L.pack $ show metrics
 
-acquireTokenParams :: Config -> T.Params
-acquireTokenParams c =
-  T.Params { T._clientId     = c ^. clientId
-           , T._clientSecret = c ^. clientSecret
-           , T._tenantId     = c ^. tenantId
-           }
+-- Dummy data
+dummyTimespan :: Text
+dummyTimespan = "2018-09-26T04:03:30.843Z/2018-09-26T04:04:30.843Z"
 
-acquireAccessToken :: Config -> IO Text
+-- Utilities
+eitherRaise :: Either String a -> ActionM a
+eitherRaise (Left m)  = raise $ L.pack m
+eitherRaise (Right x) = return x
+
+-- AcquireAccessToken
+acquireAccessToken :: Config -> IO (Either String Text)
 acquireAccessToken c = do
-  res <- T.acquireAccessToken $ acquireTokenParams c
-  case res of
-    Just r  -> return $ r ^. TR.accessToken
-    Nothing -> return $ "" -- TODO: properly handle errors
+  let params = T.Params { T._clientId     = c ^. clientId
+                        , T._clientSecret = c ^. clientSecret
+                        , T._tenantId     = c ^. tenantId
+                        }
+  res <- T.acquireAccessToken params
+  return $ fmap (^. TR.accessToken) res
