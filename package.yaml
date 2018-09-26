@@ -45,6 +45,7 @@ executables:
     dependencies:
     - azure-exporter
     - scotty >= 0.11 && < 0.12
+    - lens >= 4.16 && < 4.17
     - text
 
 tests:
