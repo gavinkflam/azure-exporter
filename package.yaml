@@ -31,6 +31,7 @@ library:
   - http-client-tls >= 0.3 && < 0.4
   - lens >= 4.16 && < 4.17
   - text
+  - casing >= 0.1 && < 0.2
 
 executables:
   azure-exporter-exe:

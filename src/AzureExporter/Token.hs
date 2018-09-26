@@ -1,3 +1,4 @@
+{-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
 
@@ -13,8 +14,10 @@ import           Data.Aeson
 import           Data.Text (Text, unpack)
 import           Data.Text.Encoding (encodeUtf8)
 import qualified Data.ByteString as B
+import           GHC.Generics
 import           Network.HTTP.Client
 import           Network.HTTP.Client.TLS (tlsManagerSettings)
+import           Text.Casing (quietSnake)
 
 data AcquireTokenParams =
   AcquireTokenParams { _clientId     :: Text
@@ -25,15 +28,18 @@ data AcquireTokenParams =
 makeLenses ''AcquireTokenParams
 
 data AcquireTokenResponse =
-  AcquireTokenResponse { _accessToken :: Text
-                       , _expiresOn   :: Text
-                       } deriving Show
+  AcquireTokenResponse { _accessToken  :: Text
+                       , _expiresIn    :: Text
+                       , _expiresOn    :: Text
+                       , _extExpiresIn :: Text
+                       , _notBefore    :: Text
+                       , _resource     :: Text
+                       , _tokenType    :: Text
+                       } deriving (Generic, Show)
 
 instance FromJSON AcquireTokenResponse where
-  parseJSON (Object v) =
-    AcquireTokenResponse <$> v .: "access_token"
-                         <*> v .: "expires_on"
-  parseJSON _ = empty
+  parseJSON = genericParseJSON opts
+    where opts = defaultOptions { fieldLabelModifier = quietSnake . drop 1 }
 
 makeLenses ''AcquireTokenResponse
 
