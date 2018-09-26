@@ -3,8 +3,17 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module AzureExporter.Token
-  ( AcquireTokenParams
-  , AcquireTokenResponse
+  ( AcquireTokenParams (..)
+  , AcquireTokenResponse (..)
+  -- Lenses
+  , accessToken
+  , expiresIn
+  , expiresOn
+  , extExpiresIn
+  , notBefore
+  , resource
+  , tokenType
+  -- Request
   , acquireToken
   ) where
 
