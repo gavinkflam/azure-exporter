@@ -2,14 +2,14 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module AzureExporter.Monitor.Data.LocalizableString
+module Azure.Monitor.Data.LocalizableString
   ( LocalizableString (..)
   -- Lenses
   , value
   , localizedValue
   ) where
 
-import AzureExporter.Monitor.Contract (aesonOptions)
+import Azure.Monitor.Contract (aesonOptions)
 import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Text (Text)

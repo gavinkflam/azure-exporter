@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module AzureExporter.Monitor.Data.Metric
+module Azure.Monitor.Data.Metric
   ( Metric (..)
   -- Lenses
   , metricId
@@ -11,9 +11,9 @@ module AzureExporter.Monitor.Data.Metric
   , metricTimeseries
   ) where
 
-import AzureExporter.Monitor.Contract (aesonOptions)
-import AzureExporter.Monitor.Data.LocalizableString (LocalizableString)
-import AzureExporter.Monitor.Data.TimeSeriesElement (TimeSeriesElement)
+import Azure.Monitor.Contract (aesonOptions)
+import Azure.Monitor.Data.LocalizableString (LocalizableString)
+import Azure.Monitor.Data.TimeSeriesElement (TimeSeriesElement)
 import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Text (Text)

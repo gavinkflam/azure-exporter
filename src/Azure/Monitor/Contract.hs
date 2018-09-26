@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module AzureExporter.Monitor.Contract
+module Azure.Monitor.Contract
   ( aesonOptions
   , withAuth
   ) where

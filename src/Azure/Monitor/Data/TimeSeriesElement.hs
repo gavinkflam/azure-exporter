@@ -1,14 +1,14 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module AzureExporter.Monitor.Data.TimeSeriesElement
+module Azure.Monitor.Data.TimeSeriesElement
   ( TimeSeriesElement (..)
   -- Lenses
   , elementData
   ) where
 
-import AzureExporter.Monitor.Contract (aesonOptions)
-import AzureExporter.Monitor.Data.MetricValue (MetricValue)
+import Azure.Monitor.Contract (aesonOptions)
+import Azure.Monitor.Data.MetricValue (MetricValue)
 import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Text (Text)

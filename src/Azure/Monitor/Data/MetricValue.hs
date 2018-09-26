@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module AzureExporter.Monitor.Data.MetricValue
+module Azure.Monitor.Data.MetricValue
   ( MetricValue (..)
   -- Lenses
   , average
@@ -12,7 +12,7 @@ module AzureExporter.Monitor.Data.MetricValue
   , total
   ) where
 
-import AzureExporter.Monitor.Contract (aesonOptions)
+import Azure.Monitor.Contract (aesonOptions)
 import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Ratio (Rational)

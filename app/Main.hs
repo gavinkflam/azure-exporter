@@ -2,9 +2,9 @@
 
 module Main where
 
-import qualified AzureExporter.Monitor.ListMetricValues as M
-import qualified AzureExporter.OAuth2.AcquireAccessToken as T
-import qualified AzureExporter.OAuth2.Data.AcquireAccessTokenResponse as TR
+import qualified Azure.Monitor.ListMetricValues as M
+import qualified Azure.OAuth2.AcquireAccessToken as T
+import qualified Azure.OAuth2.Data.AcquireAccessTokenResponse as TR
 import           AzureExporterExe.Config
 import           Control.Lens ((^.))
 import           Control.Monad.IO.Class (liftIO)

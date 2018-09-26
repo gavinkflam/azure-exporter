@@ -1,14 +1,14 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module AzureExporter.Monitor.ListMetricValues
+module Azure.Monitor.ListMetricValues
   ( Params (..)
   -- Request
   , listMetricValues
   ) where
 
-import AzureExporter.Monitor.Data.ListMetricValuesResponse (ListMetricValuesResponse)
-import AzureExporter.Monitor.Contract (withAuth)
+import Azure.Monitor.Data.ListMetricValuesResponse (ListMetricValuesResponse)
+import Azure.Monitor.Contract (withAuth)
 import Control.Lens (makeLenses, (^.))
 import Data.Aeson (decode)
 import Data.Text (Text, unpack)

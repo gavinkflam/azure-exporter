@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module AzureExporter.Monitor.Data.ListMetricValuesResponse
+module Azure.Monitor.Data.ListMetricValuesResponse
   ( ListMetricValuesResponse (..)
   -- Lenses
   , cost
@@ -12,8 +12,8 @@ module AzureExporter.Monitor.Data.ListMetricValuesResponse
   , value
   ) where
 
-import AzureExporter.Monitor.Contract (aesonOptions)
-import AzureExporter.Monitor.Data.Metric (Metric)
+import Azure.Monitor.Contract (aesonOptions)
+import Azure.Monitor.Data.Metric (Metric)
 import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Text (Text)
