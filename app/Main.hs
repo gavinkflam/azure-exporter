@@ -3,7 +3,8 @@
 module Main where
 
 import qualified AzureExporter.Monitor.ListMetricValues as M
-import qualified AzureExporter.Token as T
+import qualified AzureExporter.OAuth2.AcquireAccessToken as T
+import qualified AzureExporter.OAuth2.Data.AcquireAccessTokenResponse as TR
 import           AzureExporterExe.Config
 import           Control.Lens ((^.))
 import           Control.Monad.IO.Class (liftIO)
@@ -18,7 +19,7 @@ main = do
   scotty 3000 $ do
     get "/monitor/metrics" $ do
       resourceId <- param "resourceId"
-      token      <- liftIO $ acquireToken config
+      token      <- liftIO $ acquireAccessToken config
       metrics    <-
         liftIO $ M.listMetricValues token $ listMetricValuesParams resourceId
       case metrics of
@@ -33,16 +34,16 @@ listMetricValuesParams resourceId =
                            , M._timespan    = "2018-09-26T04:03:30.843Z/2018-09-26T04:04:30.843Z"
                            }
 
-acquireTokenParams :: Config -> T.AcquireTokenParams
+acquireTokenParams :: Config -> T.Params
 acquireTokenParams c =
-  T.AcquireTokenParams { T._clientId     = c ^. clientId
-                       , T._clientSecret = c ^. clientSecret
-                       , T._tenantId     = c ^. tenantId
-                       }
+  T.Params { T._clientId     = c ^. clientId
+           , T._clientSecret = c ^. clientSecret
+           , T._tenantId     = c ^. tenantId
+           }
 
-acquireToken :: Config -> IO Text
-acquireToken c = do
-  res <- T.acquireToken $ acquireTokenParams c
+acquireAccessToken :: Config -> IO Text
+acquireAccessToken c = do
+  res <- T.acquireAccessToken $ acquireTokenParams c
   case res of
-    Just r  -> return $ r ^. T.accessToken
+    Just r  -> return $ r ^. TR.accessToken
     Nothing -> return $ "" -- TODO: properly handle errors
