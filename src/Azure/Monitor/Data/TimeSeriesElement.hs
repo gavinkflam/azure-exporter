@@ -13,7 +13,6 @@ import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Text (Text)
 import GHC.Generics
-import Text.Casing (camel)
 
 -- TimeSeriesElement
 -- https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#timeserieselement

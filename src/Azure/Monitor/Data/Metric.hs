@@ -22,8 +22,8 @@ import GHC.Generics
 -- Metric
 -- https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#metric
 data Metric =
-  Metric { __id         :: Text
-         , __type       :: Text
+  Metric { __id        :: Text
+         , __type      :: Text
          , _name       :: LocalizableString
          , _unit       :: Text
          , _timeseries :: [TimeSeriesElement]
