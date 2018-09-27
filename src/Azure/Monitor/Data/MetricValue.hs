@@ -24,7 +24,7 @@ import Prelude hiding (maximum, minimum)
 -- https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#metricvalue
 data MetricValue =
   MetricValue { _average   :: Maybe Scientific
-              , _count     :: Maybe Int
+              , _count     :: Maybe Scientific
               , _maximum   :: Maybe Scientific
               , _minimum   :: Maybe Scientific
               , _timeStamp :: Text
