@@ -1,7 +1,7 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module AzureExporter.Data.Gauge
-  ( Gauge
+  ( Gauge (..)
   -- Lenses
   , name
   , help
@@ -18,6 +18,6 @@ data Gauge =
         , _help   :: Text
         , _labels :: [(Text, Text)]
         , _value  :: Scientific
-        }
+        } deriving Show
 
 makeLenses ''Gauge
