@@ -5,11 +5,11 @@ module Azure.Monitor.Contract
   , withAuth
   ) where
 
-import           Data.Aeson
-import qualified Data.ByteString as B
-import           Data.Text (Text)
-import           Data.Text.Encoding (encodeUtf8)
-import           Network.HTTP.Client
+import Data.Aeson
+import Data.ByteString (ByteString, append)
+import Data.Text (Text)
+import Data.Text.Encoding (encodeUtf8)
+import Network.HTTP.Client
 
 -- Aeson options
 aesonOptions :: Options
@@ -20,5 +20,5 @@ withAuth :: Text -> Request -> Request
 withAuth token req =
   req { requestHeaders = [("Authorization" , authValue token)] }
 
-authValue :: Text -> B.ByteString
-authValue token = B.append "Bearer " $ encodeUtf8 token
+authValue :: Text -> ByteString
+authValue token = append "Bearer " $ encodeUtf8 token
