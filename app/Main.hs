@@ -19,14 +19,14 @@ main = do
   scotty 3000 $ do
     get "/monitor/metrics" $ do
       resourceId <- param "resourceId"
-      token      <- eitherRaise $ liftIO $ acquireAccessToken config
+      token      <- liftE $ liftIO $ acquireAccessToken config
 
       let params = M.Params { M._aggregation = "average"
                             , M._metricNames = "Percentage CPU"
                             , M._resourceId  = resourceId
                             , M._timespan    = dummyTimespan
                             }
-      metrics <- eitherRaise $ liftIO $ M.listMetricValues token params
+      metrics <- liftE $ liftIO $ M.listMetricValues token params
       text $ L.pack $ show metrics
 
 -- Dummy data
@@ -34,9 +34,12 @@ dummyTimespan :: Text
 dummyTimespan = "2018-09-26T04:03:30.843Z/2018-09-26T04:04:30.843Z"
 
 -- Utilities
+liftE :: ActionM (Either String a) -> ActionM a
+liftE = flip (>>=) eitherRaise
+
 eitherRaise :: Either String a -> ActionM a
 eitherRaise (Left m)  = raise $ L.pack m
-eitherRaise (Right x) = return x
+eitherRaise (Right n) = return n
 
 -- AcquireAccessToken
 acquireAccessToken :: Config -> IO (Either String Text)
