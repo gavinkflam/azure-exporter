@@ -34,7 +34,7 @@ main = do
                             , M._timespan    = pack timespan
                             }
       metrics <- liftE $ liftIO $ M.listMetricValues token params
-      text $ L.intercalate "\n" $ map renderGauge $ gauges metrics
+      text $ L.intercalate "\n\n" $ map renderGauge $ gauges metrics
 
 -- AcquireAccessToken
 acquireAccessToken :: Config -> IO (Either String Text)
