@@ -6,6 +6,7 @@ import qualified Azure.Monitor.ListMetricValues as M
 import qualified Azure.OAuth2.AcquireAccessToken as T
 import qualified Azure.OAuth2.Data.AcquireAccessTokenResponse as TR
 import           AzureExporter.Monitor (gauges)
+import           AzureExporter.Text.Gauge (renderGauge)
 import           AzureExporterExe.Config
 import           AzureExporterExe.Control.Scotty (liftE)
 import           Control.Lens ((^.))
@@ -29,7 +30,7 @@ main = do
                             , M._timespan    = dummyTimespan
                             }
       metrics <- liftE $ liftIO $ M.listMetricValues token params
-      text $ L.pack $ show $ gauges metrics
+      text $ L.intercalate "\n" $ map renderGauge $ gauges metrics
 
 -- Dummy data
 dummyTimespan :: Text
