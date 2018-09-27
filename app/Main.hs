@@ -6,6 +6,7 @@ import qualified Azure.Monitor.ListMetricValues as M
 import qualified Azure.OAuth2.AcquireAccessToken as T
 import qualified Azure.OAuth2.Data.AcquireAccessTokenResponse as TR
 import           AzureExporterExe.Config
+import           AzureExporterExe.Control.Scotty (liftE)
 import           Control.Lens ((^.))
 import           Control.Monad.IO.Class (liftIO)
 import           Data.Text (Text)
@@ -32,14 +33,6 @@ main = do
 -- Dummy data
 dummyTimespan :: Text
 dummyTimespan = "2018-09-26T04:03:30.843Z/2018-09-26T04:04:30.843Z"
-
--- Utilities
-liftE :: ActionM (Either String a) -> ActionM a
-liftE = flip (>>=) eitherRaise
-
-eitherRaise :: Either String a -> ActionM a
-eitherRaise (Left m)  = raise $ L.pack m
-eitherRaise (Right n) = return n
 
 -- AcquireAccessToken
 acquireAccessToken :: Config -> IO (Either String Text)
