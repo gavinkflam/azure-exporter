@@ -13,8 +13,8 @@ import qualified AzureExporter.Data.Gauge as G
 import           Control.Lens ((^.))
 import           Data.Scientific (Scientific)
 import           Data.Maybe (catMaybes)
-import           Data.Text (Text, pack, unpack)
-import qualified Text.Casing as C
+import           Data.Text (Text, intercalate, pack, unpack)
+import           Text.Casing (quietSnake)
 
 gauges :: R.ListMetricValuesResponse -> [G.Gauge]
 gauges r = concatMap fGauges metrics
@@ -23,7 +23,7 @@ gauges r = concatMap fGauges metrics
 
 gaugesFromMetric :: Text -> M.Metric -> [G.Gauge]
 gaugesFromMetric region m = concatMap fGauges values
-  where fName   = fqName (quietSnake $ m ^. M.name ^. LS.value) (m ^. M.unit)
+  where fName   = (\n -> fqName [m ^. M.name ^. LS.value, m ^. M.unit, n])
         fGauges = gaugesFromMetricValue region fName
         values  = concatMap (^. E._data) $ m ^. M.timeseries
 
@@ -47,13 +47,5 @@ gaugeFromAggregation name (Just n) =
                  }
 
 -- Utilities
-fqName :: Text -> Text -> Text -> Text
-fqName metricName unit aggregationName =
-  metricName <> "_" <> unit <> "_" <> aggregationName
-
--- Casing utilities
-wrapText :: (String -> String) -> Text -> Text
-wrapText f t = pack $ f $ unpack t
-
-quietSnake :: Text -> Text
-quietSnake = wrapText C.quietSnake
+fqName :: [Text] -> Text
+fqName segments = intercalate "_" $ map (pack . quietSnake . unpack) segments
