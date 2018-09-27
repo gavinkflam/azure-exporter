@@ -9,9 +9,10 @@ import           AzureExporter.Monitor (gauges)
 import           AzureExporter.Text.Gauge (renderGauge)
 import           AzureExporterExe.Config
 import           AzureExporterExe.Control.Scotty (liftE)
+import           AzureExporterExe.Data.Timespan (getLastMinuteTimespan)
 import           Control.Lens ((^.))
 import           Control.Monad.IO.Class (liftIO)
-import           Data.Text (Text)
+import           Data.Text (Text, pack)
 import qualified Data.Text.Lazy as L
 import           Web.Scotty
 
@@ -21,20 +22,19 @@ main = do
 
   scotty 3000 $ do
     get "/monitor/metrics" $ do
-      resourceId <- param "resourceId"
-      token      <- liftE $ liftIO $ acquireAccessToken config
+      resourceId  <- param "resourceId"
+      metricNames <- param "metricNames"
+      aggregation <- param "aggregation"
+      timespan    <- liftIO getLastMinuteTimespan
+      token       <- liftE $ liftIO $ acquireAccessToken config
 
-      let params = M.Params { M._aggregation = "average"
-                            , M._metricNames = "Percentage CPU"
+      let params = M.Params { M._aggregation = aggregation
+                            , M._metricNames = metricNames
                             , M._resourceId  = resourceId
-                            , M._timespan    = dummyTimespan
+                            , M._timespan    = pack timespan
                             }
       metrics <- liftE $ liftIO $ M.listMetricValues token params
       text $ L.intercalate "\n" $ map renderGauge $ gauges metrics
-
--- Dummy data
-dummyTimespan :: Text
-dummyTimespan = "2018-09-26T04:03:30.843Z/2018-09-26T04:04:30.843Z"
 
 -- AcquireAccessToken
 acquireAccessToken :: Config -> IO (Either String Text)
