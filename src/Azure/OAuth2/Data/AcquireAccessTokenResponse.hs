@@ -15,7 +15,7 @@ module Azure.OAuth2.Data.AcquireAccessTokenResponse
 
 import Control.Lens (makeLenses)
 import Data.Aeson
-import Data.Text (Text)
+import Data.Text.Lazy (Text)
 import GHC.Generics
 import Text.Casing (quietSnake)
 

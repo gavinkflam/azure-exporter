@@ -7,8 +7,9 @@ module Azure.Monitor.Contract
 
 import Data.Aeson
 import Data.ByteString (ByteString, append)
-import Data.Text (Text)
-import Data.Text.Encoding (encodeUtf8)
+import Data.ByteString.Lazy (toStrict)
+import Data.Text.Lazy (Text)
+import Data.Text.Lazy.Encoding (encodeUtf8)
 import Network.HTTP.Client
 
 -- Aeson options
@@ -21,4 +22,4 @@ withAuth token req =
   req { requestHeaders = [("Authorization" , authValue token)] }
 
 authValue :: Text -> ByteString
-authValue token = append "Bearer " $ encodeUtf8 token
+authValue token = append "Bearer " $ toStrict $ encodeUtf8 token

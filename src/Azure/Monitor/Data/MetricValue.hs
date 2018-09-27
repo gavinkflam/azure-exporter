@@ -16,7 +16,7 @@ import Azure.Monitor.Contract (aesonOptions)
 import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Scientific (Scientific)
-import Data.Text (Text)
+import Data.Text.Lazy (Text)
 import GHC.Generics
 import Prelude hiding (maximum, minimum)
 

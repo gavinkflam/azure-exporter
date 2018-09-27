@@ -13,7 +13,7 @@ import qualified AzureExporter.Data.Gauge as G
 import           Control.Lens ((^.))
 import           Data.Scientific (Scientific)
 import           Data.Maybe (catMaybes)
-import           Data.Text (Text, intercalate, pack, unpack)
+import           Data.Text.Lazy (Text, intercalate, pack, unpack)
 import           Text.Casing (quietSnake)
 
 gauges :: R.ListMetricValuesResponse -> [G.Gauge]

@@ -12,7 +12,7 @@ module AzureExporterExe.Config
   ) where
 
 import Control.Lens (makeLenses, (^.))
-import Data.Text (Text, pack)
+import Data.Text.Lazy (Text, pack)
 import System.Environment (getEnv)
 
 data Config =

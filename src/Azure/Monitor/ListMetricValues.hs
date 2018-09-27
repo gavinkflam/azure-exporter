@@ -11,9 +11,10 @@ import Azure.Monitor.Data.ListMetricValuesResponse (ListMetricValuesResponse)
 import Azure.Monitor.Contract (withAuth)
 import Control.Lens (makeLenses, (^.))
 import Data.Aeson (eitherDecode)
-import Data.Text (Text, unpack)
-import Data.Text.Encoding (encodeUtf8)
+import Data.Text.Lazy (Text, unpack)
+import Data.Text.Lazy.Encoding (encodeUtf8)
 import Data.ByteString (ByteString)
+import Data.ByteString.Lazy (toStrict)
 import Network.HTTP.Client
 import Network.HTTP.Client.TLS (tlsManagerSettings)
 
@@ -37,9 +38,9 @@ listMetricValuesUrl resourceId =
 queryParams :: Params -> [(ByteString, Maybe ByteString)]
 queryParams p =
   [ ("api-version", Just "2018-01-01")
-  , ("aggregation", Just $ encodeUtf8 $ p ^. aggregation)
-  , ("metricnames", Just $ encodeUtf8 $ p ^. metricNames)
-  , ("timespan",    Just $ encodeUtf8 $ p ^. timespan)
+  , ("aggregation", Just $ toStrict $ encodeUtf8 $ p ^. aggregation)
+  , ("metricnames", Just $ toStrict $ encodeUtf8 $ p ^. metricNames)
+  , ("timespan",    Just $ toStrict $ encodeUtf8 $ p ^. timespan)
   ]
 
 -- Request

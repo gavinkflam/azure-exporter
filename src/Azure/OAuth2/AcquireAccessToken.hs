@@ -11,9 +11,10 @@ module Azure.OAuth2.AcquireAccessToken
 import Azure.OAuth2.Data.AcquireAccessTokenResponse (AcquireAccessTokenResponse)
 import Control.Lens (makeLenses, (^.))
 import Data.Aeson (eitherDecode)
-import Data.Text (Text, unpack)
-import Data.Text.Encoding (encodeUtf8)
+import Data.Text.Lazy (Text, unpack)
+import Data.Text.Lazy.Encoding (encodeUtf8)
 import Data.ByteString (ByteString)
+import Data.ByteString.Lazy (toStrict)
 import Network.HTTP.Client
 import Network.HTTP.Client.TLS (tlsManagerSettings)
 
@@ -35,8 +36,8 @@ acquireTokenForm :: Params -> [(ByteString, ByteString)]
 acquireTokenForm p =
   [ ("grant_type",    "client_credentials")
   , ("resource",      "https://management.azure.com/")
-  , ("client_id",     encodeUtf8 $ p ^. clientId)
-  , ("client_secret", encodeUtf8 $ p ^. clientSecret)
+  , ("client_id",     toStrict $ encodeUtf8 $ p ^. clientId)
+  , ("client_secret", toStrict $ encodeUtf8 $ p ^. clientSecret)
   ]
 
 -- Request

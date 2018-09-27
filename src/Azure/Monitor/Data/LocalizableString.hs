@@ -11,7 +11,7 @@ module Azure.Monitor.Data.LocalizableString
 import Azure.Monitor.Contract (aesonOptions)
 import Control.Lens (makeLenses)
 import Data.Aeson
-import Data.Text (Text)
+import Data.Text.Lazy (Text)
 import GHC.Generics
 
 -- LocalizableString

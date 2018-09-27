@@ -11,7 +11,7 @@ module AzureExporter.Data.Gauge
 
 import Control.Lens (makeLenses)
 import Data.Scientific (Scientific)
-import Data.Text (Text)
+import Data.Text.Lazy (Text)
 
 data Gauge =
   Gauge { _name   :: Text

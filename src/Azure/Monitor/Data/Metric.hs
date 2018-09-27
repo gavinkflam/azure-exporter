@@ -16,7 +16,7 @@ import Azure.Monitor.Data.LocalizableString (LocalizableString)
 import Azure.Monitor.Data.TimeSeriesElement (TimeSeriesElement)
 import Control.Lens (makeLenses)
 import Data.Aeson
-import Data.Text (Text)
+import Data.Text.Lazy (Text)
 import GHC.Generics
 
 -- Metric

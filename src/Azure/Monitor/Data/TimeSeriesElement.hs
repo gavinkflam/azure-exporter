@@ -11,7 +11,7 @@ import Azure.Monitor.Contract (aesonOptions)
 import Azure.Monitor.Data.MetricValue (MetricValue)
 import Control.Lens (makeLenses)
 import Data.Aeson
-import Data.Text (Text)
+import Data.Text.Lazy (Text)
 import GHC.Generics
 
 -- TimeSeriesElement

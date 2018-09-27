@@ -12,8 +12,7 @@ import           AzureExporterExe.Control.Scotty (liftE)
 import           AzureExporterExe.Data.Timespan (getLastMinuteTimespan)
 import           Control.Lens ((^.))
 import           Control.Monad.IO.Class (liftIO)
-import           Data.Text (Text, pack)
-import qualified Data.Text.Lazy as L
+import           Data.Text.Lazy (Text, intercalate, pack)
 import           Web.Scotty
 
 main :: IO ()
@@ -34,7 +33,7 @@ main = do
                             , M._timespan    = pack timespan
                             }
       metrics <- liftE $ liftIO $ M.listMetricValues token params
-      text $ L.intercalate "\n\n" $ map renderGauge $ gauges metrics
+      text $ intercalate "\n\n" $ map renderGauge $ gauges metrics
 
 -- AcquireAccessToken
 acquireAccessToken :: Config -> IO (Either String Text)
