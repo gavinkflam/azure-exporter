@@ -13,7 +13,7 @@ import           Network.HTTP.Client
 
 -- Aeson options
 aesonOptions :: Options
-aesonOptions = defaultOptions { fieldLabelModifier = drop 1 }
+aesonOptions = defaultOptions { fieldLabelModifier = dropWhile (== '_') }
 
 -- Request
 withAuth :: Text -> Request -> Request

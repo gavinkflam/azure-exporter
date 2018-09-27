@@ -4,11 +4,11 @@
 module Azure.Monitor.Data.Metric
   ( Metric (..)
   -- Lenses
-  , metricId
-  , metricType
-  , metricName
-  , metricUnit
-  , metricTimeseries
+  , _id
+  , _type
+  , name
+  , unit
+  , timeseries
   ) where
 
 import Azure.Monitor.Contract (aesonOptions)
@@ -18,20 +18,18 @@ import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Text (Text)
 import GHC.Generics
-import Text.Casing (camel)
 
 -- Metric
 -- https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#metric
 data Metric =
-  Metric { _metricId         :: Text
-         , _metricType       :: Text
-         , _metricName       :: LocalizableString
-         , _metricUnit       :: Text
-         , _metricTimeseries :: [TimeSeriesElement]
+  Metric { __id         :: Text
+         , __type       :: Text
+         , _name       :: LocalizableString
+         , _unit       :: Text
+         , _timeseries :: [TimeSeriesElement]
          } deriving (Generic, Show)
 
 instance FromJSON Metric where
-  parseJSON = genericParseJSON opts
-    where opts = aesonOptions { fieldLabelModifier = camel . drop 7 }
+  parseJSON = genericParseJSON aesonOptions
 
 makeLenses ''Metric
