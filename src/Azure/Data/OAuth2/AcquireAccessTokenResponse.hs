@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Azure.OAuth2.Data.AcquireAccessTokenResponse
+module Azure.Data.OAuth2.AcquireAccessTokenResponse
   ( AcquireAccessTokenResponse (..)
   -- Lenses
   , accessToken

@@ -2,9 +2,9 @@
 
 module Main where
 
-import qualified Azure.Monitor.ListMetricValues as M
-import qualified Azure.OAuth2.AcquireAccessToken as T
-import qualified Azure.OAuth2.Data.AcquireAccessTokenResponse as TR
+import qualified Azure.Data.OAuth2.AcquireAccessTokenResponse as TR
+import qualified Azure.Request.Monitor.ListMetricValues as M
+import qualified Azure.Request.OAuth2.AcquireAccessToken as T
 import           AzureExporter.Monitor (gauges)
 import           AzureExporter.Text.Gauge (renderGauge)
 import           AzureExporterExe.Control.Monad.AppEnvReader

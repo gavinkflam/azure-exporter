@@ -2,13 +2,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Azure.OAuth2.AcquireAccessToken
+module Azure.Request.OAuth2.AcquireAccessToken
   ( Params (..)
   -- Request
   , acquireAccessToken
   ) where
 
-import Azure.OAuth2.Data.AcquireAccessTokenResponse (AcquireAccessTokenResponse)
+import Azure.Data.OAuth2.AcquireAccessTokenResponse (AcquireAccessTokenResponse)
 import Control.Lens (makeLenses, (^.))
 import Data.Aeson (eitherDecode)
 import Data.Text.Lazy (Text, unpack)

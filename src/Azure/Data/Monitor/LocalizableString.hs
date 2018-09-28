@@ -1,14 +1,14 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Azure.Monitor.Data.LocalizableString
+module Azure.Data.Monitor.LocalizableString
   ( LocalizableString (..)
   -- Lenses
   , value
   , localizedValue
   ) where
 
-import Azure.Monitor.Contract (aesonOptions)
+import Azure.Contract (aesonOptions)
 import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Text.Lazy (Text)

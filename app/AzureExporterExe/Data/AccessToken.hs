@@ -9,7 +9,7 @@ module AzureExporterExe.Data.AccessToken
   , fromResponse
   ) where
 
-import qualified Azure.OAuth2.Data.AcquireAccessTokenResponse as R
+import qualified Azure.Data.OAuth2.AcquireAccessTokenResponse as R
 import           Control.Lens (makeLenses, (^.))
 import           Data.Text.Lazy (Text, unpack)
 import           Data.Time.Clock (UTCTime)

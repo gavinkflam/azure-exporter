@@ -4,11 +4,11 @@ module AzureExporter.Monitor
   ( gauges
   ) where
 
-import qualified Azure.Monitor.Data.ListMetricValuesResponse as R
-import qualified Azure.Monitor.Data.LocalizableString as LS
-import qualified Azure.Monitor.Data.Metric as M
-import qualified Azure.Monitor.Data.MetricValue as V
-import qualified Azure.Monitor.Data.TimeSeriesElement as E
+import qualified Azure.Data.Monitor.ListMetricValuesResponse as R
+import qualified Azure.Data.Monitor.LocalizableString as LS
+import qualified Azure.Data.Monitor.Metric as M
+import qualified Azure.Data.Monitor.MetricValue as V
+import qualified Azure.Data.Monitor.TimeSeriesElement as E
 import qualified AzureExporter.Data.Gauge as G
 import           Control.Lens ((^.))
 import           Data.Scientific (Scientific)
