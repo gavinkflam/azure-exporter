@@ -9,7 +9,7 @@ import           Azure.Text.Timespan (getLastMinuteTimespan)
 import           AzureExporter.Monitor (gauges)
 import           AzureExporter.Text.Gauge (renderGauge)
 import qualified AzureExporterExe.Auth as A
-import           AzureExporterExe.Control.Monad.AppEnvReader
+import           AzureExporterExe.Control.Monad.AppEnvSTM
 import           AzureExporterExe.Control.Monad.Either (raiseLeft)
 import qualified AzureExporterExe.Data.AccessToken as AT
 import qualified AzureExporterExe.Data.AppEnv as E
@@ -18,7 +18,7 @@ import           Control.Monad.IO.Class (liftIO)
 import           Data.Text.Lazy (Text, intercalate, pack)
 import           Web.Scotty.Trans
 
-metrics :: ActionT Text AppEnvReader ()
+metrics :: ActionT Text AppEnvSTM ()
 metrics = do
   resourceId  <- param "resourceId"
   metricNames <- param "metricNames"
