@@ -12,6 +12,7 @@ module AzureExporterExe.Control.AppState
   , WebM (..)
   , webM
   , get
+  , runWebMIntoIO
   ) where
 
 import AzureExporterExe.Data.Config (Config)
@@ -38,3 +39,6 @@ webM = lift
 
 get :: (AppState -> a) -> WebM a
 get f = ask >>= liftIO . readTVarIO >>= return . f
+
+runWebMIntoIO :: TVar AppState -> WebM a -> IO a
+runWebMIntoIO var a = runReaderT (runWebM a) var

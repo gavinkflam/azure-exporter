@@ -15,7 +15,6 @@ import           AzureExporterExe.Data.Timespan (getLastMinuteTimespan)
 import           Control.Concurrent.STM (newTVarIO)
 import           Control.Lens ((^.))
 import           Control.Monad.IO.Class (liftIO)
-import           Control.Monad.Reader (runReaderT)
 import           Data.Text.Lazy (Text, intercalate, pack)
 import           System.Exit (die)
 import           Web.Scotty.Trans
@@ -24,8 +23,7 @@ main :: IO ()
 main = do
   state <- initialAppState
   sync  <- newTVarIO state
-  let runActionToIO m = runReaderT (AS.runWebM m) sync
-  scottyT 3000 runActionToIO app
+  scottyT 3000 (AS.runWebMIntoIO sync) app
 
 app :: ScottyT Text AS.WebM ()
 app = do
