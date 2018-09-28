@@ -2,13 +2,13 @@ module AzureExporterExe.Control.Scotty
   ( liftE
   ) where
 
-import qualified Data.Text.Lazy as L
-import           Web.Scotty (ActionM, raise)
+import Data.Text.Lazy (Text)
+import Web.Scotty.Trans (ActionT, ScottyError, raise, stringError)
 
 -- Raise the error message from Left, otherwise extract value from Right
-liftE :: ActionM (Either String a) -> ActionM a
+liftE :: (ScottyError e, Monad m) => ActionT e m (Either String a) -> ActionT e m a
 liftE = flip (>>=) eitherRaise
 
-eitherRaise :: Either String a -> ActionM a
-eitherRaise (Left m)  = raise $ L.pack m
+eitherRaise :: (ScottyError e, Monad m) => Either String a -> ActionT e m a
+eitherRaise (Left e)  = raise $ stringError e
 eitherRaise (Right n) = return n
