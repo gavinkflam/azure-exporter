@@ -2,11 +2,11 @@
 
 -- Modified from Scotty global state example
 -- https://github.com/scotty-web/scotty/blob/master/examples/globalstate.hs
-module AzureExporterExe.Control.AppEnvReader
+module AzureExporterExe.Control.Monad.AppEnvReader
   ( AppEnvReader (..)
-  , get
+  , getR
   , liftR
-  , runIntoIO
+  , runReaderIntoIO
   ) where
 
 import AzureExporterExe.Data.AppEnv (AppEnv)
@@ -19,11 +19,11 @@ newtype AppEnvReader a =
                           , MonadReader (TVar AppEnv)
                           )
 
-get :: (AppEnv -> a) -> AppEnvReader a
-get f = ask >>= liftIO . readTVarIO >>= return . f
+getR :: (AppEnv -> a) -> AppEnvReader a
+getR f = ask >>= liftIO . readTVarIO >>= return . f
 
 liftR :: MonadTrans t => AppEnvReader a -> t AppEnvReader a
 liftR = lift
 
-runIntoIO :: TVar AppEnv -> AppEnvReader a -> IO a
-runIntoIO var a = runReaderT (runAppEnvReader a) var
+runReaderIntoIO :: TVar AppEnv -> AppEnvReader a -> IO a
+runReaderIntoIO var a = runReaderT (runAppEnvReader a) var

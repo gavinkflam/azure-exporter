@@ -7,8 +7,8 @@ import qualified Azure.OAuth2.AcquireAccessToken as T
 import qualified Azure.OAuth2.Data.AcquireAccessTokenResponse as TR
 import           AzureExporter.Monitor (gauges)
 import           AzureExporter.Text.Gauge (renderGauge)
-import qualified AzureExporterExe.Control.AppEnvReader as R
-import           AzureExporterExe.Control.Scotty (liftE)
+import           AzureExporterExe.Control.Monad.AppEnvReader
+import           AzureExporterExe.Control.Monad.Either (raiseLeft, dieLeft)
 import qualified AzureExporterExe.Data.AccessToken as AT
 import qualified AzureExporterExe.Data.AppEnv as E
 import qualified AzureExporterExe.Data.Config as C
@@ -17,36 +17,35 @@ import           Control.Concurrent.STM (newTVarIO)
 import           Control.Lens ((^.))
 import           Control.Monad.IO.Class (liftIO)
 import           Data.Text.Lazy (Text, intercalate, pack)
-import           System.Exit (die)
 import           Web.Scotty.Trans
 
 main :: IO ()
 main = do
   state <- initialAppState >>= newTVarIO
-  scottyT 3000 (R.runIntoIO state) app
+  scottyT 3000 (runReaderIntoIO state) app
 
-app :: ScottyT Text R.AppEnvReader ()
+app :: ScottyT Text AppEnvReader ()
 app = do
   get "/monitor/metrics" $ do
     resourceId  <- param "resourceId"
     metricNames <- param "metricNames"
     aggregation <- param "aggregation"
     timespan    <- liftIO getLastMinuteTimespan
-    token       <- R.liftR $ R.get $ (^. AT.accessToken) . (^. E.accessToken)
+    token       <- liftR $ getR $ (^. AT.accessToken) . (^. E.accessToken)
 
     let params = M.Params { M._aggregation = aggregation
                           , M._metricNames = metricNames
                           , M._resourceId  = resourceId
                           , M._timespan    = pack timespan
                           }
-    metrics <- liftE $ liftIO $ M.listMetricValues token params
+    metrics <- raiseLeft =<< (liftIO $ M.listMetricValues token params)
     text $ intercalate "\n\n" $ map renderGauge $ gauges metrics
 
 -- AppEnv
 initialAppState :: IO E.AppEnv
 initialAppState = do
   config <- C.getConfig
-  token <- (T.acquireAccessToken $ acquireTokenParams config) >>= dieIfError
+  token <- dieLeft =<< (T.acquireAccessToken $ acquireTokenParams config)
   return E.AppEnv { E._config      = config
                   , E._accessToken = AT.fromResponse token
                   }
@@ -57,8 +56,3 @@ acquireTokenParams c =
            , T._clientSecret = c ^. C.clientSecret
            , T._tenantId     = c ^. C.tenantId
            }
-
--- IO Utilities
-dieIfError :: Either String a -> IO a
-dieIfError (Left m)  = die m
-dieIfError (Right x) = return x
