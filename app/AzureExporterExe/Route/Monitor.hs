@@ -8,6 +8,7 @@ import qualified Azure.Request.Monitor.ListMetricValues as M
 import           Azure.Text.Timespan (getLastMinuteTimespan)
 import           AzureExporter.Monitor (gauges)
 import           AzureExporter.Text.Gauge (renderGauge)
+import qualified AzureExporterExe.Auth as A
 import           AzureExporterExe.Control.Monad.AppEnvReader
 import           AzureExporterExe.Control.Monad.Either (raiseLeft)
 import qualified AzureExporterExe.Data.AccessToken as AT
@@ -23,7 +24,7 @@ metrics = do
   metricNames <- param "metricNames"
   aggregation <- param "aggregation"
   timespan    <- liftIO getLastMinuteTimespan
-  token       <- liftR $ getR $ (^. AT.accessToken) . (^. E.accessToken)
+  token       <- A.getTokenOrRaise
 
   let params = M.Params { M._aggregation = aggregation
                         , M._metricNames = metricNames

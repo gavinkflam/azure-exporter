@@ -7,13 +7,13 @@ module AzureExporterExe.Data.AppEnv
   , accessToken
   ) where
 
-import AzureExporterExe.Data.Config (Config)
 import AzureExporterExe.Data.AccessToken (AccessToken)
+import AzureExporterExe.Data.Config (Config)
 import Control.Lens (makeLenses)
 
 data AppEnv =
   AppEnv { _config      :: Config
-         , _accessToken :: AccessToken
+         , _accessToken :: Maybe AccessToken
          } deriving Show
 
 makeLenses ''AppEnv

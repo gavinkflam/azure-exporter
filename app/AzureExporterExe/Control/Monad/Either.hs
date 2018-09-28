@@ -3,7 +3,6 @@ module AzureExporterExe.Control.Monad.Either
   , dieLeft
   ) where
 
-import Data.Text.Lazy (Text)
 import System.Exit (die)
 import Web.Scotty.Trans (ActionT, ScottyError, raise, stringError)
 
