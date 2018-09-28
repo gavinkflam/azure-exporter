@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module AzureExporterExe.Config
+module AzureExporterExe.Data.Config
   ( Config
   -- Lenses
   , clientId
