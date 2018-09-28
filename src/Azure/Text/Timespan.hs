@@ -1,4 +1,4 @@
-module AzureExporterExe.Data.Timespan
+module Azure.Text.Timespan
   ( timespan
   , getLastMinuteTimespan
   ) where

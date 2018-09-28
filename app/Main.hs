@@ -5,6 +5,7 @@ module Main where
 import qualified Azure.Data.OAuth2.AcquireAccessTokenResponse as TR
 import qualified Azure.Request.Monitor.ListMetricValues as M
 import qualified Azure.Request.OAuth2.AcquireAccessToken as T
+import           Azure.Text.Timespan (getLastMinuteTimespan)
 import           AzureExporter.Monitor (gauges)
 import           AzureExporter.Text.Gauge (renderGauge)
 import           AzureExporterExe.Control.Monad.AppEnvReader
@@ -12,7 +13,6 @@ import           AzureExporterExe.Control.Monad.Either (raiseLeft, dieLeft)
 import qualified AzureExporterExe.Data.AccessToken as AT
 import qualified AzureExporterExe.Data.AppEnv as E
 import qualified AzureExporterExe.Data.Config as C
-import           AzureExporterExe.Data.Timespan (getLastMinuteTimespan)
 import           Control.Concurrent.STM (newTVarIO)
 import           Control.Lens ((^.))
 import           Control.Monad.IO.Class (liftIO)
