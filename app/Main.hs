@@ -7,9 +7,10 @@ import qualified Azure.OAuth2.AcquireAccessToken as T
 import qualified Azure.OAuth2.Data.AcquireAccessTokenResponse as TR
 import           AzureExporter.Monitor (gauges)
 import           AzureExporter.Text.Gauge (renderGauge)
-import qualified AzureExporterExe.Control.AppState as AS
+import qualified AzureExporterExe.Control.AppEnvReader as R
 import           AzureExporterExe.Control.Scotty (liftE)
 import qualified AzureExporterExe.Data.AccessToken as AT
+import qualified AzureExporterExe.Data.AppEnv as E
 import qualified AzureExporterExe.Data.Config as C
 import           AzureExporterExe.Data.Timespan (getLastMinuteTimespan)
 import           Control.Concurrent.STM (newTVarIO)
@@ -21,18 +22,17 @@ import           Web.Scotty.Trans
 
 main :: IO ()
 main = do
-  state <- initialAppState
-  sync  <- newTVarIO state
-  scottyT 3000 (AS.runWebMIntoIO sync) app
+  state <- initialAppState >>= newTVarIO
+  scottyT 3000 (R.runIntoIO state) app
 
-app :: ScottyT Text AS.WebM ()
+app :: ScottyT Text R.AppEnvReader ()
 app = do
   get "/monitor/metrics" $ do
     resourceId  <- param "resourceId"
     metricNames <- param "metricNames"
     aggregation <- param "aggregation"
     timespan    <- liftIO getLastMinuteTimespan
-    token       <- AS.webM $ AS.get $ (^. AT.accessToken) . (^. AS.accessToken)
+    token       <- R.liftR $ R.get $ (^. AT.accessToken) . (^. E.accessToken)
 
     let params = M.Params { M._aggregation = aggregation
                           , M._metricNames = metricNames
@@ -42,14 +42,14 @@ app = do
     metrics <- liftE $ liftIO $ M.listMetricValues token params
     text $ intercalate "\n\n" $ map renderGauge $ gauges metrics
 
--- AppState
-initialAppState :: IO AS.AppState
+-- AppEnv
+initialAppState :: IO E.AppEnv
 initialAppState = do
   config <- C.getConfig
   token <- (T.acquireAccessToken $ acquireTokenParams config) >>= dieIfError
-  return AS.AppState { AS._config      = config
-                     , AS._accessToken = AT.fromResponse token
-                     }
+  return E.AppEnv { E._config      = config
+                  , E._accessToken = AT.fromResponse token
+                  }
 
 acquireTokenParams :: C.Config -> T.Params
 acquireTokenParams c =
