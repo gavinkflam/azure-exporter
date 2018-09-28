@@ -53,6 +53,7 @@ executables:
     - time >= 1.8 && < 1.9
     - lens >= 4.16 && < 4.17
     - text
+    - wai-extra >= 3.0 && < 3.1
 
 tests:
   azure-exporter-test:
