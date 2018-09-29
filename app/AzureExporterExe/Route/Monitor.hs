@@ -24,7 +24,7 @@ metrics = do
   metricNames <- param "metricNames"
   aggregation <- param "aggregation"
   timespan    <- liftIO getLastMinuteTimespan
-  token       <- A.getTokenOrRaise
+  token       <- A.resolveToken
 
   let params = M.Params { M._aggregation = aggregation
                         , M._metricNames = metricNames

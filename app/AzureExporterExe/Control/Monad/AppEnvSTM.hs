@@ -9,10 +9,11 @@ module AzureExporterExe.Control.Monad.AppEnvSTM
   , runAppEnvSTMIntoIO
   -- STM
   , readAppEnv
+  , modifyAppEnv
   ) where
 
 import AzureExporterExe.Data.AppEnv (AppEnv)
-import Control.Concurrent.STM (TVar, readTVarIO)
+import Control.Concurrent.STM (TVar, atomically, modifyTVar', readTVarIO)
 import Control.Monad.Reader
 
 newtype AppEnvSTM a =
@@ -31,3 +32,6 @@ runAppEnvSTMIntoIO var a = runReaderT (runAppEnvTVarReader a) var
 -- STM
 readAppEnv :: AppEnvSTM AppEnv
 readAppEnv = ask >>= liftIO . readTVarIO
+
+modifyAppEnv :: (AppEnv -> AppEnv) -> AppEnvSTM ()
+modifyAppEnv f = ask >>= liftIO . atomically . flip modifyTVar' f
