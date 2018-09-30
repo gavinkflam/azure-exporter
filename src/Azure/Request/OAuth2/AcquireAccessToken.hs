@@ -8,15 +8,17 @@ module Azure.Request.OAuth2.AcquireAccessToken
   , acquireAccessToken
   ) where
 
+import Azure.Control.Error.Extractor (mapEitherDecode)
 import Azure.Data.OAuth2.AcquireAccessTokenResponse (AcquireAccessTokenResponse)
+import Azure.Data.OAuth2.ErrorResponse (ErrorResponse, errorDescription)
 import Control.Lens (makeLenses, (^.))
-import Data.Aeson (eitherDecode)
-import Data.Text.Lazy (Text, unpack)
+import Data.Text.Lazy (Text, lines, unpack)
 import Data.Text.Lazy.Encoding (encodeUtf8)
 import Data.ByteString (ByteString)
 import Data.ByteString.Lazy (toStrict)
 import Network.HTTP.Client
 import Network.HTTP.Client.TLS (tlsManagerSettings)
+import Prelude hiding (lines)
 
 -- Request parameters
 data Params =
@@ -48,4 +50,7 @@ acquireAccessToken p = do
 
   let req' = urlEncodedBody (acquireTokenForm p) $ req { method = "POST" }
   res <- httpLbs req' manager
-  return $ eitherDecode $ responseBody res
+  return $ mapEitherDecode errorExtractor $ responseBody res
+
+errorExtractor :: ErrorResponse -> Text
+errorExtractor = head . lines . (^. errorDescription)

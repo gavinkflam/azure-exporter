@@ -13,12 +13,15 @@ module Azure.Data.OAuth2.AcquireAccessTokenResponse
   , tokenType
   ) where
 
+import Azure.Contract (oAuth2AesonOptions)
 import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Text.Lazy (Text)
 import GHC.Generics
 import Text.Casing (quietSnake)
 
+-- AcquireAccessTokenResponse
+-- https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-oauth2-client-creds-grant-flow#service-to-service-access-token-response
 data AcquireAccessTokenResponse =
   AcquireAccessTokenResponse { _accessToken  :: Text
                              , _expiresIn    :: Text
@@ -30,7 +33,6 @@ data AcquireAccessTokenResponse =
                              } deriving (Generic, Show)
 
 instance FromJSON AcquireAccessTokenResponse where
-  parseJSON = genericParseJSON opts
-    where opts = defaultOptions { fieldLabelModifier = quietSnake . drop 1 }
+  parseJSON = genericParseJSON oAuth2AesonOptions
 
 makeLenses ''AcquireAccessTokenResponse
