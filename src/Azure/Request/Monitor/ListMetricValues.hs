@@ -8,9 +8,9 @@ module Azure.Request.Monitor.ListMetricValues
   ) where
 
 import Azure.Contract (withAuth)
+import Azure.Control.Error.Extractor (eitherDecode)
 import Azure.Data.Monitor.ListMetricValuesResponse (ListMetricValuesResponse)
 import Control.Lens (makeLenses, (^.))
-import Data.Aeson (eitherDecode)
 import Data.Text.Lazy (Text, unpack)
 import Data.Text.Lazy.Encoding (encodeUtf8)
 import Data.ByteString (ByteString)
