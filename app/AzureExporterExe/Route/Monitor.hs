@@ -8,15 +8,13 @@ import qualified Azure.Request.Monitor.ListMetricValues as M
 import           Azure.Text.Timespan (getLastMinuteTimespan)
 import           AzureExporter.Monitor (gauges)
 import           AzureExporter.Text.Gauge (renderGauge)
-import qualified AzureExporterExe.Auth as A
-import           AzureExporterExe.Control.Monad.AppEnvSTM
+import           AzureExporterExe.Auth (getTokenOrRaise, refreshTokenIfExpired)
+import           AzureExporterExe.Control.Monad.AppEnvSTM (AppEnvSTM)
 import           AzureExporterExe.Control.Monad.Either (raiseLeft)
-import qualified AzureExporterExe.Data.AccessToken as AT
-import qualified AzureExporterExe.Data.AppEnv as E
 import           Control.Lens ((^.))
 import           Control.Monad.IO.Class (liftIO)
 import           Data.Text.Lazy (Text, intercalate, pack)
-import           Web.Scotty.Trans
+import           Web.Scotty.Trans (ActionT, param, text)
 
 metrics :: ActionT Text AppEnvSTM ()
 metrics = do
@@ -24,7 +22,7 @@ metrics = do
   metricNames <- param "metricNames"
   aggregation <- param "aggregation"
   timespan    <- liftIO getLastMinuteTimespan
-  token       <- A.resolveToken
+  token       <- refreshTokenIfExpired >> getTokenOrRaise
 
   let params = M.Params { M._aggregation = aggregation
                         , M._metricNames = metricNames

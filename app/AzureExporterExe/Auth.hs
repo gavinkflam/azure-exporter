@@ -2,7 +2,7 @@
 
 module AzureExporterExe.Auth
   ( getTokenOrRaise
-  , resolveToken
+  , refreshTokenIfExpired
   ) where
 
 import           AzureExporterExe.Control.Monad.AppEnvSTM
@@ -27,36 +27,23 @@ getTokenOrRaise = do
   token  <- raiseIfNothing "Authorization token not found" mToken
   return $ token ^. T.accessToken
 
-resolveToken :: AppAction Text
-resolveToken = refreshTokenIfExpired >> getTokenOrRaise
-
 refreshTokenIfExpired :: AppAction ()
 refreshTokenIfExpired = do
-  mToken    <- liftSTM $ fmap (^. E.accessToken) readAppEnv
-  obsoleted <- liftIO $ tokenExpired 10 mToken
-  if obsoleted then refreshToken else return ()
+  mToken  <- liftSTM $ fmap (^. E.accessToken) readAppEnv
+  expired <- liftIO $ maybe (return True) (tokenExpired 10) mToken
+  if expired then refreshToken else return ()
 
 refreshToken :: AppAction ()
 refreshToken = do
-  token <- acquireToken
-  liftSTM $ modifyAppEnv (& E.accessToken .~ Just token)
+  conf <- liftSTM $ fmap (^. E.config) readAppEnv
+  let params = AT.Params { AT._clientId     = conf ^. C.clientId
+                         , AT._clientSecret = conf ^. C.clientSecret
+                         , AT._tenantId     = conf ^. C.tenantId
+                         }
+  resp <- raiseLeft =<< (liftIO $ AT.acquireAccessToken params)
+  liftSTM $ modifyAppEnv (& E.accessToken .~ Just (T.fromResponse resp))
 
-acquireToken :: AppAction T.AccessToken
-acquireToken = do
-  conf  <- liftSTM $ fmap (^. E.config) readAppEnv
-  eResp <- liftIO $ AT.acquireAccessToken $ configToAuthParams conf
-  resp  <- raiseLeft eResp
-  return $ T.fromResponse resp
-
-configToAuthParams :: C.Config -> AT.Params
-configToAuthParams c =
-  AT.Params { AT._clientId     = c ^. C.clientId
-            , AT._clientSecret = c ^. C.clientSecret
-            , AT._tenantId     = c ^. C.tenantId
-            }
-
-tokenExpired :: NominalDiffTime -> Maybe T.AccessToken -> IO Bool
-tokenExpired _ Nothing       = return True
-tokenExpired offset (Just t) = do
+tokenExpired :: NominalDiffTime -> T.AccessToken -> IO Bool
+tokenExpired offset t = do
   now <- getSystemTime
   return $ t ^. T.expiresOn < (addUTCTime (- offset) $ systemToUTCTime now)
