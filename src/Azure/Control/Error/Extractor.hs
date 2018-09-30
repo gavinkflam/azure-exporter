@@ -2,7 +2,7 @@
 
 module Azure.Control.Error.Extractor
   ( eitherDecode
-  , errorExtractor
+  , mapEitherDecode
   ) where
 
 import           Azure.Data.Error.ErrorResponse as E
@@ -15,13 +15,12 @@ import qualified Data.ByteString.Lazy.Char8 as BS
 import qualified Data.Text.Lazy as T
 
 eitherDecode :: A.FromJSON a => ByteString -> Either String a
-eitherDecode s = first (errorExtractor s) $ A.eitherDecode s
+eitherDecode = mapEitherDecode errorExtractor
 
-errorExtractor :: ByteString -> (String -> String)
-errorExtractor s =
-  const $ maybe (BS.unpack s) (T.unpack . readableErrorMessage) $ A.decode s
+mapEitherDecode :: (A.FromJSON a, A.FromJSON e) => (e -> T.Text) -> ByteString -> Either String a
+mapEitherDecode f s = first g $ A.eitherDecode s
+  where g = const $ maybe (BS.unpack s) (T.unpack . f) $ A.decode s
 
-readableErrorMessage :: E.ErrorResponse -> T.Text
-readableErrorMessage e =
-  mconcat [value ^. V.code , ": " , value ^. V.message]
-    where value = e ^. E._error
+errorExtractor :: E.ErrorResponse -> T.Text
+errorExtractor e =
+  mconcat [v ^. V.code , ": " , v ^. V.message] where v = e ^. E._error
