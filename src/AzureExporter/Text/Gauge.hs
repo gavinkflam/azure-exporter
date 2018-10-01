@@ -20,7 +20,11 @@ ${g ^. G.name}${renderLabels $ g ^. G.labels} ${g ^. G.value}
 
 renderLabels :: [(Text, Text)] -> Text
 renderLabels [] = ""
-renderLabels ls = intercalate "," $ map renderLabel ls
+renderLabels ls =
+  mconcat [ "{"
+          , intercalate "," $ map renderLabel ls
+          , "}"
+          ]
 
 renderLabel :: (Text, Text) -> Text
 renderLabel (name, value) = mconcat [name, "=", value]

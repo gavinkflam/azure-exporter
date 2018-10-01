@@ -10,6 +10,8 @@ import qualified Azure.Data.Monitor.Metric as M
 import qualified Azure.Data.Monitor.MetricValue as V
 import qualified Azure.Data.Monitor.TimeSeriesElement as E
 import qualified AzureExporter.Data.Gauge as G
+import qualified AzureExporter.Data.ResourceMetadata as D
+import           AzureExporter.Util.Resource (parseResourceId, resourceId)
 import           Control.Lens ((^.))
 import           Data.Scientific (Scientific)
 import           Data.Maybe (catMaybes)
@@ -22,30 +24,50 @@ gauges r = concatMap fGauges metrics
         metrics = r ^. R.value
 
 gaugesFromMetric :: Text -> M.Metric -> [G.Gauge]
-gaugesFromMetric region m = concatMap fGauges values
-  where fName   = (\n -> fqName [m ^. M.name ^. LS.value, m ^. M.unit, n])
-        fGauges = gaugesFromMetricValue region fName
-        values  = concatMap (^. E._data) $ m ^. M.timeseries
+gaugesFromMetric region metric = concatMap fGauges values
+  where metadata   = parseResourceId $ metric ^. M._id
+        namePrefix = joinNameSegments [ metadata ^. D.resourceType
+                                      , metric ^. M.name ^. LS.value
+                                      ]
+        labels     = deriveLabels region metadata metric
+        fGauges    = gaugesFromMetricValue namePrefix labels
+        values     = concatMap (^. E._data) $ metric ^. M.timeseries
 
-gaugesFromMetricValue :: Text -> (Text -> Text) -> V.MetricValue -> [G.Gauge]
-gaugesFromMetricValue region fName v =
-  catMaybes [ fGauge "average" $ v ^. V.average
-            , fGauge "count"   $ v ^. V.count
-            , fGauge "maximum" $ v ^. V.maximum
-            , fGauge "minimum" $ v ^. V.minimum
-            , fGauge "total"   $ v ^. V.total
+gaugesFromMetricValue :: Text -> [(Text, Text)] -> V.MetricValue -> [G.Gauge]
+gaugesFromMetricValue namePrefix labels value =
+  catMaybes [ fGauge "average" $ value ^. V.average
+            , fGauge "count"   $ value ^. V.count
+            , fGauge "maximum" $ value ^. V.maximum
+            , fGauge "minimum" $ value ^. V.minimum
+            , fGauge "total"   $ value ^. V.total
             ]
-    where fGauge = (\n -> gaugeFromAggregation $ fName n)
+              where fName  = (\n -> namePrefix <> "_" <> quietSnakeT n)
+                    fGauge = (\n v -> gaugeFromAggregation (fName n) labels v)
 
-gaugeFromAggregation :: Text -> Maybe Scientific -> Maybe G.Gauge
-gaugeFromAggregation _ Nothing     = Nothing
-gaugeFromAggregation name (Just n) =
+gaugeFromAggregation :: Text -> [(Text, Text)] -> Maybe Scientific -> Maybe G.Gauge
+gaugeFromAggregation _ _ Nothing          = Nothing
+gaugeFromAggregation name labels (Just n) =
   Just $ G.Gauge { G._name   = name
                  , G._help   = name
-                 , G._labels = []
+                 , G._labels = labels
                  , G._value  = n
                  }
 
 -- Utilities
-fqName :: [Text] -> Text
-fqName segments = intercalate "_" $ map (pack . quietSnake . unpack) segments
+deriveLabels :: Text -> D.ResourceMetadata -> M.Metric -> [(Text, Text)]
+deriveLabels resourceRegion metadata metric =
+  [ ("resource_group",    metadata ^. D.resourceGroup)
+  , ("resource_id",       resourceId $ metric ^. M._id)
+  , ("resource_name",     metadata ^. D.resourceName)
+  , ("resource_provider", metadata ^. D.resourceProvider)
+  , ("resource_region",   resourceRegion)
+  , ("resource_type",     metadata ^. D.resourceType)
+  , ("subscription_id",   metadata ^. D.subscriptionId)
+  , ("unit",              pack $ quietSnake $ unpack $ metric ^. M.unit)
+  ]
+
+joinNameSegments :: [Text] -> Text
+joinNameSegments s = intercalate "_" $ map quietSnakeT s
+
+quietSnakeT :: Text -> Text
+quietSnakeT = pack . quietSnake . unpack
