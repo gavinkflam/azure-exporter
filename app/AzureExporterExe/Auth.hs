@@ -31,7 +31,7 @@ refreshTokenIfExpired :: AppAction ()
 refreshTokenIfExpired = do
   mToken  <- liftSTM $ fmap (^. E.accessToken) readAppEnv
   expired <- liftIO $ maybe (return True) (tokenExpired 10) mToken
-  if expired then refreshToken else return ()
+  when expired refreshToken
 
 refreshToken :: AppAction ()
 refreshToken = do
@@ -40,10 +40,10 @@ refreshToken = do
                          , AT._clientSecret = conf ^. C.clientSecret
                          , AT._tenantId     = conf ^. C.tenantId
                          }
-  resp <- raiseLeft =<< (liftIO $ AT.acquireAccessToken params)
+  resp <- raiseLeft =<< liftIO (AT.acquireAccessToken params)
   liftSTM $ modifyAppEnv (& E.accessToken .~ Just (T.fromResponse resp))
 
 tokenExpired :: NominalDiffTime -> T.AccessToken -> IO Bool
 tokenExpired offset t = do
   now <- getSystemTime
-  return $ t ^. T.expiresOn < (addUTCTime (- offset) $ systemToUTCTime now)
+  return $ t ^. T.expiresOn < addUTCTime (- offset) (systemToUTCTime now)

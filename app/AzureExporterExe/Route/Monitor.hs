@@ -29,5 +29,5 @@ metrics = do
                         , M._resourceId  = resourceId
                         , M._timespan    = pack timespan
                         }
-  metrics <- raiseLeft =<< (liftIO $ M.listMetricValues token params)
+  metrics <- raiseLeft =<< liftIO (M.listMetricValues token params)
   text $ intercalate "\n\n" $ map renderGauge $ gauges metrics

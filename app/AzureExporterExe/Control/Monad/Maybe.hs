@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module AzureExporterExe.Control.Monad.Maybe
   ( raiseIfNothing
   ) where

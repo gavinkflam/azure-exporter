@@ -41,17 +41,17 @@ gaugesFromMetricValue namePrefix labels value =
             , fGauge "minimum" $ value ^. V.minimum
             , fGauge "total"   $ value ^. V.total
             ]
-              where fName  = (\n -> namePrefix <> "_" <> quietSnakeT n)
-                    fGauge = (\n v -> gaugeFromAggregation (fName n) labels v)
+              where fName  n = namePrefix <> "_" <> quietSnakeT n
+                    fGauge n = gaugeFromAggregation (fName n) labels
 
 gaugeFromAggregation :: Text -> [(Text, Text)] -> Maybe Scientific -> Maybe G.Gauge
 gaugeFromAggregation _ _ Nothing          = Nothing
 gaugeFromAggregation name labels (Just n) =
-  Just $ G.Gauge { G._name   = name
-                 , G._help   = name
-                 , G._labels = labels
-                 , G._value  = n
-                 }
+  Just G.Gauge { G._name   = name
+               , G._help   = name
+               , G._labels = labels
+               , G._value  = n
+               }
 
 -- Utilities
 deriveLabels :: Text -> D.ResourceMetadata -> M.Metric -> [(Text, Text)]

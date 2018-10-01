@@ -31,8 +31,8 @@ getConfig = do
   subscriptionId <- getEnv "SUBSCRIPTION_ID"
   tenantId       <- getEnv "TENANT_ID"
 
-  return $ Config { _clientId       = pack clientId
-                  , _clientSecret   = pack clientSecret
-                  , _subscriptionId = pack subscriptionId
-                  , _tenantId       = pack tenantId
-                  }
+  return Config { _clientId       = pack clientId
+                , _clientSecret   = pack clientSecret
+                , _subscriptionId = pack subscriptionId
+                , _tenantId       = pack tenantId
+                }
