@@ -16,7 +16,7 @@ import GHC.Generics
 
 -- TimeSeriesElement
 -- https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#timeserieselement
-data TimeSeriesElement =
+newtype TimeSeriesElement =
   TimeSeriesElement { __data :: [MetricValue]
                     } deriving (Generic, Show)
 

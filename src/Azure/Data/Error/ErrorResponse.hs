@@ -15,7 +15,7 @@ import Data.Text.Lazy (Text)
 import GHC.Generics
 
 -- ErrorResponse
-data ErrorResponse =
+newtype ErrorResponse =
   ErrorResponse { __error :: ErrorValue
                 } deriving (Generic, Show)
 
