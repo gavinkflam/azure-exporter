@@ -3,19 +3,15 @@ module Main where
 import AzureExporterExe.App (app)
 import AzureExporterExe.Control.Monad.AppEnvSTM
 import AzureExporterExe.Data.AppEnv (AppEnv (..))
-import AzureExporterExe.Data.Config (getConfig)
+import AzureExporterExe.Data.Config (getConfig, port)
 import Control.Concurrent.STM (newTVarIO)
+import Control.Lens ((^.))
 import Web.Scotty.Trans (scottyT)
 
 main :: IO ()
 main = do
-  appEnv <- newTVarIO =<< initialAppEnv
-  scottyT 3000 (runAppEnvSTMIntoIO appEnv) app
-
--- AppEnv
-initialAppEnv :: IO AppEnv
-initialAppEnv = do
   config <- getConfig
-  return AppEnv { _config      = config
-                , _accessToken = Nothing
-                }
+  appEnv <- newTVarIO AppEnv { _config      = config
+                             , _accessToken = Nothing
+                             }
+  scottyT (config ^. port) (runAppEnvSTMIntoIO appEnv) app
