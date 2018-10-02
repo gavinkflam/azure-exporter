@@ -1,18 +1,20 @@
 module Azure.Text.Timespan
   ( timespan
-  , getLastMinuteTimespan
+  , getTimespanFromNow
   ) where
 
-import Data.Time.Clock (UTCTime, addUTCTime, getCurrentTime)
+import Data.Time.Clock (UTCTime, NominalDiffTime, addUTCTime, getCurrentTime)
 import Data.Time.Format (defaultTimeLocale, formatTime)
 
-timespan :: (UTCTime, UTCTime) -> String
-timespan (f, t) = iso8601UTCFormatTime f <> "/" <> iso8601UTCFormatTime t
+timespan :: UTCTime -> UTCTime -> String
+timespan f t = iso8601UTCFormatTime f <> "/" <> iso8601UTCFormatTime t
 
-getLastMinuteTimespan :: IO String
-getLastMinuteTimespan = do
+getTimespanFromNow :: NominalDiffTime -> NominalDiffTime -> IO String
+getTimespanFromNow fromOffset toOffset = do
   now <- getCurrentTime
-  return $ timespan (addUTCTime (-60) now, now)
+  let from = addUTCTime (- fromOffset) now
+      to   = addUTCTime (- toOffset) now
+  return $ timespan from to
 
 -- Formatting
 iso8601UTCFormatTime :: UTCTime -> String

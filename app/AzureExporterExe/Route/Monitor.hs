@@ -5,7 +5,7 @@ module AzureExporterExe.Route.Monitor
   ) where
 
 import qualified Azure.Request.Monitor.ListMetricValues as M
-import           Azure.Text.Timespan (getLastMinuteTimespan)
+import           Azure.Text.Timespan (getTimespanFromNow)
 import           AzureExporter.Monitor (gauges)
 import           AzureExporter.Text.Gauge (renderGauge)
 import           AzureExporterExe.Auth (getTokenOrRaise, refreshTokenIfExpired)
@@ -21,7 +21,7 @@ metrics = do
   resourceId  <- param "resourceId"
   metricNames <- param "metricNames"
   aggregation <- param "aggregation"
-  timespan    <- liftIO getLastMinuteTimespan
+  timespan    <- liftIO $ getTimespanFromNow 60 0
   token       <- refreshTokenIfExpired >> getTokenOrRaise
 
   let params = M.Params { M._aggregation = aggregation
