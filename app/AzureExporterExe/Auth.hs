@@ -13,6 +13,7 @@ import qualified AzureExporterExe.Data.AppEnv as E
 import qualified AzureExporterExe.Data.Config as C
 import           Azure.Request.OAuth2.AcquireAccessToken as AT
 import           Control.Lens ((^.), (&), (.~))
+import           Control.Monad (when)
 import           Control.Monad.IO.Class (liftIO)
 import           Data.Text.Lazy (Text)
 import           Data.Time.Clock (NominalDiffTime, addUTCTime)
