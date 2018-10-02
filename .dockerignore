@@ -1,0 +1,6 @@
+.git/
+.stack-work/
+.dockerignore
+.gitignore
+Dockerfile
+*~
