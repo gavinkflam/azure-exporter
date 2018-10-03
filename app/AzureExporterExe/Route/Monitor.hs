@@ -18,7 +18,7 @@ import           Web.Scotty.Trans (ActionT, param, text)
 
 metrics :: ActionT Text AppEnvSTM ()
 metrics = do
-  resourceId  <- param "resourceId"
+  target      <- param "target"
   metricNames <- param "metricNames"
   aggregation <- param "aggregation"
   timespan    <- liftIO $ getTimespanFromNow 60 0
@@ -26,7 +26,7 @@ metrics = do
 
   let params = M.Params { M._aggregation = aggregation
                         , M._metricNames = metricNames
-                        , M._resourceId  = resourceId
+                        , M._resourceId  = target
                         , M._timespan    = pack timespan
                         }
   metrics <- raiseLeft =<< liftIO (M.listMetricValues token params)
