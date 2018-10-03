@@ -27,4 +27,4 @@ renderLabels ls =
           ]
 
 renderLabel :: (Text, Text) -> Text
-renderLabel (name, value) = mconcat [name, "=", value]
+renderLabel (name, value) = mconcat [name, "=\"", value, "\""]
