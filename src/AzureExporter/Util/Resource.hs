@@ -6,7 +6,7 @@ module AzureExporter.Util.Resource
   ) where
 
 import qualified AzureExporter.Data.ResourceMetadata as D
-import           Data.Text.Lazy (Text, intercalate, splitOn)
+import           Data.Text.Lazy (Text, intercalate, splitOn, toLower)
 
 parseResourceId :: Text -> D.ResourceMetadata
 parseResourceId id =
@@ -16,7 +16,10 @@ parseResourceId id =
                      , D._resourceType     = s !! 7
                      , D._subscriptionId   = s !! 2
                      }
-                       where s = splitOn "/" id
+                       where s = splitOn "/" $ toLower id
 
+-- The Azure API will response the resource ID in whatever cases we
+-- requested with.
+-- Thus, we can only ensure the consistency by downcasing the resource ID.
 resourceId :: Text -> Text
-resourceId id = intercalate "/" $ take 9 $ splitOn "/" id
+resourceId id = intercalate "/" $ take 9 $ splitOn "/" $ toLower id
