@@ -26,7 +26,8 @@ gauges r = concatMap fGauges metrics
 gaugesFromMetric :: Text -> M.Metric -> [G.Gauge]
 gaugesFromMetric region metric = concatMap fGauges values
   where metadata   = parseResourceId $ metric ^. M._id
-        namePrefix = joinNameSegments [ metadata ^. D.resourceType
+        namePrefix = joinNameSegments [ "azure"
+                                      , metadata ^. D.resourceType
                                       , metric ^. M.name ^. LS.value
                                       , metric ^. M.unit
                                       ]
