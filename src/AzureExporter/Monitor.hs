@@ -28,6 +28,7 @@ gaugesFromMetric region metric = concatMap fGauges values
   where metadata   = parseResourceId $ metric ^. M._id
         namePrefix = joinNameSegments [ metadata ^. D.resourceType
                                       , metric ^. M.name ^. LS.value
+                                      , metric ^. M.unit
                                       ]
         labels     = deriveLabels region metadata metric
         fGauges    = gaugesFromMetricValue namePrefix labels
@@ -63,7 +64,6 @@ deriveLabels resourceRegion metadata metric =
   , ("resource_region",   resourceRegion)
   , ("resource_type",     metadata ^. D.resourceType)
   , ("subscription_id",   metadata ^. D.subscriptionId)
-  , ("unit",              pack $ quietSnake $ unpack $ metric ^. M.unit)
   ]
 
 joinNameSegments :: [Text] -> Text
