@@ -7,9 +7,10 @@ module AzureExporterExe.Route.Monitor
 import qualified Azure.Request.Monitor.ListMetricValues as M
 import           Azure.Text.Timespan (getTimespanFromNow)
 import           AzureExporter.Monitor (gauges)
+import           AzureExporterExe.HTTP (request)
 import           AzureExporter.Text.Gauge (renderGauge)
 import           AzureExporterExe.Auth (getTokenOrRaise, refreshTokenIfExpired)
-import           AzureExporterExe.Control.Monad.AppEnvSTM (AppEnvSTM)
+import           AzureExporterExe.Control.Monad.AppEnvSTM (AppEnvSTM, liftSTM)
 import           AzureExporterExe.Control.Monad.Either (raiseLeft)
 import           Control.Lens ((^.))
 import           Control.Monad.IO.Class (liftIO)
@@ -29,5 +30,5 @@ metrics = do
                         , M._resourceId  = target
                         , M._timespan    = pack timespan
                         }
-  metrics <- raiseLeft =<< liftIO (M.listMetricValues token params)
+  metrics <- raiseLeft =<< liftSTM (request $ M.request token params)
   text $ intercalate "\n" $ map renderGauge $ gauges metrics

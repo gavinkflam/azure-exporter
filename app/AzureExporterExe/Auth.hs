@@ -11,6 +11,7 @@ import           AzureExporterExe.Control.Monad.Maybe (raiseIfNothing)
 import qualified AzureExporterExe.Data.AccessToken as T
 import qualified AzureExporterExe.Data.AppEnv as E
 import qualified AzureExporterExe.Data.Config as C
+import           AzureExporterExe.HTTP (request')
 import           Azure.Request.OAuth2.AcquireAccessToken as AT
 import           Control.Lens ((^.), (&), (.~))
 import           Control.Monad (when)
@@ -41,7 +42,7 @@ refreshToken = do
                          , AT._clientSecret = conf ^. C.clientSecret
                          , AT._tenantId     = conf ^. C.tenantId
                          }
-  resp <- raiseLeft =<< liftIO (AT.acquireAccessToken params)
+  resp <- raiseLeft =<< liftSTM (request' AT.errorExtractor $ AT.request params)
   liftSTM $ modifyAppEnv (& E.accessToken .~ Just (T.fromResponse resp))
 
 tokenExpired :: NominalDiffTime -> T.AccessToken -> IO Bool

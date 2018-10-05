@@ -3,17 +3,20 @@
 module AzureExporterExe.Data.AppEnv
   ( AppEnv (..)
   -- Lenses
-  , config
   , accessToken
+  , config
+  , httpManager
   ) where
 
 import AzureExporterExe.Data.AccessToken (AccessToken)
 import AzureExporterExe.Data.Config (Config)
 import Control.Lens (makeLenses)
+import Network.HTTP.Client (Manager)
 
 data AppEnv =
-  AppEnv { _config      :: Config
-         , _accessToken :: Maybe AccessToken
-         } deriving Show
+  AppEnv { _accessToken :: Maybe AccessToken
+         , _config      :: Config
+         , _httpManager :: Manager
+         }
 
 makeLenses ''AppEnv
