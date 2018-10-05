@@ -4,19 +4,17 @@
 module Azure.Request.Monitor.ListMetricValues
   ( Params (..)
   -- Request
-  , listMetricValues
+  , request
   ) where
 
 import Azure.Contract (withAuth)
-import Azure.Control.Error.Extractor (eitherDecode)
 import Azure.Data.Monitor.ListMetricValuesResponse (ListMetricValuesResponse)
 import Control.Lens (makeLenses, (^.))
 import Data.Text.Lazy (Text, unpack)
 import Data.Text.Lazy.Encoding (encodeUtf8)
 import Data.ByteString (ByteString)
 import Data.ByteString.Lazy (toStrict)
-import Network.HTTP.Client
-import Network.HTTP.Client.TLS (tlsManagerSettings)
+import Network.HTTP.Client (Request, parseRequest_, setQueryString)
 
 -- Request parameters
 data Params =
@@ -29,8 +27,8 @@ data Params =
 makeLenses ''Params
 
 -- Request utilities
-listMetricValuesUrl :: Text -> String
-listMetricValuesUrl resourceId =
+url :: Text -> String
+url resourceId =
   "https://management.azure.com"
   <> unpack resourceId
   <> "/providers/microsoft.insights/metrics"
@@ -44,10 +42,7 @@ queryParams p =
   ]
 
 -- Request
-listMetricValues :: Text -> Params -> IO (Either String ListMetricValuesResponse)
-listMetricValues token p = do
-  manager <- newManager tlsManagerSettings
-  req <- parseRequest $ listMetricValuesUrl $ p ^. resourceId
-  let req' = setQueryString (queryParams p) $ withAuth token req
-  res <- httpLbs req' manager
-  return $ eitherDecode $ responseBody res
+request :: Text -> Params -> Request
+request token p =
+  setQueryString params $ withAuth token $ parseRequest_ $ url $ p ^. resourceId
+    where params = queryParams p

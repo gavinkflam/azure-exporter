@@ -5,10 +5,11 @@
 module Azure.Request.OAuth2.AcquireAccessToken
   ( Params (..)
   -- Request
-  , acquireAccessToken
+  , request
+  -- Error
+  , errorExtractor
   ) where
 
-import Azure.Control.Error.Extractor (mapEitherDecode)
 import Azure.Data.OAuth2.AcquireAccessTokenResponse (AcquireAccessTokenResponse)
 import Azure.Data.OAuth2.ErrorResponse (ErrorResponse, errorDescription)
 import Control.Lens (makeLenses, (^.))
@@ -16,8 +17,7 @@ import Data.Text.Lazy (Text, lines, unpack)
 import Data.Text.Lazy.Encoding (encodeUtf8)
 import Data.ByteString (ByteString)
 import Data.ByteString.Lazy (toStrict)
-import Network.HTTP.Client
-import Network.HTTP.Client.TLS (tlsManagerSettings)
+import Network.HTTP.Client (Request, parseRequest_, urlEncodedBody)
 import Prelude hiding (lines)
 
 -- Request parameters
@@ -30,8 +30,8 @@ data Params =
 makeLenses ''Params
 
 -- Request utilities
-acquireTokenUrl :: Text -> String
-acquireTokenUrl tenantId =
+url :: Text -> String
+url tenantId =
   "https://login.microsoftonline.com/" <> unpack tenantId <> "/oauth2/token"
 
 acquireTokenForm :: Params -> [(ByteString, ByteString)]
@@ -43,14 +43,11 @@ acquireTokenForm p =
   ]
 
 -- Request
-acquireAccessToken :: Params -> IO (Either String AcquireAccessTokenResponse)
-acquireAccessToken p = do
-  manager <- newManager tlsManagerSettings
-  req <- parseRequest $ acquireTokenUrl $ p ^. tenantId
+request :: Params -> Request
+request p =
+  urlEncodedBody params $ parseRequest_ $ "POST " <> url (p ^. tenantId)
+    where params = acquireTokenForm p
 
-  let req' = urlEncodedBody (acquireTokenForm p) $ req { method = "POST" }
-  res <- httpLbs req' manager
-  return $ mapEitherDecode errorExtractor $ responseBody res
-
+-- Error
 errorExtractor :: ErrorResponse -> Text
 errorExtractor = head . lines . (^. errorDescription)
