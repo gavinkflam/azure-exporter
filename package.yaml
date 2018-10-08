@@ -67,3 +67,7 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - azure-exporter
+    - bytestring
+    - hspec >= 2.5 && < 2.6
+    - QuickCheck >= 2.11 && < 2.12
+    - text
