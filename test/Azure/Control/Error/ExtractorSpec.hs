@@ -1,9 +1,11 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- | Tests for error extractor.
+-- |
+-- Test JSON decoding and error extraction mechanism.
 module Azure.Control.Error.ExtractorSpec
--- * Spec
-  ( spec
+  (
+  -- * Spec
+    spec
   ) where
 
 import           Azure.Control.Error.Extractor
@@ -11,16 +13,15 @@ import qualified Azure.Data.Error.ErrorResponse as E
 import qualified Azure.Data.Error.ErrorValue as V
 import qualified Azure.Data.Monitor.ListMetricValuesResponse as R
 import           Data.ByteString.Lazy (ByteString)
-import           Data.Text.Lazy (Text, unpack)
-import           Data.Text.Lazy.Encoding (encodeUtf8)
+import           Data.Text.Lazy (unpack)
+import qualified DummyText as T
 import           Expectations
 import           Test.Hspec
 
--- |
--- Test JSON decoding and error extraction mechanism.
+-- | Spec for Extractor.
 spec :: Spec
 spec = do
-  let fullMessage = errorCode <> ": " <> errorMessage
+  let fullMessage = T.errorCode <> ": " <> T.errorMessage
 
   describe "errorExtractor" $
     it "extracts error code and message" $
@@ -28,7 +29,7 @@ spec = do
 
   describe "mapEitherDecode" $ do
     it "extracts error code and message from ErrorResponse ByteString" $
-      decodeLMVR errorJSON `shouldSatisfy` isLeftOf (unpack fullMessage)
+      decodeLMVR T.errorJSON `shouldSatisfy` isLeftOf (unpack fullMessage)
 
     -- TODO: Implement fallback mechanism to extract from ErrorValue ByteString
     it "extracts error code and message from ErrorValue ByteString" $
@@ -41,29 +42,11 @@ spec = do
 decodeLMVR :: ByteString -> Either String R.ListMetricValuesResponse
 decodeLMVR = mapEitherDecode errorExtractor
 
--- | Dummy error code.
-errorCode :: Text
-errorCode = "InvalidOperation"
-
--- | Dummy error message.
-errorMessage :: Text
-errorMessage = "The system is going to explode!"
-
--- | Dummy error response in JSON `ByteString`.
-errorJSON :: ByteString
-errorJSON = encodeUtf8 $
-  "{" <>
-    "\"error\": {" <>
-      "\"code\": \"" <> errorCode <> "\"," <>
-      "\"message\": \"" <> errorMessage <> "\"" <>
-    "}" <>
-  "}"
-
 -- | Dummy `ErrorValue` item.
 errorValue :: V.ErrorValue
 errorValue =
-  V.ErrorValue { V._code    = errorCode
-               , V._message = errorMessage
+  V.ErrorValue { V._code    = T.errorCode
+               , V._message = T.errorMessage
                }
 
 -- | Dummy `ErrorResponse` item.
