@@ -1,9 +1,15 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
 
+-- |
+-- Lists the metric values for a resource.
+--
+-- <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list>
 module Azure.Request.Monitor.ListMetricValues
-  ( Params (..)
-  -- Request
+  (
+  -- * Types
+    Params (..)
+  -- * Request
   , request
   ) where
 
@@ -16,7 +22,9 @@ import Data.ByteString (ByteString)
 import Data.ByteString.Lazy (toStrict)
 import Network.HTTP.Client (Request, parseRequest_, setQueryString)
 
--- Request parameters
+-- | Parameters to construct `Request`.
+--
+-- <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#uri-parameters>
 data Params =
   Params { _aggregation :: Text
          , _metricNames :: Text
@@ -26,13 +34,16 @@ data Params =
 
 makeLenses ''Params
 
--- Request utilities
+-- | Construct URL from resource URI.
 url :: Text -> String
 url resourceId =
   "https://management.azure.com"
   <> unpack resourceId
   <> "/providers/microsoft.insights/metrics"
 
+-- | Construct query string parameters from `Params`.
+--
+-- <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#uri-parameters>
 queryParams :: Params -> [(ByteString, Maybe ByteString)]
 queryParams p =
   [ ("api-version", Just "2018-01-01")
@@ -41,7 +52,7 @@ queryParams p =
   , ("timespan",    Just $ toStrict $ encodeUtf8 $ p ^. timespan)
   ]
 
--- Request
+-- | Construct `Request` from access token and `Params`.
 request :: Text -> Params -> Request
 request token p =
   setQueryString params $ withAuth token $ parseRequest_ $ url $ p ^. resourceId
