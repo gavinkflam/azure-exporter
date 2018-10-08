@@ -18,7 +18,7 @@ import qualified DummyText as T
 import           Expectations
 import           Test.Hspec
 
--- | Spec for Extractor.
+-- | Spec for `Extractor`.
 spec :: Spec
 spec = do
   let fullMessage = T.errorCode <> ": " <> T.errorMessage
