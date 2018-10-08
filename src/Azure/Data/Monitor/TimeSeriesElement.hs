@@ -2,8 +2,10 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module Azure.Data.Monitor.TimeSeriesElement
-  ( TimeSeriesElement (..)
-  -- Lenses
+  (
+  -- * Types
+    TimeSeriesElement (..)
+  -- * Lenses
   , _data
   ) where
 
@@ -14,8 +16,9 @@ import Data.Aeson
 import Data.Text.Lazy (Text)
 import GHC.Generics
 
--- TimeSeriesElement
--- https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#timeserieselement
+-- | TimeSeriesElement
+--
+-- <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#timeserieselement>
 newtype TimeSeriesElement =
   TimeSeriesElement { __data :: [MetricValue]
                     } deriving (Generic, Show)

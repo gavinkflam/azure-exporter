@@ -2,8 +2,10 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module Azure.Data.Monitor.Metric
-  ( Metric (..)
-  -- Lenses
+  (
+  -- * Types
+    Metric (..)
+  -- * Lenses
   , _id
   , _type
   , name
@@ -19,8 +21,9 @@ import Data.Aeson
 import Data.Text.Lazy (Text)
 import GHC.Generics
 
--- Metric
--- https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#metric
+-- | Metric
+--
+-- <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#metric>
 data Metric =
   Metric { __id        :: Text
          , __type      :: Text

@@ -2,8 +2,10 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module Azure.Data.Monitor.MetricValue
-  ( MetricValue (..)
-  -- Lenses
+  (
+  -- * Types
+    MetricValue (..)
+  -- * Lenses
   , average
   , count
   , maximum
@@ -20,8 +22,9 @@ import Data.Text.Lazy (Text)
 import GHC.Generics
 import Prelude hiding (maximum, minimum)
 
--- MetricValue
--- https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#metricvalue
+-- | MetricValue
+--
+-- <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#metricvalue>
 data MetricValue =
   MetricValue { _average   :: Maybe Scientific
               , _count     :: Maybe Scientific

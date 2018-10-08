@@ -2,8 +2,10 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module Azure.Data.Monitor.LocalizableString
-  ( LocalizableString (..)
-  -- Lenses
+  (
+  -- * Types
+    LocalizableString (..)
+  -- * Lenses
   , value
   , localizedValue
   ) where
@@ -14,8 +16,9 @@ import Data.Aeson
 import Data.Text.Lazy (Text)
 import GHC.Generics
 
--- LocalizableString
--- https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#localizablestring
+-- | LocalizableString
+--
+-- <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#localizablestring>
 data LocalizableString =
   LocalizableString { _value          :: Text
                     , _localizedValue :: Text

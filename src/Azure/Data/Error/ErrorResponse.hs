@@ -2,8 +2,10 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module Azure.Data.Error.ErrorResponse
-  ( ErrorResponse (..)
-  -- Lenses
+  (
+  -- * Types
+    ErrorResponse (..)
+  -- * Lenses
   , _error
   ) where
 
@@ -14,7 +16,9 @@ import Data.Aeson
 import Data.Text.Lazy (Text)
 import GHC.Generics
 
--- ErrorResponse
+-- | Azure REST API ErrorResponse object.
+--
+-- <https://github.com/Microsoft/api-guidelines/blob/master/Guidelines.md#errorresponse--object>
 newtype ErrorResponse =
   ErrorResponse { __error :: ErrorValue
                 } deriving (Generic, Show)

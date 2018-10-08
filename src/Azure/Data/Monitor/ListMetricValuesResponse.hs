@@ -2,8 +2,10 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module Azure.Data.Monitor.ListMetricValuesResponse
-  ( ListMetricValuesResponse (..)
-  -- Lenses
+  (
+  -- * Types
+    ListMetricValuesResponse (..)
+  -- * Lenses
   , cost
   , interval
   , namespace
@@ -19,8 +21,9 @@ import Data.Aeson
 import Data.Text.Lazy (Text)
 import GHC.Generics
 
--- ListMetricValuesResponse
--- https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#response
+-- | Response for list metrics API.
+--
+-- <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#response>
 data ListMetricValuesResponse =
   ListMetricValuesResponse { _cost           :: Int
                            , _interval       :: Text

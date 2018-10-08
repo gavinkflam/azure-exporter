@@ -2,8 +2,10 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module Azure.Data.Error.ErrorValue
-  ( ErrorValue (..)
-  -- Lenses
+  (
+  -- * Types
+    ErrorValue (..)
+  -- * Lenses
   , code
   , message
   ) where
@@ -14,7 +16,9 @@ import Data.Aeson
 import Data.Text.Lazy (Text)
 import GHC.Generics
 
--- ErrorValue
+-- | Azure REST API Error object.
+--
+-- <https://github.com/Microsoft/api-guidelines/blob/master/Guidelines.md#error--object>
 data ErrorValue =
   ErrorValue { _code    :: Text
              , _message :: Text

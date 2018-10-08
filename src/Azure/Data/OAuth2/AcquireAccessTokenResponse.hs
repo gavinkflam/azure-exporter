@@ -2,8 +2,10 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module Azure.Data.OAuth2.AcquireAccessTokenResponse
-  ( AcquireAccessTokenResponse (..)
-  -- Lenses
+  (
+  -- * Types
+    AcquireAccessTokenResponse (..)
+  -- * Lenses
   , accessToken
   , expiresIn
   , expiresOn
@@ -20,8 +22,9 @@ import Data.Text.Lazy (Text)
 import GHC.Generics
 import Text.Casing (quietSnake)
 
--- AcquireAccessTokenResponse
--- https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-oauth2-client-creds-grant-flow#service-to-service-access-token-response
+-- | Azure OAuth 2.0 Service-to-Service access token response.
+--
+-- <https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-oauth2-client-creds-grant-flow#service-to-service-access-token-response>
 data AcquireAccessTokenResponse =
   AcquireAccessTokenResponse { _accessToken  :: Text
                              , _expiresIn    :: Text

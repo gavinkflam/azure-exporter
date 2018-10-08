@@ -2,8 +2,10 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module Azure.Data.OAuth2.ErrorResponse
-  ( ErrorResponse (..)
-  -- Lenses
+  (
+  -- * Types
+    ErrorResponse (..)
+  -- * Lenses
   , correlationId
   , _error
   , errorCodes
@@ -18,7 +20,9 @@ import Data.Aeson
 import Data.Text.Lazy (Text)
 import GHC.Generics
 
--- ErrorResponse
+-- | Azure OAuth 2.0 credentials grant error response.
+--
+-- <https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-oauth2-on-behalf-of-flow#error-response-example>
 data ErrorResponse =
   ErrorResponse { _correlationId    :: Text
                 , __error           :: Text
