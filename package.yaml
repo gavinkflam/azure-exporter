@@ -73,3 +73,4 @@ tests:
     - http-types >= 0.12 && < 0.13
     - QuickCheck >= 2.11 && < 2.12
     - text
+    - time >= 1.8 && < 1.9
