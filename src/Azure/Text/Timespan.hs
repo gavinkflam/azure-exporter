@@ -1,21 +1,27 @@
+-- |
+-- Utility to format timespan `String` from `UTCTime`
 module Azure.Text.Timespan
-  ( timespan
-  , getTimespanFromNow
+  (
+  -- * Timespan
+    timespan
+  , timespanFrom
   ) where
 
-import Data.Time.Clock (UTCTime, NominalDiffTime, addUTCTime, getCurrentTime)
+import Data.Time.Clock (UTCTime, NominalDiffTime, addUTCTime)
 import Data.Time.Format (defaultTimeLocale, formatTime)
 
+-- | Render timespan `String` from start `UTCTime` and end `UTCTime`.
 timespan :: UTCTime -> UTCTime -> String
 timespan f t = iso8601UTCFormatTime f <> "/" <> iso8601UTCFormatTime t
 
-getTimespanFromNow :: NominalDiffTime -> NominalDiffTime -> IO String
-getTimespanFromNow fromOffset toOffset = do
-  now <- getCurrentTime
-  let from = addUTCTime (- fromOffset) now
-      to   = addUTCTime (- toOffset) now
-  return $ timespan from to
+-- |
+-- Render timespan `String` from a reference `UTCTime`, the start time offset
+-- and end time offset in `NominalDiffTime`.
+timespanFrom :: UTCTime -> NominalDiffTime -> NominalDiffTime -> String
+timespanFrom t fromOffset toOffset =
+  timespan (fPast fromOffset) (fPast toOffset)
+    where fPast offset = addUTCTime (negate $ abs offset) t
 
--- Formatting
+-- | Format a `UTCTime` with ISO8601 combined date and time format in UTC.
 iso8601UTCFormatTime :: UTCTime -> String
 iso8601UTCFormatTime = formatTime defaultTimeLocale "%FT%H:%M:%SZ"
