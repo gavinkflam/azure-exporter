@@ -5,7 +5,8 @@ module Data.Dummy.Text
   -- * Error
     errorCode
   , errorMessage
-  , errorJSON
+  , errorResponseJSON
+  , errorValueJSON
   -- * Metrics
   , aggregation
   , metricNames
@@ -22,7 +23,7 @@ module Data.Dummy.Text
     
 import Data.ByteString.Lazy (ByteString)
 import Data.Text.Lazy (Text)
-import Data.Text.Lazy.Encoding (encodeUtf8)
+import Data.Text.Lazy.Encoding (decodeUtf8, encodeUtf8)
 
 -- | Dummy error code.
 errorCode :: Text
@@ -32,14 +33,19 @@ errorCode = "InvalidOperation"
 errorMessage :: Text
 errorMessage = "The system is going to explode!"
 
--- | Dummy error response in JSON `ByteString`.
-errorJSON :: ByteString
-errorJSON = encodeUtf8 $
+-- | Dummy `ErrorResponse` in JSON `ByteString`.
+errorResponseJSON :: ByteString
+errorResponseJSON = encodeUtf8 $
   "{" <>
-    "\"error\": {" <>
-      "\"code\": \"" <> errorCode <> "\"," <>
-      "\"message\": \"" <> errorMessage <> "\"" <>
-    "}" <>
+    "\"error\":" <> decodeUtf8 errorValueJSON <>
+  "}"
+
+-- | Dummy `ErrorValue` in JSON `ByteString`.
+errorValueJSON :: ByteString
+errorValueJSON = encodeUtf8 $
+  "{" <>
+    "\"code\": \"" <> errorCode <> "\"," <>
+    "\"message\": \"" <> errorMessage <> "\"" <>
   "}"
 
 -- | Dummy aggregation types text.

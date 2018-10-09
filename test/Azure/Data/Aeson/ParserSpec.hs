@@ -23,17 +23,19 @@ spec :: Spec
 spec = do
   let fullMessage = unpack $ T.errorCode <> ": " <> T.errorMessage
 
-  describe "errorExtractor" $
-    it "extracts error code and message" $
-      errorExtractor errorResponse `shouldBe` fullMessage
+  describe "errorExtractor" $ do
+    it "extracts readable error message from ErrorResponse JSON ByteString" $
+      errorExtractor T.errorResponseJSON `shouldSatisfy` isJustOf fullMessage
+
+    it "extracts readable error message from ErrorValue JSON ByteString" $
+      errorExtractor T.errorValueJSON `shouldSatisfy` isJustOf fullMessage
 
   describe "mapEitherDecode" $ do
-    it "extracts error code and message from ErrorResponse ByteString" $
-      decodeLMVR T.errorJSON `shouldSatisfy` isLeftOf fullMessage
+    it "extracts readable error message from ErrorResponse JSON ByteString" $
+      decodeLMVR T.errorResponseJSON `shouldSatisfy` isLeftOf fullMessage
 
-    -- TODO: Implement fallback mechanism to extract from ErrorValue ByteString
-    it "extracts error code and message from ErrorValue ByteString" $
-      False
+    it "extracts readable error message from ErrorValue JSON ByteString" $
+      decodeLMVR T.errorValueJSON `shouldSatisfy` isLeftOf fullMessage
 
     it "returns the original content for invalid error structure" $
       decodeLMVR "Kaboom!" `shouldSatisfy` isLeftOf "Kaboom!"
@@ -41,16 +43,3 @@ spec = do
 -- | Decoding with concrete type `Either String ListMetricValuesResponse`.
 decodeLMVR :: ByteString -> Either String R.ListMetricValuesResponse
 decodeLMVR = mapEitherDecode errorExtractor
-
--- | Dummy `ErrorValue` item.
-errorValue :: V.ErrorValue
-errorValue =
-  V.ErrorValue { V._code    = T.errorCode
-               , V._message = T.errorMessage
-               }
-
--- | Dummy `ErrorResponse` item.
-errorResponse :: E.ErrorResponse
-errorResponse =
-  E.ErrorResponse { E.__error = errorValue
-                  }
