@@ -10,26 +10,40 @@ module Azure.Request.Monitor.ListMetricValuesSpec
 
 import           Azure.Request.Monitor.ListMetricValues
 import qualified Data.ByteString as BS
+import qualified Data.ByteString.Char8 as C
 import           Data.ByteString.Lazy (toStrict)
-import           Data.Text.Lazy (Text)
+import           Data.Text.Lazy (Text, unpack)
 import           Data.Text.Lazy.Encoding (encodeUtf8)
 import qualified DummyText as T
 import           Expectations
-import           Network.HTTP.Client (requestHeaders, queryString)
-import           Network.HTTP.Types (Header, hAuthorization, urlEncode)
+import           Network.HTTP.Client (requestHeaders, path, queryString)
+import           Network.HTTP.Types (Header, hAuthorization, parseSimpleQuery)
 import           Test.Hspec
 
 -- | Spec for `ListMetricValues`.
 spec :: Spec
 spec = do
-  let req = request T.accessToken params
+  let req    = request T.accessToken params
+      qItems = parseSimpleQuery $ queryString req
 
   describe "request" $ do
     it "contains authorization header" $
       requestHeaders req `shouldContain` [authHeader]
 
-    it "contains the expected query string" $
-      queryString req `shouldBe` expectedQueryString
+    it "contains api-version query item" $
+      qItems `shouldContain` [("api-version", "2018-01-01")]
+
+    it "contains aggregation query item" $
+      qItems `shouldContain` [("aggregation", toBS T.aggregation)]
+
+    it "contains metricnames query item" $
+      qItems `shouldContain` [("metricnames", toBS T.metricNames)]
+
+    it "contains timespan query item" $
+      qItems `shouldContain` [("timespan", toBS T.timespan)]
+
+    it "contains the expected path" $
+      C.unpack (path req) `shouldBe` expectedPath
 
 -- | Dummy `Params` item.
 params =
@@ -39,17 +53,17 @@ params =
          , _timespan    = T.timespan
          }
 
--- | Expected query string constructed manually.
-expectedQueryString :: BS.ByteString
-expectedQueryString =
-  "?api-version=2018-01-01&" <>
-    "aggregation=" <> urlEncodeText T.aggregation <> "&" <>
-    "metricnames=" <> urlEncodeText T.metricNames <> "&" <>
-    "timespan=" <> urlEncodeText T.timespan
+-- |
+-- The expected path should
+--
+-- 1. Starts with the resource ID
+-- 2. Follows by the API Endpoint
+expectedPath :: String
+expectedPath = unpack $ T.resourceId <> "/providers/microsoft.insights/metrics"
 
--- | URL encode a `Text`.
-urlEncodeText :: Text -> BS.ByteString
-urlEncodeText t = urlEncode True $ toStrict $ encodeUtf8 t
+-- | Encode a Lazy `Text` to a strict `ByteString`
+toBS :: Text -> BS.ByteString
+toBS = toStrict . encodeUtf8
 
 -- | Dummy authorization header.
 authHeader :: Header
