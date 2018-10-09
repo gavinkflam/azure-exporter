@@ -9,7 +9,6 @@ module Azure.Request.Monitor.ListMetricValuesSpec
   ) where
 
 import           Azure.Request.Monitor.ListMetricValues
-import qualified Data.ByteString as BS
 import qualified Data.ByteString.Char8 as C
 import           Data.ByteString.Lazy (toStrict)
 import           Data.Text.Lazy (Text, unpack)
@@ -19,6 +18,7 @@ import           Expectations
 import           Network.HTTP.Client (requestHeaders, path, queryString)
 import           Network.HTTP.Types (Header, hAuthorization, parseSimpleQuery)
 import           Test.Hspec
+import           Util.Text (toBS)
 
 -- | Spec for `ListMetricValues`.
 spec :: Spec
@@ -60,10 +60,6 @@ params =
 -- 2. Follows by the API Endpoint
 expectedPath :: String
 expectedPath = unpack $ T.resourceId <> "/providers/microsoft.insights/metrics"
-
--- | Encode a Lazy `Text` to a strict `ByteString`
-toBS :: Text -> BS.ByteString
-toBS = toStrict . encodeUtf8
 
 -- | Dummy authorization header.
 authHeader :: Header
