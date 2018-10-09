@@ -16,14 +16,14 @@ module Azure.Request.OAuth2.AcquireAccessToken
   , errorExtractor
   ) where
 
-import Azure.Data.OAuth2.AcquireAccessTokenResponse (AcquireAccessTokenResponse)
-import Azure.Data.OAuth2.ErrorResponse (ErrorResponse, errorDescription)
-import Control.Lens (makeLenses, (^.))
-import Data.Text.Lazy (Text, unpack)
-import Data.Text.Lazy.Encoding (encodeUtf8)
-import Data.ByteString (ByteString)
-import Data.ByteString.Lazy (toStrict)
-import Network.HTTP.Client (Request, parseRequest_, urlEncodedBody)
+import           Azure.Data.OAuth2.ErrorResponse (errorDescription)
+import           Control.Lens (makeLenses, (^.))
+import           Data.Aeson (decode)
+import           Data.Text.Lazy (Text, unpack)
+import           Data.Text.Lazy.Encoding (encodeUtf8)
+import qualified Data.ByteString as BS
+import           Data.ByteString.Lazy (ByteString, toStrict)
+import           Network.HTTP.Client (Request, parseRequest_, urlEncodedBody)
 
 -- | Parameters to construct `Request`.
 --
@@ -44,7 +44,7 @@ url tenantId =
 -- | Construct form parameters from `Params`.
 --
 -- <https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-oauth2-client-creds-grant-flow#first-case-access-token-request-with-a-shared-secret>
-form :: Params -> [(ByteString, ByteString)]
+form :: Params -> [(BS.ByteString, BS.ByteString)]
 form p =
   [ ("grant_type",    "client_credentials")
   , ("resource",      "https://management.azure.com/")
@@ -57,6 +57,6 @@ request :: Params -> Request
 request p =
   urlEncodedBody (form p) $ parseRequest_ $ "POST " <> url (p ^. tenantId)
 
--- | Extract readable error message from `ErrorResponse`.
-errorExtractor :: ErrorResponse -> String
-errorExtractor = head . lines . unpack . (^. errorDescription)
+-- | Extract readable error message from `ErrorResponse` JSON `ByteString`.
+errorExtractor :: ByteString -> Maybe String
+errorExtractor = fmap (head . lines . unpack . (^. errorDescription)) . decode
