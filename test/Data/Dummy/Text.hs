@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module DummyText
+module Data.Dummy.Text
   (
   -- * Error
     errorCode

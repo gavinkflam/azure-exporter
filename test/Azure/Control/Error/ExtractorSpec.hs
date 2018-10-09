@@ -13,8 +13,8 @@ import qualified Azure.Data.Error.ErrorResponse as E
 import qualified Azure.Data.Error.ErrorValue as V
 import qualified Azure.Data.Monitor.ListMetricValuesResponse as R
 import           Data.ByteString.Lazy (ByteString)
+import qualified Data.Dummy.Text as T
 import           Data.Text.Lazy (unpack)
-import qualified DummyText as T
 import           Expectations
 import           Test.Hspec
 

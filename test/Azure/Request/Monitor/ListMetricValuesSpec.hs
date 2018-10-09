@@ -11,9 +11,9 @@ module Azure.Request.Monitor.ListMetricValuesSpec
 import           Azure.Request.Monitor.ListMetricValues
 import qualified Data.ByteString.Char8 as C
 import           Data.ByteString.Lazy (toStrict)
+import qualified Data.Dummy.Text as T
 import           Data.Text.Lazy (Text, unpack)
 import           Data.Text.Lazy.Encoding (encodeUtf8)
-import qualified DummyText as T
 import           Expectations
 import           Network.HTTP.Client (requestHeaders, path, queryString)
 import           Network.HTTP.Types (Header, hAuthorization, parseSimpleQuery)
