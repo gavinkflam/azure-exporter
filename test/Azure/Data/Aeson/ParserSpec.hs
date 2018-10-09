@@ -2,13 +2,13 @@
 
 -- |
 -- Test JSON decoding and error extraction mechanism.
-module Azure.Control.Error.ExtractorSpec
+module Azure.Data.Aeson.ParserSpec
   (
   -- * Spec
     spec
   ) where
 
-import           Azure.Control.Error.Extractor
+import           Azure.Data.Aeson.Parser
 import qualified Azure.Data.Error.ErrorResponse as E
 import qualified Azure.Data.Error.ErrorValue as V
 import qualified Azure.Data.Monitor.ListMetricValuesResponse as R
@@ -18,7 +18,7 @@ import           Data.Text.Lazy (unpack)
 import           Expectations
 import           Test.Hspec
 
--- | Spec for `Extractor`.
+-- | Spec for `Parser`.
 spec :: Spec
 spec = do
   let fullMessage = T.errorCode <> ": " <> T.errorMessage

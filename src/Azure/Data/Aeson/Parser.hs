@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Azure.Control.Error.Extractor
+module Azure.Data.Aeson.Parser
   ( errorExtractor
   , mapEitherDecode
   ) where

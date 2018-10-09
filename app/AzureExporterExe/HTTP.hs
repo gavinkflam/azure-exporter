@@ -3,7 +3,7 @@ module AzureExporterExe.HTTP
   , request'
   ) where
 
-import           Azure.Control.Error.Extractor (errorExtractor, mapEitherDecode)
+import           Azure.Data.Aeson.Parser (errorExtractor, mapEitherDecode)
 import           AzureExporterExe.Control.Monad.AppEnvSTM
 import qualified AzureExporterExe.Data.AppEnv as E
 import           Control.Lens ((^.))
