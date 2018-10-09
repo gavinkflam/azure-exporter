@@ -1,7 +1,12 @@
 {-# LANGUAGE OverloadedStrings #-}
 
+-- |
+-- JSON decoding and error extraction using Aeson.
 module Azure.Data.Aeson.Parser
-  ( errorExtractor
+  (
+  -- * Error
+    errorExtractor
+  -- * Decode
   , mapEitherDecode
   ) where
 
@@ -14,10 +19,14 @@ import           Data.ByteString.Lazy (ByteString)
 import qualified Data.ByteString.Lazy.Char8 as BS
 import qualified Data.Text.Lazy as T
 
-errorExtractor :: E.ErrorResponse -> T.Text
+-- | Extractor readable error message from `ErrorResponse`.
+errorExtractor :: E.ErrorResponse -> String
 errorExtractor e =
-  mconcat [v ^. V.code , ": " , v ^. V.message] where v = e ^. E._error
+  T.unpack $ v ^. V.code <> ": " <> v ^. V.message where v = e ^. E._error
 
-mapEitherDecode :: (A.FromJSON a, A.FromJSON e) => (e -> T.Text) -> ByteString -> Either String a
+-- |
+-- Deserialize the JSON `ByteString`, or extract a readable error message using
+-- the supplied error extractor when decoding fails.
+mapEitherDecode :: (A.FromJSON a, A.FromJSON e) => (e -> String) -> ByteString -> Either String a
 mapEitherDecode f s = first g $ A.eitherDecode s
-  where g = const $ maybe (BS.unpack s) (T.unpack . f) $ A.decode s
+  where g = const $ maybe (BS.unpack s) f $ A.decode s

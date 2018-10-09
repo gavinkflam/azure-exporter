@@ -19,12 +19,11 @@ module Azure.Request.OAuth2.AcquireAccessToken
 import Azure.Data.OAuth2.AcquireAccessTokenResponse (AcquireAccessTokenResponse)
 import Azure.Data.OAuth2.ErrorResponse (ErrorResponse, errorDescription)
 import Control.Lens (makeLenses, (^.))
-import Data.Text.Lazy (Text, lines, unpack)
+import Data.Text.Lazy (Text, unpack)
 import Data.Text.Lazy.Encoding (encodeUtf8)
 import Data.ByteString (ByteString)
 import Data.ByteString.Lazy (toStrict)
 import Network.HTTP.Client (Request, parseRequest_, urlEncodedBody)
-import Prelude hiding (lines)
 
 -- | Parameters to construct `Request`.
 --
@@ -59,5 +58,5 @@ request p =
   urlEncodedBody (form p) $ parseRequest_ $ "POST " <> url (p ^. tenantId)
 
 -- | Extract readable error message from `ErrorResponse`.
-errorExtractor :: ErrorResponse -> Text
-errorExtractor = head . lines . (^. errorDescription)
+errorExtractor :: ErrorResponse -> String
+errorExtractor = head . lines . unpack . (^. errorDescription)

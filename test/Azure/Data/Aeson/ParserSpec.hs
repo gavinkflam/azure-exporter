@@ -21,7 +21,7 @@ import           Test.Hspec
 -- | Spec for `Parser`.
 spec :: Spec
 spec = do
-  let fullMessage = T.errorCode <> ": " <> T.errorMessage
+  let fullMessage = unpack $ T.errorCode <> ": " <> T.errorMessage
 
   describe "errorExtractor" $
     it "extracts error code and message" $
@@ -29,7 +29,7 @@ spec = do
 
   describe "mapEitherDecode" $ do
     it "extracts error code and message from ErrorResponse ByteString" $
-      decodeLMVR T.errorJSON `shouldSatisfy` isLeftOf (unpack fullMessage)
+      decodeLMVR T.errorJSON `shouldSatisfy` isLeftOf fullMessage
 
     -- TODO: Implement fallback mechanism to extract from ErrorValue ByteString
     it "extracts error code and message from ErrorValue ByteString" $

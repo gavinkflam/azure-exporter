@@ -17,7 +17,7 @@ type Result a = AppEnvSTM (Either String a)
 request :: FromJSON a => Request -> Result a
 request = request' errorExtractor
 
-request' :: (FromJSON a, FromJSON e) => (e -> Text) -> Request -> Result a
+request' :: (FromJSON a, FromJSON e) => (e -> String) -> Request -> Result a
 request' handler request = do
   manager <- fmap (^. E.httpManager) readAppEnv
   res     <- liftIO $ httpLbs request manager
