@@ -1,7 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 
+-- |
+-- The constants for Azure API.
 module Azure.Contract
-  ( withAuth
+  (
+  -- * Versions
+    monitorApiVersion
+  -- * Request
+  , withAuth
   ) where
 
 import Data.ByteString (ByteString, append)
@@ -10,7 +16,10 @@ import Data.Text.Lazy (Text)
 import Data.Text.Lazy.Encoding (encodeUtf8)
 import Network.HTTP.Client (Request, requestHeaders)
 
--- Request
+-- | The API version for Azure monitor.
+monitorApiVersion :: Text
+monitorApiVersion = "2018-01-01"
+
 withAuth :: Text -> Request -> Request
 withAuth token req =
   req { requestHeaders = [("Authorization" , authValue token)] }
