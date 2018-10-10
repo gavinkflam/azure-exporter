@@ -13,8 +13,9 @@ module Azure.Request.Monitor.ListMetricValues
   , request
   ) where
 
-import Azure.Contract (monitorApiVersion, withAuth)
+import Azure.Contract (monitorApiVersion)
 import Azure.Data.Monitor.ListMetricValuesResponse (ListMetricValuesResponse)
+import Azure.Util.HTTP (setAuthHeader)
 import Control.Lens (makeLenses, (^.))
 import Data.Text.Lazy (Text, unpack)
 import Data.Text.Lazy.Encoding (encodeUtf8)
@@ -55,5 +56,6 @@ queryParams p =
 -- | Construct `Request` from access token and `Params`.
 request :: Text -> Params -> Request
 request token p =
-  setQueryString params $ withAuth token $ parseRequest_ $ url $ p ^. resourceId
+  setQueryString params $ setAuthHeader token req
     where params = queryParams p
+          req    = parseRequest_ $ url $ p ^. resourceId
