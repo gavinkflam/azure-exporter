@@ -7,6 +7,7 @@ module Expectations
   -- To be used with `shouldSatisfy`.
     isJustOf
   , isLeftOf
+  , isRightOf
   ) where
 
 -- |
@@ -22,3 +23,10 @@ isJustOf _ Nothing    = False
 isLeftOf :: Eq a => a -> Either a b -> Bool
 isLeftOf exp (Left v) = exp == v
 isLeftOf _ (Right _)  = False
+
+-- |
+-- Return `True` if the given value is a `Right` value of the given value,
+-- `False` otherwise.
+isRightOf :: Eq b => b -> Either a b -> Bool
+isRightOf exp (Right v) = exp == v
+isRightOf _ (Left _)    = False

@@ -9,11 +9,9 @@ module Azure.Data.Aeson.ParserSpec
   ) where
 
 import           Azure.Data.Aeson.Parser
-import qualified Azure.Data.Error.ErrorResponse as E
-import qualified Azure.Data.Error.ErrorValue as V
-import qualified Azure.Data.Monitor.ListMetricValuesResponse as R
 import           Data.ByteString.Lazy (ByteString)
 import qualified Data.Dummy.Text as T
+import           Data.JsonValue
 import           Data.Text.Lazy (unpack)
 import           Expectations
 import           Test.Hspec
@@ -31,15 +29,22 @@ spec = do
       errorExtractor T.errorValueJSON `shouldSatisfy` isJustOf fullMessage
 
   describe "mapEitherDecode" $ do
+    it "extracts JsonValue from JsonValue JSON ByteString" $
+      eitherDecode T.jsonValueJSON `shouldSatisfy` isRightOf expectedJsonValue
+
     it "extracts readable error message from ErrorResponse JSON ByteString" $
-      decodeLMVR T.errorResponseJSON `shouldSatisfy` isLeftOf fullMessage
+      eitherDecode T.errorResponseJSON `shouldSatisfy` isLeftOf fullMessage
 
     it "extracts readable error message from ErrorValue JSON ByteString" $
-      decodeLMVR T.errorValueJSON `shouldSatisfy` isLeftOf fullMessage
+      eitherDecode T.errorValueJSON `shouldSatisfy` isLeftOf fullMessage
 
     it "returns the original content for invalid error structure" $
-      decodeLMVR "Kaboom!" `shouldSatisfy` isLeftOf "Kaboom!"
+      eitherDecode "Kaboom!" `shouldSatisfy` isLeftOf "Kaboom!"
 
--- | Decoding with concrete type `Either String ListMetricValuesResponse`.
-decodeLMVR :: ByteString -> Either String R.ListMetricValuesResponse
-decodeLMVR = mapEitherDecode errorExtractor
+-- | Decoding with concrete type `Either String JsonValue`.
+eitherDecode :: ByteString -> Either String JsonValue
+eitherDecode = mapEitherDecode errorExtractor
+
+-- | Expected deserialized `JsonValue` item from JSON `ByteString`.
+expectedJsonValue :: JsonValue
+expectedJsonValue = JsonValue { _value = T.jsonValueValue }

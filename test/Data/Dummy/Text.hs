@@ -7,6 +7,9 @@ module Data.Dummy.Text
   , errorMessage
   , errorResponseJSON
   , errorValueJSON
+  -- * JSON
+  , jsonValueJSON
+  , jsonValueValue
   -- * Metrics
   , aggregation
   , metricNames
@@ -20,9 +23,9 @@ module Data.Dummy.Text
   -- * Timespan
   , timespan
   ) where
-    
+
 import Data.ByteString.Lazy (ByteString)
-import Data.Text.Lazy (Text)
+import Data.Text.Lazy (Text, pack)
 import Data.Text.Lazy.Encoding (decodeUtf8, encodeUtf8)
 
 -- | Dummy error code.
@@ -47,6 +50,17 @@ errorValueJSON = encodeUtf8 $
     "\"code\": \"" <> errorCode <> "\"," <>
     "\"message\": \"" <> errorMessage <> "\"" <>
   "}"
+
+-- | Dummy `JsonValue` in JSON `ByteString`.
+jsonValueJSON :: ByteString
+jsonValueJSON = encodeUtf8 $
+  "{" <>
+    "\"value\": " <> pack (show jsonValueValue) <>
+  "}"
+
+-- | Dummy inner value of `JsonValue` JSON `ByteString`.
+jsonValueValue :: Int
+jsonValueValue = 42
 
 -- | Dummy aggregation types text.
 aggregation :: Text

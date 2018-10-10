@@ -67,6 +67,7 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
+    - aeson >= 1.4 && < 1.5
     - azure-exporter
     - bytestring
     - hspec >= 2.5 && < 2.6
