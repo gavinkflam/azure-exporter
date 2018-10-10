@@ -15,7 +15,7 @@ module Azure.Data.OAuth2.AcquireAccessTokenResponse
   , tokenType
   ) where
 
-import Azure.Contract (oAuth2AesonOptions)
+import Azure.Data.Aeson.Options (oAuth2AesonOptions)
 import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Text.Lazy (Text)

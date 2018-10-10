@@ -13,7 +13,7 @@ module Azure.Data.Monitor.Metric
   , timeseries
   ) where
 
-import Azure.Contract (aesonOptions)
+import Azure.Data.Aeson.Options (aesonOptions)
 import Azure.Data.Monitor.LocalizableString (LocalizableString)
 import Azure.Data.Monitor.TimeSeriesElement (TimeSeriesElement)
 import Control.Lens (makeLenses)

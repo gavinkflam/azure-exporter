@@ -10,7 +10,7 @@ module Azure.Data.Error.ErrorValue
   , message
   ) where
 
-import Azure.Contract (aesonOptions)
+import Azure.Data.Aeson.Options (aesonOptions)
 import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Text.Lazy (Text)

@@ -9,7 +9,7 @@ module Azure.Data.Error.ErrorResponse
   , _error
   ) where
 
-import Azure.Contract (aesonOptions)
+import Azure.Data.Aeson.Options (aesonOptions)
 import Azure.Data.Error.ErrorValue (ErrorValue)
 import Control.Lens (makeLenses)
 import Data.Aeson

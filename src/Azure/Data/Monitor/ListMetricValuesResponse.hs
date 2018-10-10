@@ -14,7 +14,7 @@ module Azure.Data.Monitor.ListMetricValuesResponse
   , value
   ) where
 
-import Azure.Contract (aesonOptions)
+import Azure.Data.Aeson.Options (aesonOptions)
 import Azure.Data.Monitor.Metric (Metric)
 import Control.Lens (makeLenses)
 import Data.Aeson

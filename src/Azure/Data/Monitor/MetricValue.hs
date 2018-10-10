@@ -14,7 +14,7 @@ module Azure.Data.Monitor.MetricValue
   , total
   ) where
 
-import Azure.Contract (aesonOptions)
+import Azure.Data.Aeson.Options (aesonOptions)
 import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Scientific (Scientific)

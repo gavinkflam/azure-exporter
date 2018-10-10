@@ -9,7 +9,7 @@ module Azure.Data.Monitor.TimeSeriesElement
   , _data
   ) where
 
-import Azure.Contract (aesonOptions)
+import Azure.Data.Aeson.Options (aesonOptions)
 import Azure.Data.Monitor.MetricValue (MetricValue)
 import Control.Lens (makeLenses)
 import Data.Aeson
