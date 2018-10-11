@@ -8,6 +8,7 @@ module Azure.Request.Monitor.ListMetricValuesSpec
     spec
   ) where
 
+import           Azure.Contract (monitorApiVersion)
 import           Azure.Request.Monitor.ListMetricValues
 import qualified Data.ByteString.Char8 as C
 import           Data.ByteString.Lazy (toStrict)
@@ -31,7 +32,7 @@ spec = do
       requestHeaders req `shouldContain` [authHeader]
 
     it "contains api-version query item" $
-      qItems `shouldContain` [("api-version", "2018-01-01")]
+      qItems `shouldContain` [("api-version", toBS monitorApiVersion)]
 
     it "contains aggregation query item" $
       qItems `shouldContain` [("aggregation", toBS T.aggregation)]
