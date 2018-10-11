@@ -1,13 +1,18 @@
 {-# LANGUAGE OverloadedStrings #-}
 
+-- |
+-- Utility functions related to Azure resources.
 module AzureExporter.Util.Resource
-  ( parseResourceId
+  (
+  -- * Resource
+    parseResourceId
   , resourceId
   ) where
 
 import qualified AzureExporter.Data.ResourceMetadata as D
 import           Data.Text.Lazy (Text, intercalate, splitOn, toLower)
 
+-- | Parse an Azure resource URI and breakdown into meaningful components.
 parseResourceId :: Text -> D.ResourceMetadata
 parseResourceId id =
   D.ResourceMetadata { D._resourceGroup    = s !! 4
@@ -18,8 +23,11 @@ parseResourceId id =
                      }
                        where s = splitOn "/" $ toLower id
 
--- The Azure API will response the resource ID in whatever cases we
--- requested with.
--- Thus, we can only ensure the consistency by downcasing the resource ID.
+-- |
+-- Extract the top level resource URI and standardize the resource URI.
+--
+-- The Azure API will response the resource URI in whatever cases we requested
+-- with. Thus, we can only ensure the consistency by downcasing the resource
+-- URI.
 resourceId :: Text -> Text
 resourceId id = intercalate "/" $ take 9 $ splitOn "/" $ toLower id

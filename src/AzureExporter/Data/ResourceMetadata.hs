@@ -1,8 +1,10 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module AzureExporter.Data.ResourceMetadata
-  ( ResourceMetadata (..)
-  -- Lenses
+  (
+  -- * Types
+    ResourceMetadata (..)
+  -- * Lenses
   , resourceGroup
   , resourceName
   , resourceProvider
@@ -13,6 +15,7 @@ module AzureExporter.Data.ResourceMetadata
 import Control.Lens (makeLenses)
 import Data.Text.Lazy (Text)
 
+-- | Data structure for breaking down an Azure resource URI.
 data ResourceMetadata =
   ResourceMetadata { _resourceGroup    :: Text
                    , _resourceName     :: Text
