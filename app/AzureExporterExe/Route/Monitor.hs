@@ -29,7 +29,7 @@ metrics = do
   let params = M.Params { M._aggregation = aggregation
                         , M._metricNames = metricNames
                         , M._resourceId  = target
-                        , M._timespan    = pack $ timespanFrom now 60 0
+                        , M._timespan    = pack $ timespanFrom now 150 90
                         }
   metrics <- raiseLeft =<< liftSTM (request $ M.request token params)
   text $ intercalate "\n" $ map renderGauge $ gauges metrics
