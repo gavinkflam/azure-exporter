@@ -1,7 +1,11 @@
 {-# LANGUAGE OverloadedStrings #-}
 
+-- |
+-- Utility to convert `ListMetricValuesResponse` to list of `Gauge`.
 module AzureExporter.Monitor
-  ( gauges
+  (
+  -- * Gauge
+    gauges
   ) where
 
 import qualified Azure.Data.Monitor.ListMetricValuesResponse as R
@@ -13,16 +17,22 @@ import qualified AzureExporter.Data.Gauge as G
 import qualified AzureExporter.Data.ResourceMetadata as D
 import           AzureExporter.Util.Resource (parseResourceId, resourceId)
 import           Control.Lens ((^.))
-import           Data.Scientific (Scientific)
 import           Data.Maybe (catMaybes)
+import           Data.Scientific (Scientific)
 import           Data.Text.Lazy (Text, intercalate, pack, unpack)
 import           Text.Casing (quietSnake)
 
+-- |
+-- Extract information from `ListMetricValuesResponse` and construct the
+-- corresponding list of `Gauge`.
 gauges :: R.ListMetricValuesResponse -> [G.Gauge]
 gauges r = concatMap fGauges metrics
   where fGauges = gaugesFromMetric $ r ^. R.resourceregion
         metrics = r ^. R.value
 
+-- |
+-- Extract information from `Metric` and construct the
+-- corresponding list of `Gauge`.
 gaugesFromMetric :: Text -> M.Metric -> [G.Gauge]
 gaugesFromMetric region metric = concatMap fGauges values
   where metadata   = parseResourceId $ metric ^. M._id
@@ -35,6 +45,9 @@ gaugesFromMetric region metric = concatMap fGauges values
         fGauges    = gaugesFromMetricValue namePrefix labels
         values     = concatMap (^. E._data) $ metric ^. M.timeseries
 
+-- |
+-- Extract information from `MetricValue` and construct the
+-- corresponding list of `Gauge`.
 gaugesFromMetricValue :: Text -> [(Text, Text)] -> V.MetricValue -> [G.Gauge]
 gaugesFromMetricValue namePrefix labels value =
   catMaybes [ fGauge "average" $ value ^. V.average
@@ -46,6 +59,8 @@ gaugesFromMetricValue namePrefix labels value =
               where fName  n = namePrefix <> "_" <> quietSnakeT n
                     fGauge n = gaugeFromAggregation (fName n) labels
 
+-- |
+-- Construct the corresponding list of `Gauge` for a individual aggregation.
 gaugeFromAggregation :: Text -> [(Text, Text)] -> Maybe Scientific -> Maybe G.Gauge
 gaugeFromAggregation _ _ Nothing          = Nothing
 gaugeFromAggregation name labels (Just n) =
@@ -55,7 +70,7 @@ gaugeFromAggregation name labels (Just n) =
                , G._value  = n
                }
 
--- Utilities
+-- | Derive labels from resource region, `ResourceMetadata` and `Metric`.
 deriveLabels :: Text -> D.ResourceMetadata -> M.Metric -> [(Text, Text)]
 deriveLabels resourceRegion metadata metric =
   [ ("resource_group",    metadata ^. D.resourceGroup)
@@ -67,8 +82,10 @@ deriveLabels resourceRegion metadata metric =
   , ("subscription_id",   metadata ^. D.subscriptionId)
   ]
 
+-- | Join the name segments in underscore delimited lower case manner.
 joinNameSegments :: [Text] -> Text
 joinNameSegments s = intercalate "_" $ map quietSnakeT s
 
+-- | Convert content in a `Text` into underscore delimited lower case manner.
 quietSnakeT :: Text -> Text
 quietSnakeT = pack . quietSnake . unpack
