@@ -47,7 +47,7 @@ url resourceId =
 -- <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#uri-parameters>
 queryParams :: Params -> [(ByteString, Maybe ByteString)]
 queryParams p =
-  [ ("api-version", Just $ toStrict $ encodeUtf8 $ monitorApiVersion)
+  [ ("api-version", Just $ toStrict $ encodeUtf8 monitorApiVersion)
   , ("aggregation", Just $ toStrict $ encodeUtf8 $ p ^. aggregation)
   , ("metricnames", Just $ toStrict $ encodeUtf8 $ p ^. metricNames)
   , ("timespan",    Just $ toStrict $ encodeUtf8 $ p ^. timespan)
