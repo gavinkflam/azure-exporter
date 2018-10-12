@@ -7,6 +7,8 @@ module Data.Dummy.Text
   , errorMessage
   , errorResponseJSON
   , errorValueJSON
+  , oAuth2ErrorResponseJSON
+  , oAuth2ErrorDescriptionLines
   -- * JSON
   , jsonValueJSON
   , jsonValueValue
@@ -31,7 +33,7 @@ module Data.Dummy.Text
   ) where
 
 import Data.ByteString.Lazy (ByteString)
-import Data.Text.Lazy (Text, pack)
+import Data.Text.Lazy (Text, intercalate, pack)
 import Data.Text.Lazy.Encoding (decodeUtf8, encodeUtf8)
 
 -- | Dummy error code.
@@ -56,6 +58,29 @@ errorValueJSON = encodeUtf8 $
     "\"code\": \"" <> errorCode <> "\"," <>
     "\"message\": \"" <> errorMessage <> "\"" <>
   "}"
+
+-- | Dummy `Azure.Data.OAuth2.ErrorResponse` in JSON ByteString.
+oAuth2ErrorResponseJSON :: ByteString
+oAuth2ErrorResponseJSON = encodeUtf8 $
+  "{" <>
+    "\"error\": \"interaction_required\"," <>
+    "\"error_description\": \"" <>
+      intercalate "\r\n" oAuth2ErrorDescriptionLines <> "\"," <>
+    "\"error_codes\": [50079]," <>
+    "\"timestamp\": \"2017-05-01 22:43:20Z\"," <>
+    "\"trace_id\": \"b72a68c3-0926-4b8e-bc35-3150069c2800\"," <>
+    "\"correlation_id\": \"73d656cf-54b1-4eb2-b429-26d8165a52d7\"," <>
+    "\"claims\": \"Truncated\"" <>
+  "}"
+
+-- | Dummy error description lines for `oAuth2ErrorResponseJSON`.
+oAuth2ErrorDescriptionLines :: [Text]
+oAuth2ErrorDescriptionLines =
+  [ "AADSTS50079: Truncated."
+  , "Trace ID: b72a68c3-0926-4b8e-bc35-3150069c2800"
+  , "Correlation ID: 73d656cf-54b1-4eb2-b429-26d8165a52d7"
+  , "Timestamp: 2017-05-01 22:43:20Z"
+  ]
 
 -- | Dummy `JsonValue` in JSON `ByteString`.
 jsonValueJSON :: ByteString

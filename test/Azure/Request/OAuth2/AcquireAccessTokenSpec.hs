@@ -40,6 +40,15 @@ spec = do
     it "contains the expected path" $
       C.unpack (path req) `shouldBe` expectedPath
 
+  let err = errorExtractor T.oAuth2ErrorResponseJSON
+
+  describe "errorExtractor" $ do
+    it "extracts the first line of error descriptions" $
+      err `shouldSatisfy` isJustOf (unpack $ head T.oAuth2ErrorDescriptionLines)
+
+    it "returns nothing for invalid error structure" $
+      errorExtractor T.jsonValueJSON `shouldBe` Nothing
+
 -- | Dummy `Params` item.
 params =
   Params { _clientId     = T.clientId
