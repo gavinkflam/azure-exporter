@@ -19,11 +19,12 @@ module Azure.Request.OAuth2.AcquireAccessToken
 import           Azure.Data.OAuth2.ErrorResponse (errorDescription)
 import           Control.Lens (makeLenses, (^.))
 import           Data.Aeson (decode)
-import           Data.Text.Lazy (Text, unpack)
+import           Data.Text.Lazy (Text, lines, stripEnd, unpack)
 import           Data.Text.Lazy.Encoding (encodeUtf8)
 import qualified Data.ByteString as BS
 import           Data.ByteString.Lazy (ByteString, toStrict)
 import           Network.HTTP.Client (Request, parseRequest_, urlEncodedBody)
+import           Prelude hiding (lines)
 
 -- | Parameters to construct `Request`.
 --
@@ -59,4 +60,5 @@ request p =
 
 -- | Extract readable error message from `ErrorResponse` JSON `ByteString`.
 errorExtractor :: ByteString -> Maybe String
-errorExtractor = fmap (head . lines . unpack . (^. errorDescription)) . decode
+errorExtractor =
+  fmap (unpack . stripEnd . head . lines . (^. errorDescription)) . decode
