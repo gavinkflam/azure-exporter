@@ -5,30 +5,38 @@ module Data.Dummy.Gauge
   -- * Gauge
     gauge
   , gaugeText
+  -- * ListMetricValuesResponse
+  , listMetricValuesResponse
   ) where
 
+import qualified Azure.Data.Monitor.ListMetricValuesResponse as R
+import qualified Azure.Data.Monitor.LocalizableString as LS
+import qualified Azure.Data.Monitor.Metric as M
+import qualified Azure.Data.Monitor.MetricValue as V
+import qualified Azure.Data.Monitor.TimeSeriesElement as E
 import qualified AzureExporter.Data.Gauge as G
 import           Control.Lens ((^.))
 import qualified Data.Dummy.Text as T
+import qualified Data.Dummy.Time as TI
 import           Data.Text.Lazy (Text, intercalate, pack, toLower)
 
--- | Dummy `Gauge`
+-- | Dummy `Gauge`.
 gauge :: G.Gauge
 gauge =
-  G.Gauge { G._name   = "azure_virtualmachines_cpu_percentage_average"
-          , G._help   = "azure_virtualmachines_cpu_percentage_average"
+  G.Gauge { G._name   = "azure_virtualmachines_percentage_cpu_percentage_average"
+          , G._help   = "azure_virtualmachines_percentage_cpu_percentage_average"
           , G._labels = [ ("resource_group",    toLower T.resourceGroup)
                         , ("resource_id",       toLower T.resourceId)
                         , ("resource_name",     toLower T.resourceName)
                         , ("resource_provider", toLower T.resourceProvider)
                         , ("resource_region",   toLower T.resourceRegion)
                         , ("resource_type",     toLower T.resourceType)
-                        , ("subResource_id",    T.subscriptionId)
+                        , ("subscription_id",   T.subscriptionId)
                         ]
           , G._value  = 4.2
           }
 
--- | `gauge` in Prometheus exporter syntax
+-- | `gauge` in Prometheus exporter syntax.
 gaugeText :: Text
 gaugeText =
   "# HELP " <> gauge ^. G.name <> " " <> gauge ^. G.help <> "\n" <>
@@ -37,3 +45,44 @@ gaugeText =
     intercalate "," (map label $ gauge ^. G.labels) <>
   "} " <> pack (show $ gauge ^. G.value)
     where label (k, v) = k <> "=\"" <> v <> "\""
+
+-- | The type for metrics.
+metricsType :: Text
+metricsType = "Microsoft.Insights/metrics"
+
+-- | The corresponding `ListMetricValuesResponse` for `gauge`.
+listMetricValuesResponse :: R.ListMetricValuesResponse
+listMetricValuesResponse =
+  R.ListMetricValuesResponse
+    { R._cost                  = 0
+    , R._interval              = "PT1M"
+    , R._namespace             = "Microsoft.Compute/virtualMachines"
+    , R._resourceregion        = T.resourceRegion
+    , R._timespan              = pack TI.dummyTimespan
+    , R._value                 =
+      [ M.Metric
+        { M.__id               =
+          T.resourceId <> "/" <> metricsType <> "/Percentage CPU"
+        , M.__type             = metricsType
+        , M._name              = LS.LocalizableString
+          { LS._value          = "Percentage CPU"
+          , LS._localizedValue = "Percentage CPU"
+          }
+        , M._unit              = "Percentage"
+        , M._timeseries        =
+          [ E.TimeSeriesElement
+            { E.__data         =
+              [ V.MetricValue
+                { V._average   = Just 4.2
+                , V._count     = Nothing
+                , V._maximum   = Nothing
+                , V._minimum   = Nothing
+                , V._timeStamp = TI.timestampFrom
+                , V._total     = Nothing
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
