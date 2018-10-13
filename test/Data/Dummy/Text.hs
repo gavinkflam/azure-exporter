@@ -26,6 +26,7 @@ module Data.Dummy.Text
   , resourceName
   , resourceProvider
   , resourceType
+  , resourceRegion
   , subscriptionId
   , subResourceId
   -- * Timespan
@@ -141,6 +142,10 @@ resourceProvider = "Microsoft.Compute"
 -- | Resource type for `resourceId`.
 resourceType :: Text
 resourceType = "virtualMachines"
+
+-- | Resource region for fictional dummy resource.
+resourceRegion :: Text
+resourceRegion = "eastasia"
 
 -- | Subscription ID for `resourceId`.
 subscriptionId :: Text

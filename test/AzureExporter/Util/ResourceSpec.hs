@@ -2,7 +2,7 @@
 -- Test utility functions related to Azure resources.
 module AzureExporter.Util.ResourceSpec
   (
-  -- *
+  -- * Spec
     spec
   ) where
 
