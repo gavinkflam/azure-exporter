@@ -38,13 +38,14 @@ gauge =
 
 -- | `gauge` in Prometheus exporter syntax.
 gaugeText :: Text
-gaugeText =
-  "# HELP " <> gauge ^. G.name <> " " <> gauge ^. G.help <> "\n" <>
-  "# TYPE " <> gauge ^. G.name <> " gauge\n" <>
-  gauge ^. G.name <> "{" <>
-    intercalate "," (map label $ gauge ^. G.labels) <>
-  "} " <> pack (show $ gauge ^. G.value)
+gaugeText = intercalate "\n"
+  [ "# HELP " <> (gauge ^. G.name) <> " " <> (gauge ^. G.help)
+  , "# TYPE " <> (gauge ^. G.name) <> " gauge"
+  , (gauge ^. G.name) <> "{" <> labels <> "} " <> value
+  ]
     where label (k, v) = k <> "=\"" <> v <> "\""
+          labels = intercalate "," $ map label (gauge ^. G.labels)
+          value  = pack $ show (gauge ^. G.value)
 
 -- | The type for metrics.
 metricsType :: Text

@@ -23,19 +23,19 @@ spec = do
 
   describe "parseResourceId" $ do
     it "extracts the resource group correctly" $
-      meta ^. M.resourceGroup `shouldBe` toLower T.resourceGroup
+      (meta ^. M.resourceGroup) `shouldBe` toLower T.resourceGroup
 
     it "extracts the resource name correctly" $
-      meta ^. M.resourceName `shouldBe` toLower T.resourceName
+      (meta ^. M.resourceName) `shouldBe` toLower T.resourceName
 
     it "extracts the resource provider correctly" $
-      meta ^. M.resourceProvider `shouldBe` toLower T.resourceProvider
+      (meta ^. M.resourceProvider) `shouldBe` toLower T.resourceProvider
 
     it "extracts the resource type correctly" $
-      meta ^. M.resourceType `shouldBe` toLower T.resourceType
+      (meta ^. M.resourceType) `shouldBe` toLower T.resourceType
 
     it "extracts the subscription ID correctly" $
-      meta ^. M.subscriptionId `shouldBe` toLower T.subscriptionId
+      (meta ^. M.subscriptionId) `shouldBe` toLower T.subscriptionId
 
   describe "resourceId" $ do
     it "extracts the top-level resource ID" $

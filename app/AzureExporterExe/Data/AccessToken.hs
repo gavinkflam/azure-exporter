@@ -25,7 +25,7 @@ makeLenses ''AccessToken
 fromResponse :: R.AcquireAccessTokenResponse -> AccessToken
 fromResponse r =
   AccessToken { _accessToken = r ^. R.accessToken
-              , _expiresOn   = parseTimestampText $ r ^. R.expiresOn
+              , _expiresOn   = parseTimestampText (r ^. R.expiresOn)
               }
 
 parseTimestampText :: Text -> UTCTime

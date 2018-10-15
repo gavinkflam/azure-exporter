@@ -49,8 +49,8 @@ form :: Params -> [(BS.ByteString, BS.ByteString)]
 form p =
   [ ("grant_type",    "client_credentials")
   , ("resource",      "https://management.azure.com/")
-  , ("client_id",     toStrict $ encodeUtf8 $ p ^. clientId)
-  , ("client_secret", toStrict $ encodeUtf8 $ p ^. clientSecret)
+  , ("client_id",     toStrict $ encodeUtf8 (p ^. clientId))
+  , ("client_secret", toStrict $ encodeUtf8 (p ^. clientSecret))
   ]
 
 -- | Construct `Request` from `Params`.

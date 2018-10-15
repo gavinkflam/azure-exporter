@@ -48,9 +48,9 @@ url resourceId =
 queryParams :: Params -> [(ByteString, Maybe ByteString)]
 queryParams p =
   [ ("api-version", Just $ toStrict $ encodeUtf8 monitorApiVersion)
-  , ("aggregation", Just $ toStrict $ encodeUtf8 $ p ^. aggregation)
-  , ("metricnames", Just $ toStrict $ encodeUtf8 $ p ^. metricNames)
-  , ("timespan",    Just $ toStrict $ encodeUtf8 $ p ^. timespan)
+  , ("aggregation", Just $ toStrict $ encodeUtf8 (p ^. aggregation))
+  , ("metricnames", Just $ toStrict $ encodeUtf8 (p ^. metricNames))
+  , ("timespan",    Just $ toStrict $ encodeUtf8 (p ^. timespan))
   ]
 
 -- | Construct `Request` from access token and `Params`.
@@ -58,4 +58,4 @@ request :: Text -> Params -> Request
 request token p =
   setQueryString params $ addAuthHeader token req
     where params = queryParams p
-          req    = parseRequest_ $ url $ p ^. resourceId
+          req    = parseRequest_ $ url (p ^. resourceId)

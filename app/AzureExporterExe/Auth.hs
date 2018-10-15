@@ -48,4 +48,4 @@ refreshToken = do
 tokenExpired :: NominalDiffTime -> T.AccessToken -> IO Bool
 tokenExpired offset t = do
   now <- getSystemTime
-  return $ t ^. T.expiresOn < addUTCTime (- offset) (systemToUTCTime now)
+  return $ (t ^. T.expiresOn) < addUTCTime (- offset) (systemToUTCTime now)

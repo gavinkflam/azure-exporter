@@ -27,7 +27,7 @@ import           Text.Casing (quietSnake)
 -- corresponding list of `Gauge`.
 gauges :: R.ListMetricValuesResponse -> [G.Gauge]
 gauges r = concatMap fGauges metrics
-  where fGauges = gaugesFromMetric $ r ^. R.resourceregion
+  where fGauges = gaugesFromMetric (r ^. R.resourceregion)
         metrics = r ^. R.value
 
 -- |
@@ -35,7 +35,7 @@ gauges r = concatMap fGauges metrics
 -- corresponding list of `Gauge`.
 gaugesFromMetric :: Text -> M.Metric -> [G.Gauge]
 gaugesFromMetric region metric = concatMap fGauges values
-  where metadata   = parseResourceId $ metric ^. M._id
+  where metadata   = parseResourceId (metric ^. M._id)
         namePrefix = joinNameSegments [ "azure"
                                       , metadata ^. D.resourceType
                                       , metric ^. M.name ^. LS.value
@@ -43,18 +43,18 @@ gaugesFromMetric region metric = concatMap fGauges values
                                       ]
         labels     = deriveLabels region metadata metric
         fGauges    = gaugesFromMetricValue namePrefix labels
-        values     = concatMap (^. E._data) $ metric ^. M.timeseries
+        values     = concatMap (^. E._data) (metric ^. M.timeseries)
 
 -- |
 -- Extract information from `MetricValue` and construct the
 -- corresponding list of `Gauge`.
 gaugesFromMetricValue :: Text -> [(Text, Text)] -> V.MetricValue -> [G.Gauge]
 gaugesFromMetricValue namePrefix labels value =
-  catMaybes [ fGauge "average" $ value ^. V.average
-            , fGauge "count"   $ value ^. V.count
-            , fGauge "maximum" $ value ^. V.maximum
-            , fGauge "minimum" $ value ^. V.minimum
-            , fGauge "total"   $ value ^. V.total
+  catMaybes [ fGauge "average" (value ^. V.average)
+            , fGauge "count"   (value ^. V.count)
+            , fGauge "maximum" (value ^. V.maximum)
+            , fGauge "minimum" (value ^. V.minimum)
+            , fGauge "total"   (value ^. V.total)
             ]
               where fName  n = namePrefix <> "_" <> quietSnakeT n
                     fGauge n = gaugeFromAggregation (fName n) labels
@@ -74,7 +74,7 @@ gaugeFromAggregation name labels (Just n) =
 deriveLabels :: Text -> D.ResourceMetadata -> M.Metric -> [(Text, Text)]
 deriveLabels resourceRegion metadata metric =
   [ ("resource_group",    metadata ^. D.resourceGroup)
-  , ("resource_id",       resourceId $ metric ^. M._id)
+  , ("resource_id",       resourceId (metric ^. M._id))
   , ("resource_name",     metadata ^. D.resourceName)
   , ("resource_provider", metadata ^. D.resourceProvider)
   , ("resource_region",   resourceRegion)

@@ -1,5 +1,4 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE QuasiQuotes #-}
 
 -- |
 -- Utility to render a `Gauge` in Prometheus exporter syntax.
@@ -12,8 +11,7 @@ module AzureExporter.Text.Gauge
 import qualified AzureExporter.Data.Gauge as G
 import           Control.Lens ((^.))
 import           Data.Monoid (mconcat)
-import           Data.String.Here (iTrim)
-import           Data.Text.Lazy (Text, intercalate)
+import           Data.Text.Lazy (Text, intercalate, pack)
 
 -- | Render a `Gauge` in Prometheus exporter syntax.
 --
@@ -23,11 +21,12 @@ import           Data.Text.Lazy (Text, intercalate)
 -- metric_name{name1="value1",name2="value2"} 0.42
 -- @
 renderGauge :: G.Gauge -> Text
-renderGauge g = [iTrim|
-# HELP ${g ^. G.name} ${g ^. G.help}
-# TYPE ${g ^. G.name} gauge
-${g ^. G.name}${renderLabels $ g ^. G.labels} ${g ^. G.value}
-|]
+renderGauge g = intercalate "\n"
+  [ "# HELP " <> (g ^. G.name) <> " " <> (g ^. G.help)
+  , "# TYPE " <> (g ^. G.name) <> " gauge"
+  , (g ^. G.name) <> renderLabels (g ^. G.labels) <> " " <> v
+  ]
+    where v = pack $ show (g ^. G.value)
 
 -- |
 -- Render labels in Prometheus exporter syntax.

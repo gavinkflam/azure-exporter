@@ -32,11 +32,11 @@ errorExtractor bs =
 
 -- | Extract readable error message from `ErrorResponse`.
 errorResponseExtractor :: E.ErrorResponse -> String
-errorResponseExtractor e = errorValueExtractor $ e ^. E._error
+errorResponseExtractor e = errorValueExtractor (e ^. E._error)
 
 -- | Extract readable error message from `ErrorValue`.
 errorValueExtractor :: V.ErrorValue -> String
-errorValueExtractor v = T.unpack $ v ^. V.code <> ": " <> v ^. V.message
+errorValueExtractor v = T.unpack $ (v ^. V.code) <> ": " <> (v ^. V.message)
 
 -- |
 -- Deserialize the JSON `ByteString`, or extract a readable error message using
