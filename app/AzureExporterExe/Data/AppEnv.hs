@@ -1,8 +1,9 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module AzureExporterExe.Data.AppEnv
+  -- * Types
   ( AppEnv (..)
-  -- Lenses
+  -- * Lenses
   , accessToken
   , config
   , httpManager
@@ -13,6 +14,7 @@ import AzureExporterExe.Data.Config (Config)
 import Control.Lens (makeLenses)
 import Network.HTTP.Client (Manager)
 
+-- | The shared application state for actions to persist cachable information.
 data AppEnv =
   AppEnv { _accessToken :: Maybe AccessToken
          , _config      :: Config

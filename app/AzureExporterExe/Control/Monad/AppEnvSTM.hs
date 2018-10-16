@@ -1,13 +1,17 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
--- Modified from Scotty global state example
--- https://github.com/scotty-web/scotty/blob/master/examples/globalstate.hs
+-- |
+-- STM varialbe reader Monad for sharing `AppEnv`.
+--
+-- Inspired from Scotty global state example.
+--
+-- <https://github.com/scotty-web/scotty/blob/master/examples/globalstate.hs>
 module AzureExporterExe.Control.Monad.AppEnvSTM
+  -- * Monad
   ( AppEnvSTM (..)
-  -- Transform
   , liftSTM
   , runAppEnvSTMIntoIO
-  -- STM
+  -- * STM
   , readAppEnv
   , modifyAppEnv
   ) where
@@ -16,22 +20,25 @@ import AzureExporterExe.Data.AppEnv (AppEnv)
 import Control.Concurrent.STM (TVar, atomically, modifyTVar', readTVarIO)
 import Control.Monad.Reader
 
+-- | Reader monad providing the `AppEnv` STM variable.
 newtype AppEnvSTM a =
   AppEnvSTM { runAppEnvTVarReader :: ReaderT (TVar AppEnv) IO a
             } deriving ( Applicative, Functor, Monad, MonadIO
                        , MonadReader (TVar AppEnv)
                        )
 
--- Transform
+-- | Lift a computation from the `AppEnvSTM` monad.
 liftSTM :: MonadTrans t => AppEnvSTM a -> t AppEnvSTM a
 liftSTM = lift
 
+-- | Run the `AppEnvSTM` effect into `IO` effect.
 runAppEnvSTMIntoIO :: TVar AppEnv -> AppEnvSTM a -> IO a
 runAppEnvSTMIntoIO var a = runReaderT (runAppEnvTVarReader a) var
 
--- STM
+-- | Read the shared `AppEnv` from STM.
 readAppEnv :: AppEnvSTM AppEnv
 readAppEnv = ask >>= liftIO . readTVarIO
 
+-- | Update the shared `AppEnv` to STM.
 modifyAppEnv :: (AppEnv -> AppEnv) -> AppEnvSTM ()
 modifyAppEnv f = ask >>= liftIO . atomically . flip modifyTVar' f

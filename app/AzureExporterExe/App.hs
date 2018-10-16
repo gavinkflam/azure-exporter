@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module AzureExporterExe.App
+  -- * Scotty App
   ( app
   ) where
 
@@ -10,6 +11,7 @@ import           Data.Text.Lazy (Text)
 import           Network.Wai.Middleware.RequestLogger (logStdout)
 import           Web.Scotty.Trans (ScottyT, get, middleware)
 
+-- | Scotty application for the exporter HTTP server.
 app :: ScottyT Text AppEnvSTM ()
 app = do
   middleware logStdout

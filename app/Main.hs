@@ -10,6 +10,7 @@ import Network.HTTP.Client (newManager)
 import Network.HTTP.Client.TLS (tlsManagerSettings)
 import Web.Scotty.Trans (scottyT)
 
+-- | Entry point for exporter HTTP server.
 main :: IO ()
 main = do
   config  <- getConfig
