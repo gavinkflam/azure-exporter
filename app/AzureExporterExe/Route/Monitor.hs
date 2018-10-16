@@ -1,24 +1,27 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module AzureExporterExe.Route.Monitor
+  -- * Routes
   ( metrics
   ) where
 
 import qualified Azure.Request.Monitor.ListMetricValues as M
 import           Azure.Text.Timespan (timespanFrom)
 import           AzureExporter.Monitor (gauges)
-import           AzureExporterExe.HTTP (request)
 import           AzureExporter.Text.Gauge (renderGauge)
+import           AzureExporterExe.HTTP (request)
 import           AzureExporterExe.Auth (getTokenOrRaise, refreshTokenIfExpired)
 import           AzureExporterExe.Control.Monad.AppEnvSTM (AppEnvSTM, liftSTM)
 import           AzureExporterExe.Control.Monad.Either (raiseLeft)
+import           AzureExporterExe.Types (AppAction)
 import           Control.Lens ((^.))
 import           Control.Monad.IO.Class (liftIO)
 import           Data.Text.Lazy (Text, intercalate, pack)
 import           Data.Time.Clock (getCurrentTime)
-import           Web.Scotty.Trans (ActionT, param, text)
+import           Web.Scotty.Trans (param, text)
 
-metrics :: ActionT Text AppEnvSTM ()
+-- | Route for Azure Monitor metrics.
+metrics :: AppAction ()
 metrics = do
   target      <- param "target"
   metricNames <- param "metricNames"
