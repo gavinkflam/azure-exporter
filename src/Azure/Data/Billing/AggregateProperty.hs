@@ -1,4 +1,4 @@
-{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
 
 module Azure.Data.Billing.AggregateProperty
@@ -19,12 +19,14 @@ module Azure.Data.Billing.AggregateProperty
   , quantity
   ) where
 
-import Azure.Data.Aeson.Options (aesonOptions)
+import Data.Text.Lazy (Text)
+
 import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Scientific (Scientific)
-import Data.Text.Lazy (Text)
-import GHC.Generics
+
+import Azure.Data.Aeson.Options (aesonOptions)
+import Azure.Data.Billing.InstanceData (InstanceData)
 
 -- | AggregateProperty
 --
@@ -39,11 +41,24 @@ data AggregateProperty =
                     , _unit             :: Maybe Text
                     , _usageStartTime   :: Text
                     , _usageEndTime     :: Text
-                    , _instanceData     :: Maybe Text
+                    , _instanceData     :: Maybe InstanceData
                     , _quantity         :: Scientific
-                    } deriving (Generic, Show)
+                    } deriving (Show)
 
 instance FromJSON AggregateProperty where
-  parseJSON = genericParseJSON aesonOptions
+  parseJSON =
+    withObject "AggregateProperty" $ \v -> AggregateProperty
+      <$>  v .:  "meterId"
+      <*>  v .:? "meterCategory"
+      <*>  v .:? "meterSubCategory"
+      <*>  v .:? "meterName"
+      <*>  v .:? "meterRegion"
+      <*>  v .:  "subscriptionId"
+      <*>  v .:? "unit"
+      <*>  v .:  "usageStartTime"
+      <*>  v .:  "usageEndTime"
+      <*> (v .:? "instanceData"
+             >>= traverse (withEmbeddedJSON "InstanceData" parseJSON))
+      <*>  v .:  "quantity"
 
 makeLenses ''AggregateProperty
