@@ -21,6 +21,12 @@ module Data.Dummy.Text
   , clientId
   , clientSecret
   , tenantId
+  -- * Rate Card
+  , offerId
+  , currency
+  , locale
+  , regionInfo
+  , filterQuery
   -- * Resource
   , resourceId
   , resourceGroup
@@ -123,6 +129,35 @@ clientSecret = "aHR0cHM6Ly9naXRsYWIuY29tL2dhdmlua2ZsYW0vYXp1cmUtZXhwb3J0ZXI="
 -- | Dummy tenant ID.
 tenantId :: Text
 tenantId = "ab2a7c40-80ea-4cd3-9ea1-10552c4df51d"
+
+-- | Dummy offer ID for `filterQuery`.
+offerId :: Text
+offerId = "MS-AZR-0003p"
+
+-- | Dummy currency for `filterQuery`.
+currency :: Text
+currency = "USD"
+
+-- | Dummy locale for `filterQuery`.
+locale :: Text
+locale = "en-US"
+
+-- | Dummy region info for `filterQuery`.
+regionInfo :: Text
+regionInfo = "US"
+
+-- | Dummy filter query.
+filterQuery :: Text
+filterQuery =
+  "OfferDurableId eq '"
+  <> offerId
+  <> "' and Currency eq '"
+  <> currency
+  <> "' and Locale eq '"
+  <> locale
+  <> "' and RegionInfo eq '"
+  <> regionInfo
+  <> "'"
 
 -- | Dummy resource URI.
 resourceId :: Text
