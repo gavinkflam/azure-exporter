@@ -7,14 +7,16 @@ module AzureExporterExe.HTTP
   , request
   ) where
 
-import           Azure.Data.Aeson.Parser (errorExtractor, mapEitherDecode)
+import           Control.Monad.IO.Class (liftIO)
+import           Data.ByteString.Lazy (ByteString)
+
+import           Control.Lens ((^.))
+import           Data.Aeson (FromJSON)
+import           Network.HTTP.Client (Manager, Request, httpLbs, responseBody)
+
+import           Azure.Data.Aeson.Parser (ErrorHandler, errorExtractor, mapEitherDecode)
 import           AzureExporterExe.Control.Monad.AppEnvSTM
 import qualified AzureExporterExe.Data.AppEnv as E
-import           Control.Lens ((^.))
-import           Control.Monad.IO.Class (liftIO)
-import           Data.Aeson (FromJSON)
-import           Data.ByteString.Lazy (ByteString)
-import           Network.HTTP.Client (Manager, Request, httpLbs, responseBody)
 
 -- |
 -- Response comprising either `String` error messages or `FromJSON` response
@@ -30,9 +32,7 @@ type Response a   = AppEnvSTM (Either String a)
 -- Make a request with `IO` effect.
 --
 -- HTTP `Manager` and the error handler are required.
-requestIO
-  :: FromJSON a
-  => Manager -> (ByteString -> Maybe String) -> Request -> IOResponse a
+requestIO :: FromJSON a => Manager -> ErrorHandler -> Request -> IOResponse a
 requestIO manager handler request = do
   res <- httpLbs request manager
   return $ mapEitherDecode handler $ responseBody res

@@ -16,6 +16,7 @@ module Azure.Request.OAuth2.AcquireAccessToken
   , errorExtractor
   ) where
 
+import           Azure.Data.Aeson.Parser (ErrorHandler)
 import           Azure.Data.OAuth2.ErrorResponse (errorDescription)
 import           Control.Lens (makeLenses, (^.))
 import           Data.Aeson (decode)
@@ -59,6 +60,6 @@ request p =
   urlEncodedBody (form p) $ parseRequest_ $ "POST " <> url (p ^. tenantId)
 
 -- | Extract readable error message from `ErrorResponse` JSON `ByteString`.
-errorExtractor :: ByteString -> Maybe String
+errorExtractor :: ErrorHandler
 errorExtractor =
   fmap (unpack . stripEnd . head . lines . (^. errorDescription)) . decode
