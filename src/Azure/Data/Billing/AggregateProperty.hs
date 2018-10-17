@@ -31,15 +31,15 @@ import GHC.Generics
 -- <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)#json-element-definitions>
 data AggregateProperty =
   AggregateProperty { _meterId          :: Text
-                    , _meterCategory    :: Text
+                    , _meterCategory    :: Maybe Text
                     , _meterSubCategory :: Maybe Text
-                    , _meterName        :: Text
+                    , _meterName        :: Maybe Text
                     , _meterRegion      :: Maybe Text
                     , _subscriptionId   :: Text
-                    , _unit             :: Text
+                    , _unit             :: Maybe Text
                     , _usageStartTime   :: Text
                     , _usageEndTime     :: Text
-                    , _instanceData     :: Text
+                    , _instanceData     :: Maybe Text
                     , _quantity         :: Scientific
                     } deriving (Generic, Show)
 
