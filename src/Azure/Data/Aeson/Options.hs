@@ -37,7 +37,7 @@ capitalizeAesonOptions =
 -- | Capitalize the first character of a given `String`.
 capitalize :: String -> String
 capitalize [] = []
-capitalize (x:xs) = [toUpper x] ++ xs
+capitalize (x:xs) = toUpper x : xs
 
 -- |
 -- Aeson encoding options for OAuth2 API data structures.

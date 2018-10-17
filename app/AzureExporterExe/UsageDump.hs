@@ -19,6 +19,7 @@ import qualified Azure.Data.Billing.Meter as M
 import qualified Azure.Data.Billing.UsageAggregate as U
 import qualified Azure.Request.Billing.GetRateCard as G
 import qualified Azure.Request.Billing.ListUsageAggregates as A
+import           AzureExporter.Billing (gauges)
 import           AzureExporterExe.Auth (acquireToken)
 import           AzureExporterExe.Control.Monad.Either (dieLeft)
 import qualified AzureExporterExe.Data.AccessToken as T
@@ -36,7 +37,7 @@ dumpUsage = do
       aParams = A.Params { A._subscriptionId         = config ^. C.subscriptionId
                          , A._aggregationGranularity = "daily"
                          , A._reportedStartTime      = "2018-06-01T00:00:00+00:00"
-                         , A._reportedEndTime        = "2018-10-01T00:00:00+00:00"
+                         , A._reportedEndTime        = "2018-06-02T00:00:00+00:00"
                          , A._continuationToken      = Nothing
                          }
       gParams = G.Params { G._subscriptionId = config ^. C.subscriptionId
@@ -45,15 +46,9 @@ dumpUsage = do
                          , G._locale         = "en-US"
                          , G._regionInfo     = "US"
                          }
-  usages <- fetchUsages manager token aParams
-  print $ show $ length usages
-  print $ show $ head usages
-
-  meters <- fetchMeters manager token gParams
-  print $ show $ length meters
-  print $ show $ head meters
-
-  return ()
+  usages   <- fetchUsages manager token aParams
+  rateCard <- fetchRateCard manager token gParams
+  print $ show $ gauges rateCard usages
 
 -- |
 -- Fetch usage aggregates from Azure while recursively fetching with the
@@ -68,9 +63,8 @@ fetchUsages manager token params = do
     Just _  -> (++ (res ^. AR.value)) <$> fetchUsages manager token nParams
       where nParams = params { A._continuationToken = AR.continuationToken res }
 
--- | Fetch rate card meters from Azure.
-fetchMeters :: Manager -> Text -> G.Params -> IO [M.Meter]
-fetchMeters manager token params = do
+-- | Fetch rate card from Azure.
+fetchRateCard :: Manager -> Text -> G.Params -> IO GR.GetRateCardResponse
+fetchRateCard manager token params = do
   let req = G.request token params
-  res <- dieLeft =<< liftIO (requestIO manager errorExtractor req)
-  return (res ^. GR.meters)
+  dieLeft =<< liftIO (requestIO manager errorExtractor req)
