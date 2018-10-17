@@ -42,17 +42,20 @@ gaugesFromUsageAggregate currency meters usage =
   [ Just G.Gauge { G._name   = namePrefix <> "_usage"
                  , G._help   = namePrefix <> "_usage"
                  , G._labels = labels
-                 , G._value  = usage ^. U.properties ^. P.quantity
+                 , G._value  = quantity
                  }
   , costGauge <$> H.lookup (usage ^. U.properties ^. P.meterId) meters
   ]
     where namePrefix  = gaugeName usage
           labels      = gaugeLabels usage
+          quantity    = usage ^. U.properties ^. P.quantity
+          -- TODO: Resolve the real per-unit cost
+          unitCost m  = head $ H.elems (m ^. M.meterRates)
           costGauge m =
             G.Gauge { G._name   = namePrefix <> "_cost"
                     , G._help   = namePrefix <> "_cost"
                     , G._labels = labels
-                    , G._value  = head $ H.elems (m ^. M.meterRates)
+                    , G._value  = quantity * unitCost m
                     }
 
 -- | Derive gauge name from `UsageAggregate`.
@@ -64,6 +67,7 @@ gaugeName u =
 
 -- | Derive gauge labels from `UsageAggregate`.
 gaugeLabels :: U.UsageAggregate -> [(T.Text, T.Text)]
+-- TODO: Derive real labels
 gaugeLabels u = []
 
 -- |
