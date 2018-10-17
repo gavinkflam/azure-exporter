@@ -1,7 +1,7 @@
 module AzureExporterExe.HTTP
   -- * Types
   ( IOResponse
-  , Response
+  , STMResponse
   -- * Requests
   , requestIO
   , request
@@ -26,7 +26,7 @@ type IOResponse a = IO (Either String a)
 -- |
 -- Response comprising either `String` error messages or `FromJSON` response
 -- with `AppEnvSTM` effect.
-type Response a   = AppEnvSTM (Either String a)
+type STMResponse a = AppEnvSTM (Either String a)
 
 -- |
 -- Make a request with `IO` effect.
@@ -43,7 +43,7 @@ requestIO manager handler request = do
 -- HTTP `Manager` will be obtained from the shared `AppEnv`.
 --
 -- `errorExtractor` will be applied as the error handler.
-request :: FromJSON a => Request -> Response a
+request :: FromJSON a => Request -> STMResponse a
 request request = do
   manager <- fmap (^. E.httpManager) readAppEnv
   liftIO $ requestIO manager errorExtractor request
