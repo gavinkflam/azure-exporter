@@ -14,7 +14,6 @@ module Azure.Request.Monitor.ListMetricValues
   ) where
 
 import Azure.Contract (monitorApiVersion)
-import Azure.Data.Monitor.ListMetricValuesResponse (ListMetricValuesResponse)
 import Azure.Util.HTTP (addAuthHeader)
 import Control.Lens (makeLenses, (^.))
 import Data.Text.Lazy (Text, unpack)

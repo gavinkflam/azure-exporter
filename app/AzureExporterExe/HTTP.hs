@@ -12,7 +12,7 @@ import           Data.ByteString.Lazy (ByteString)
 
 import           Control.Lens ((^.))
 import           Data.Aeson (FromJSON)
-import           Network.HTTP.Client (Manager, Request, httpLbs, responseBody)
+import           Network.HTTP.Client (Manager, Request, httpLbs)
 
 import           Azure.Data.Aeson.Parser (ErrorHandler, errorExtractor, mapEitherDecode)
 import           AzureExporterExe.Control.Monad.AppEnvSTM
@@ -35,7 +35,7 @@ type STMResponse a = AppEnvSTM (Either String a)
 requestIO :: FromJSON a => Manager -> ErrorHandler -> Request -> IOResponse a
 requestIO manager handler request = do
   res <- httpLbs request manager
-  return $ mapEitherDecode handler $ responseBody res
+  return $ mapEitherDecode handler res
 
 -- |
 -- Make a request with `AppEnvSTM` effect.
