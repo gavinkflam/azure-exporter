@@ -20,7 +20,7 @@ import Data.Text.Lazy (Text, unpack)
 import Data.Text.Lazy.Encoding (encodeUtf8)
 import Data.ByteString (ByteString)
 import Data.ByteString.Lazy (toStrict)
-import Network.HTTP.Client (Request, parseRequest_, setQueryString)
+import Network.HTTP.Client (Request(..), parseRequest_, responseTimeoutMicro, setQueryString)
 
 -- | Parameters to construct `Request`.
 --
@@ -67,9 +67,13 @@ maybeAdd
 maybeAdd params name (Just v) = params ++ [(name, Just v)]
 maybeAdd params _ _           = params
 
--- | Construct `Request` from access token and `Params`.
+-- |
+-- Construct `Request` from access token and `Params`.
+--
+-- The `Request` has a modified response timeout of 90 seconds.
 request :: Text -> Params -> Request
 request token p =
-  setQueryString params $ addAuthHeader token req
+  setQueryString params $ addAuthHeader token req'
     where params = queryParams p
           req    = parseRequest_ $ url (p ^. subscriptionId)
+          req'   = req { responseTimeout = responseTimeoutMicro 90000000 }
