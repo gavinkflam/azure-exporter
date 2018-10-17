@@ -56,6 +56,6 @@ mapEitherDecode
   :: A.FromJSON a => ErrorHandler -> Response ByteString -> Either String a
 mapEitherDecode f res =
   case responseStatus res of
-    s | elem s [ok200, created201] -> A.eitherDecode b
-    _                              -> Left $ fromMaybe (BS.unpack b) $ f b
+    s | s `elem` [ok200, created201] -> A.eitherDecode b
+    _                                -> Left $ fromMaybe (BS.unpack b) $ f b
     where b = responseBody res

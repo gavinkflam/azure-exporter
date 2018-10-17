@@ -46,12 +46,26 @@ url subscriptionId =
 --
 -- <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)#request>
 queryParams :: Params -> [(ByteString, Maybe ByteString)]
-queryParams p =
-  [ ("api-version",            Just $ toStrict $ encodeUtf8 billingApiVersion)
-  , ("aggregationGranularity", Just $ toStrict $ encodeUtf8 (p ^. aggregationGranularity))
-  , ("reportedStartTime",      Just $ toStrict $ encodeUtf8 (p ^. reportedStartTime))
-  , ("reportedEndTime",        Just $ toStrict $ encodeUtf8 (p ^. reportedEndTime))
-  ]
+queryParams p = maybeAdd params "continuationToken" maybeToken
+  where maybeToken = fmap (toStrict . encodeUtf8) (p ^. continuationToken)
+        param      = Just . toStrict . encodeUtf8
+        params     =
+          [ ("api-version",            param billingApiVersion)
+          , ("aggregationGranularity", param (p ^. aggregationGranularity))
+          , ("reportedStartTime",      param (p ^. reportedStartTime))
+          , ("reportedEndTime",        param (p ^. reportedEndTime))
+          ]
+
+-- |
+-- Add the parameter to `Params` for `Just` value, or return the original
+-- `Params` if `Nothing`.
+maybeAdd
+  :: [(ByteString, Maybe ByteString)]
+  -> ByteString
+  -> Maybe ByteString
+  -> [(ByteString, Maybe ByteString)]
+maybeAdd params name (Just v) = params ++ [(name, Just v)]
+maybeAdd params _ _           = params
 
 -- | Construct `Request` from access token and `Params`.
 request :: Text -> Params -> Request

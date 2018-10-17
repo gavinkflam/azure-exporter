@@ -44,6 +44,9 @@ spec = do
     it "contains reported end time query item" $
       qItems `shouldContain` [("reportedEndTime", toBS M.timestampTo)]
 
+    it "contains continuation token query item" $
+      qItems `shouldContain` [("continuationToken", "something")]
+
     it "contains the expected path" $
       C.unpack (path req) `shouldBe` expectedPath
 
@@ -53,7 +56,7 @@ params =
          , _aggregationGranularity = "daily"
          , _reportedStartTime      = M.timestampFrom
          , _reportedEndTime        = M.timestampTo
-         , _continuationToken      = Nothing
+         , _continuationToken      = Just "something"
          }
 
 -- |
