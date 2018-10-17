@@ -12,6 +12,7 @@ module Data.Dummy.Text
   -- * JSON
   , jsonValueJSON
   , jsonValueValue
+  , jsonValueError
   -- * Metrics
   , aggregation
   , metricNames
@@ -93,6 +94,10 @@ jsonValueJSON = encodeUtf8 $
 -- | Dummy inner value of `JsonValue` JSON `ByteString`.
 jsonValueValue :: Int
 jsonValueValue = 42
+
+-- | Deserialization error for parsing `JsonValue` JSON `ByteString`.
+jsonValueError :: String
+jsonValueError = "Error in $: key \"value\" not present"
 
 -- | Dummy aggregation types text.
 aggregation :: Text

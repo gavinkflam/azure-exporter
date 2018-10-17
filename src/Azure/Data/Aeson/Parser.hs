@@ -18,6 +18,8 @@ import qualified Data.Text.Lazy as T
 
 import           Control.Lens ((^.))
 import qualified Data.Aeson as A
+import           Network.HTTP.Client (Response, responseBody, responseStatus)
+import           Network.HTTP.Types (ok200, created201)
 
 import qualified Azure.Data.Error.ErrorResponse as E
 import qualified Azure.Data.Error.ErrorValue as V
@@ -44,11 +46,16 @@ errorValueExtractor :: V.ErrorValue -> String
 errorValueExtractor v = T.unpack $ (v ^. V.code) <> ": " <> (v ^. V.message)
 
 -- |
--- Deserialize the JSON `ByteString`, or extract a readable error message using
--- the supplied error extractor when decoding fails.
+-- On success responses (200 or 201), deserialize the JSON response body or
+-- return the deserialization error message.
 --
--- If the error extractor fails, the original content of the response body
--- will be treated as the error message.
-mapEitherDecode :: A.FromJSON a => ErrorHandler -> ByteString -> Either String a
-mapEitherDecode f s = first g $ A.eitherDecode s
-  where g = const $ fromMaybe (BS.unpack s) $ f s
+-- On failed responses, extract a readable error message using the supplied
+-- error extractor. If the error extractor fails, the original content of the
+-- response body will be treated as the error message.
+mapEitherDecode
+  :: A.FromJSON a => ErrorHandler -> Response ByteString -> Either String a
+mapEitherDecode f res =
+  case responseStatus res of
+    s | elem s [ok200, created201] -> A.eitherDecode b
+    _                              -> Left $ fromMaybe (BS.unpack b) $ f b
+    where b = responseBody res

@@ -8,13 +8,18 @@ module Azure.Data.Aeson.ParserSpec
     spec
   ) where
 
-import           Azure.Data.Aeson.Parser
 import           Data.ByteString.Lazy (ByteString)
+import           Data.Monoid (mempty)
+import           Data.Text.Lazy (unpack)
+
+import           Network.HTTP.Client.Internal (Response(..), ResponseClose(..))
+import           Network.HTTP.Types (Status, badRequest400, http11, ok200)
+import           Test.Hspec
+
+import           Azure.Data.Aeson.Parser
 import qualified Data.Dummy.Text as T
 import           Data.JsonValue
-import           Data.Text.Lazy (unpack)
 import           Expectations
-import           Test.Hspec
 
 -- | Spec for `Parser`.
 spec :: Spec
@@ -28,23 +33,40 @@ spec = do
     it "extracts readable error message from ErrorValue JSON ByteString" $
       errorExtractor T.errorValueJSON `shouldSatisfy` isJustOf fullMessage
 
+  let sEitherDecode b = eitherDecode $ resp ok200 b
+      fEitherDecode b = eitherDecode $ resp badRequest400 b
+
   describe "mapEitherDecode" $ do
     it "extracts JsonValue from JsonValue JSON ByteString" $
-      eitherDecode T.jsonValueJSON `shouldSatisfy` isRightOf expectedJsonValue
+      sEitherDecode T.jsonValueJSON `shouldSatisfy` isRightOf expectedJsonValue
+
+    it "returns the JSON deserialization error" $
+      sEitherDecode T.errorValueJSON `shouldSatisfy` isLeftOf T.jsonValueError
 
     it "extracts readable error message from ErrorResponse JSON ByteString" $
-      eitherDecode T.errorResponseJSON `shouldSatisfy` isLeftOf fullMessage
+      fEitherDecode T.errorResponseJSON `shouldSatisfy` isLeftOf fullMessage
 
     it "extracts readable error message from ErrorValue JSON ByteString" $
-      eitherDecode T.errorValueJSON `shouldSatisfy` isLeftOf fullMessage
+      fEitherDecode T.errorValueJSON `shouldSatisfy` isLeftOf fullMessage
 
     it "returns the original content for invalid error structure" $
-      eitherDecode "Kaboom!" `shouldSatisfy` isLeftOf "Kaboom!"
+      fEitherDecode "Kaboom!" `shouldSatisfy` isLeftOf "Kaboom!"
 
 -- | Decoding with concrete type `Either String JsonValue`.
-eitherDecode :: ByteString -> Either String JsonValue
+eitherDecode :: Response ByteString -> Either String JsonValue
 eitherDecode = mapEitherDecode errorExtractor
 
 -- | Expected deserialized `JsonValue` item from JSON `ByteString`.
 expectedJsonValue :: JsonValue
 expectedJsonValue = JsonValue { _value = T.jsonValueValue }
+
+-- | Construct a response from a status code and `ByteString` body.
+resp :: Status -> ByteString -> Response ByteString
+resp s b =
+  Response { responseStatus = s
+           , responseVersion = http11
+           , responseHeaders = []
+           , responseBody = b
+           , responseCookieJar = mempty
+           , responseClose' = ResponseClose $ return ()
+           }
