@@ -24,6 +24,7 @@ import Data.Text.Lazy (Text)
 import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Scientific (Scientific)
+import Data.Time.Clock (UTCTime)
 
 import Azure.Data.Aeson.Options (aesonOptions)
 import Azure.Data.Billing.InstanceData (InstanceData)
@@ -39,8 +40,8 @@ data AggregateProperty =
                     , _meterRegion      :: Maybe Text
                     , _subscriptionId   :: Text
                     , _unit             :: Maybe Text
-                    , _usageStartTime   :: Text
-                    , _usageEndTime     :: Text
+                    , _usageStartTime   :: UTCTime
+                    , _usageEndTime     :: UTCTime
                     , _instanceData     :: Maybe InstanceData
                     , _quantity         :: Scientific
                     } deriving (Show)
