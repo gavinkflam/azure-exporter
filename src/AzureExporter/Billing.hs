@@ -88,16 +88,17 @@ gaugeLabelsFromInstanceData (Just i) =
   [ ("resource_id",     r ^. R.resourceUri)
   , ("resource_region", r ^. R.location)
   ]
-  ++ gaugeLabelsFromResourceTags (r ^. R.tags)
+  ++ gaugeLabelsFromResourceInfoMap "tags_" (r ^. R.tags)
+  ++ gaugeLabelsFromResourceInfoMap "info_" (r ^. R.additionalInfo)
     where r = i ^. I.resourceData
 
--- | Derive gauge labels from resource tags.
-gaugeLabelsFromResourceTags
-  :: Maybe (H.HashMap T.Text T.Text) -> [(T.Text, T.Text)]
-gaugeLabelsFromResourceTags Nothing = []
-gaugeLabelsFromResourceTags (Just m) =
+-- | Derive gauge labels from resource info map.
+gaugeLabelsFromResourceInfoMap
+  :: T.Text -> Maybe (H.HashMap T.Text T.Text) -> [(T.Text, T.Text)]
+gaugeLabelsFromResourceInfoMap _ Nothing = []
+gaugeLabelsFromResourceInfoMap prefix (Just m) =
   H.foldlWithKey' f [] m
-    where f ts k v = ("tags_" <> k, v) : ts
+    where f ts k v = (prefix <> k, v) : ts
 
 -- |
 -- Sanitize and standardize gauge name.
