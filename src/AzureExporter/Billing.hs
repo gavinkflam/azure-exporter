@@ -106,7 +106,16 @@ gaugeLabelsFromResourceInfoMap
 gaugeLabelsFromResourceInfoMap _ Nothing = []
 gaugeLabelsFromResourceInfoMap prefix (Just m) =
   H.foldlWithKey' f [] m
-    where f ts k v = (prefix <> k, fromMaybe "" v) : ts
+    where f ts k v = (prefix <> k, maybe "" sanitize v) : ts
+          sanitize = T.filter (not . flip elem illegalValueCharacters)
+
+-- |
+-- List of illegal characters to get rid of in the label values.
+--
+-- Tags and addition info values often contains new line characters for unknown
+-- reasions
+illegalValueCharacters :: String
+illegalValueCharacters = "\r\n"
 
 -- |
 -- Sanitize and standardize gauge name.
