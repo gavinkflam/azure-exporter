@@ -9,7 +9,7 @@ module AzureExporter.Billing
   ) where
 
 import           Data.Char (toLower)
-import           Data.Maybe (catMaybes)
+import           Data.Maybe (catMaybes, fromMaybe)
 import qualified Data.Text.Lazy as T
 
 import           Control.Lens ((^.))
@@ -19,7 +19,9 @@ import           Text.Casing (quietSnake)
 
 import qualified Azure.Data.Billing.AggregateProperty as P
 import qualified Azure.Data.Billing.GetRateCardResponse as R
+import qualified Azure.Data.Billing.InstanceData as I
 import qualified Azure.Data.Billing.Meter as M
+import qualified Azure.Data.Billing.ResourceData as R
 import qualified Azure.Data.Billing.UsageAggregate as U
 import qualified AzureExporter.Data.Gauge as G
 import qualified AzureExporter.Data.ResourceMetadata as D
@@ -67,8 +69,35 @@ gaugeName u =
 
 -- | Derive gauge labels from `UsageAggregate`.
 gaugeLabels :: U.UsageAggregate -> [(T.Text, T.Text)]
--- TODO: Derive real labels
-gaugeLabels u = []
+gaugeLabels u =
+  [ ("meter_id",           p ^. P.meterId)
+  , ("meter_category",     fromMaybe "Unknown" (p ^. P.meterCategory))
+  , ("meter_sub_category", fromMaybe "N/A" (p ^. P.meterSubCategory))
+  , ("meter_name",         fromMaybe "Unknown" (p ^. P.meterName))
+  , ("meter_region",       fromMaybe "N/A" (p ^. P.meterRegion))
+  , ("meter_unit",         fromMaybe "Unknown" (p ^. P.unit))
+  , ("subscription_id",    p ^. P.subscriptionId)
+  ]
+  ++ gaugeLabelsFromInstanceData (p ^. P.instanceData)
+    where p = u ^. U.properties
+
+-- | Derive gauge labels from `InstanceData`.
+gaugeLabelsFromInstanceData :: Maybe I.InstanceData -> [(T.Text, T.Text)]
+gaugeLabelsFromInstanceData Nothing = []
+gaugeLabelsFromInstanceData (Just i) =
+  [ ("resource_id",     r ^. R.resourceUri)
+  , ("resource_region", r ^. R.location)
+  ]
+  ++ gaugeLabelsFromResourceTags (r ^. R.tags)
+    where r = i ^. I.resourceData
+
+-- | Derive gauge labels from resource tags.
+gaugeLabelsFromResourceTags
+  :: Maybe (H.HashMap T.Text T.Text) -> [(T.Text, T.Text)]
+gaugeLabelsFromResourceTags Nothing = []
+gaugeLabelsFromResourceTags (Just m) =
+  H.foldlWithKey' f [] m
+    where f ts k v = ("tags_" <> k, v) : ts
 
 -- |
 -- Sanitize and standardize gauge name.
