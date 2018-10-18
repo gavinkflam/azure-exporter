@@ -102,11 +102,11 @@ gaugeLabelsFromInstanceData (Just i) =
 
 -- | Derive gauge labels from resource info map.
 gaugeLabelsFromResourceInfoMap
-  :: T.Text -> Maybe (H.HashMap T.Text T.Text) -> [(T.Text, T.Text)]
+  :: T.Text -> Maybe (H.HashMap T.Text (Maybe T.Text)) -> [(T.Text, T.Text)]
 gaugeLabelsFromResourceInfoMap _ Nothing = []
 gaugeLabelsFromResourceInfoMap prefix (Just m) =
   H.foldlWithKey' f [] m
-    where f ts k v = (prefix <> k, v) : ts
+    where f ts k v = (prefix <> k, fromMaybe "" v) : ts
 
 -- |
 -- Sanitize and standardize gauge name.

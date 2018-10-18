@@ -27,8 +27,8 @@ import Azure.Data.Aeson.Options (aesonOptions)
 data ResourceData =
   ResourceData { _resourceUri    :: Text
                , _location       :: Text
-               , _tags           :: Maybe (HashMap Text Text)
-               , _additionalInfo :: Maybe (HashMap Text Text)
+               , _tags           :: Maybe (HashMap Text (Maybe Text))
+               , _additionalInfo :: Maybe (HashMap Text (Maybe Text))
                } deriving (Generic, Show)
 
 instance FromJSON ResourceData where
