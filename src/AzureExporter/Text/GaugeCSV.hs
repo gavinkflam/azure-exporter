@@ -12,6 +12,7 @@ import           Data.Text.Lazy (Text, pack)
 
 import           Control.Lens ((^.))
 import qualified Data.HashMap.Strict as H
+import           Data.Time.Clock.POSIX (utcTimeToPOSIXSeconds)
 
 import qualified AzureExporter.Data.CSV as C
 import qualified AzureExporter.Data.Gauge as G
@@ -28,5 +29,8 @@ toRow g =
     [ ("series", g ^. G.name)
     , ("value",  pack $ show (g ^. G.value))
     ]
+    ++ maybe []  fTimestamp (g ^. G.time)
     ++ map fLabel (g ^. G.labels)
       where fLabel (k, v) = ("label_" <> k, v)
+            showUTCTime   = filter (/= 's') . show . utcTimeToPOSIXSeconds
+            fTimestamp t  = [("timestamp", pack $ showUTCTime t)]
