@@ -12,6 +12,7 @@ import           Data.Text.Lazy (Text, pack)
 
 import           Control.Lens ((^.))
 import qualified Data.HashMap.Strict as H
+import           Data.Scientific (FPFormat(Fixed), formatScientific)
 import           Data.Time.Clock.POSIX (utcTimeToPOSIXSeconds)
 
 import qualified AzureExporter.Data.CSV as C
@@ -27,10 +28,11 @@ toRow :: G.Gauge -> H.HashMap Text Text
 toRow g =
   H.fromList $
     [ ("series", g ^. G.name)
-    , ("value",  pack $ show (g ^. G.value))
+    , ("value",  pack $ showScientific (g ^. G.value))
     ]
     ++ maybe []  fTimestamp (g ^. G.time)
     ++ map fLabel (g ^. G.labels)
-      where fLabel (k, v) = ("label_" <> k, v)
-            showUTCTime   = filter (/= 's') . show . utcTimeToPOSIXSeconds
-            fTimestamp t  = [("timestamp", pack $ showUTCTime t)]
+      where fLabel (k, v)  = ("label_" <> k, v)
+            showScientific = formatScientific Fixed Nothing
+            showUTCTime    = filter (/= 's') . show . utcTimeToPOSIXSeconds
+            fTimestamp t   = [("timestamp", pack $ showUTCTime t)]
