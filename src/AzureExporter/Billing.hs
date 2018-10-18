@@ -95,7 +95,7 @@ gaugeLabelsFromInstanceData (Just i) =
   , ("resource_provider", d ^. D.resourceProvider)
   , ("resource_type",     d ^. D.resourceType)
   ]
-  ++ gaugeLabelsFromResourceInfoMap "tags_" (r ^. R.tags)
+  ++ gaugeLabelsFromResourceInfoMap "tag_"  (r ^. R.tags)
   ++ gaugeLabelsFromResourceInfoMap "info_" (r ^. R.additionalInfo)
     where r = i ^. I.resourceData
           d = parseResourceId (r ^. R.resourceUri)
