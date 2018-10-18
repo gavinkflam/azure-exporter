@@ -45,7 +45,7 @@ gaugesFromUsageAggregate currency meters usage =
                  , G._help   = namePrefix <> "_usage"
                  , G._labels = labels
                  , G._value  = quantity
-                 , G._time   = Nothing
+                 , G._time   = Just endTime
                  }
   , costGauge <$> H.lookup (usage ^. U.properties ^. P.meterId) meters
   ]
@@ -54,12 +54,13 @@ gaugesFromUsageAggregate currency meters usage =
           quantity    = usage ^. U.properties ^. P.quantity
           -- TODO: Resolve the real per-unit cost
           unitCost m  = head $ H.elems (m ^. M.meterRates)
+          endTime     = usage ^. U.properties ^. P.usageEndTime
           costGauge m =
             G.Gauge { G._name   = namePrefix <> "_cost"
                     , G._help   = namePrefix <> "_cost"
                     , G._labels = labels
                     , G._value  = quantity * unitCost m
-                    , G._time   = Nothing
+                    , G._time   = Just endTime
                     }
 
 -- | Derive gauge name from `UsageAggregate`.
