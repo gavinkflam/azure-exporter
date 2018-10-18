@@ -7,7 +7,7 @@ module AzureExporterExe.UsageDump
 
 import           Control.Monad.IO.Class (liftIO)
 import           Control.Lens ((^.))
-import           Data.Text.Lazy (Text)
+import           Data.Text.Lazy (Text, unpack)
 
 import           Network.HTTP.Client (Manager, newManager)
 import           Network.HTTP.Client.TLS (tlsManagerSettings)
@@ -20,6 +20,8 @@ import qualified Azure.Data.Billing.UsageAggregate as U
 import qualified Azure.Request.Billing.GetRateCard as G
 import qualified Azure.Request.Billing.ListUsageAggregates as A
 import           AzureExporter.Billing (gauges)
+import           AzureExporter.Text.CSV (renderCSV)
+import           AzureExporter.Text.GaugeCSV (toCSV)
 import           AzureExporterExe.Auth (acquireToken)
 import           AzureExporterExe.Control.Monad.Either (dieLeft)
 import qualified AzureExporterExe.Data.AccessToken as T
@@ -48,7 +50,7 @@ dumpUsage = do
                          }
   usages   <- fetchUsages manager token aParams
   rateCard <- fetchRateCard manager token gParams
-  print $ show $ gauges rateCard usages
+  putStr $ unpack $ renderCSV $ toCSV $ gauges rateCard usages
 
 -- |
 -- Fetch usage aggregates from Azure while recursively fetching with the
