@@ -9,11 +9,14 @@ module AzureExporter.Data.Gauge
   , help
   , labels
   , value
+  , time
   ) where
+
+import Data.Text.Lazy (Text)
 
 import Control.Lens (makeLenses)
 import Data.Scientific (Scientific)
-import Data.Text.Lazy (Text)
+import Data.Time.Clock (UTCTime)
 
 -- | Data structure representing a gauge type metric.
 --
@@ -23,6 +26,7 @@ data Gauge =
         , _help   :: Text
         , _labels :: [(Text, Text)]
         , _value  :: Scientific
+        , _time   :: Maybe UTCTime
         } deriving (Eq, Show)
 
 makeLenses ''Gauge

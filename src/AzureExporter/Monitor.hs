@@ -68,6 +68,7 @@ gaugeFromAggregation name labels (Just n) =
                , G._help   = name
                , G._labels = labels
                , G._value  = n
+               , G._time   = Nothing
                }
 
 -- | Derive labels from resource region, `ResourceMetadata` and `Metric`.

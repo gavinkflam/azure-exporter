@@ -45,6 +45,7 @@ gaugesFromUsageAggregate currency meters usage =
                  , G._help   = namePrefix <> "_usage"
                  , G._labels = labels
                  , G._value  = quantity
+                 , G._time   = Nothing
                  }
   , costGauge <$> H.lookup (usage ^. U.properties ^. P.meterId) meters
   ]
@@ -58,6 +59,7 @@ gaugesFromUsageAggregate currency meters usage =
                     , G._help   = namePrefix <> "_cost"
                     , G._labels = labels
                     , G._value  = quantity * unitCost m
+                    , G._time   = Nothing
                     }
 
 -- | Derive gauge name from `UsageAggregate`.
