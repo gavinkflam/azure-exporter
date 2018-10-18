@@ -25,7 +25,7 @@ import qualified Azure.Data.Billing.ResourceData as R
 import qualified Azure.Data.Billing.UsageAggregate as U
 import qualified AzureExporter.Data.Gauge as G
 import qualified AzureExporter.Data.ResourceMetadata as D
-import           AzureExporter.Util.Resource (parseResourceId, resourceId)
+import           AzureExporter.Util.Resource (parseResourceId)
 
 -- |
 -- Extract information from `GetRateCardResponse` and `Meter`s to construct the
@@ -88,12 +88,17 @@ gaugeLabels u =
 gaugeLabelsFromInstanceData :: Maybe I.InstanceData -> [(T.Text, T.Text)]
 gaugeLabelsFromInstanceData Nothing = []
 gaugeLabelsFromInstanceData (Just i) =
-  [ ("resource_id",     r ^. R.resourceUri)
-  , ("resource_region", r ^. R.location)
+  [ ("resource_id",       T.toLower $ r ^. R.resourceUri)
+  , ("resource_region",   r ^. R.location)
+  , ("resource_group",    d ^. D.resourceGroup)
+  , ("resource_name",     d ^. D.resourceName)
+  , ("resource_provider", d ^. D.resourceProvider)
+  , ("resource_type",     d ^. D.resourceType)
   ]
   ++ gaugeLabelsFromResourceInfoMap "tags_" (r ^. R.tags)
   ++ gaugeLabelsFromResourceInfoMap "info_" (r ^. R.additionalInfo)
     where r = i ^. I.resourceData
+          d = parseResourceId (r ^. R.resourceUri)
 
 -- | Derive gauge labels from resource info map.
 gaugeLabelsFromResourceInfoMap
