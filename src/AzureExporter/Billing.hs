@@ -23,6 +23,7 @@ import qualified Azure.Data.Billing.InstanceData as I
 import qualified Azure.Data.Billing.Meter as M
 import qualified Azure.Data.Billing.ResourceData as R
 import qualified Azure.Data.Billing.UsageAggregate as U
+import           Azure.Text.Time (formatTime)
 import qualified AzureExporter.Data.Gauge as G
 import qualified AzureExporter.Data.ResourceMetadata as D
 import           AzureExporter.Util.Resource (parseResourceId)
@@ -80,9 +81,13 @@ gaugeLabels u =
   , ("meter_region",       fromMaybe "N/A" (p ^. P.meterRegion))
   , ("meter_unit",         fromMaybe "Unknown" (p ^. P.unit))
   , ("subscription_id",    p ^. P.subscriptionId)
+  , ("year",               T.pack $ formatTime "%Y" time)
+  , ("month",              T.pack $ formatTime "%m" time)
+  , ("year_month",         T.pack $ formatTime "%Y-%m" time)
   ]
   ++ gaugeLabelsFromInstanceData (p ^. P.instanceData)
-    where p = u ^. U.properties
+    where p    = u ^. U.properties
+          time = p ^. P.usageEndTime
 
 -- | Derive gauge labels from `InstanceData`.
 gaugeLabelsFromInstanceData :: Maybe I.InstanceData -> [(T.Text, T.Text)]
