@@ -23,6 +23,7 @@ import qualified Azure.Data.Billing.InstanceData as I
 import qualified Azure.Data.Billing.Meter as M
 import qualified Azure.Data.Billing.ResourceData as R
 import qualified Azure.Data.Billing.UsageAggregate as U
+import           Azure.Text.Scientific (showFixed)
 import           Azure.Text.Time (formatTime)
 import qualified AzureExporter.Data.Gauge as G
 import qualified AzureExporter.Data.ResourceMetadata as D
@@ -53,14 +54,12 @@ gaugesFromUsageAggregate currency meters usage =
     where namePrefix  = gaugeName usage
           labels      = gaugeLabels usage
           quantity    = usage ^. U.properties ^. P.quantity
-          -- TODO: Resolve the real per-unit cost
-          unitCost m  = head $ H.elems (m ^. M.meterRates)
           endTime     = usage ^. U.properties ^. P.usageEndTime
           costGauge m =
             G.Gauge { G._name   = namePrefix <> "_cost"
                     , G._help   = namePrefix <> "_cost"
-                    , G._labels = labels ++ [("currency", currency)]
-                    , G._value  = quantity * unitCost m
+                    , G._labels = labels ++ costGaugeLabels currency m
+                    , G._value  = quantity * resolveUnitCost m
                     , G._time   = Just endTime
                     }
 
@@ -88,6 +87,20 @@ gaugeLabels u =
   ++ gaugeLabelsFromInstanceData (p ^. P.instanceData)
     where p    = u ^. U.properties
           time = p ^. P.usageEndTime
+
+-- |
+-- Resolve the unit cost from `Meter`.
+--
+-- TODO: Resolve the accurate per-unit cost from usage quantity.
+resolveUnitCost :: M.Meter -> Scientific
+resolveUnitCost m = (m ^. M.meterRates) H.! "0"
+
+-- | Derive cost gauge specific labels from `UsageAggregate`.
+costGaugeLabels :: T.Text -> M.Meter -> [(T.Text, T.Text)]
+costGaugeLabels currency m =
+  [ ("currency",  currency)
+  , ("unit_cost", T.pack $ showFixed $ resolveUnitCost m)
+  ]
 
 -- | Derive gauge labels from `InstanceData`.
 gaugeLabelsFromInstanceData :: Maybe I.InstanceData -> [(T.Text, T.Text)]
