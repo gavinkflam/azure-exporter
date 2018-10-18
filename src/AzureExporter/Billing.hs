@@ -73,7 +73,8 @@ gaugeName u =
 -- | Derive gauge labels from `UsageAggregate`.
 gaugeLabels :: U.UsageAggregate -> [(T.Text, T.Text)]
 gaugeLabels u =
-  [ ("meter_id",           p ^. P.meterId)
+  [ ("cloud_provider",     "Azure")
+  , ("meter_id",           p ^. P.meterId)
   , ("meter_category",     fromMaybe "Unknown" (p ^. P.meterCategory))
   , ("meter_sub_category", fromMaybe "N/A" (p ^. P.meterSubCategory))
   , ("meter_name",         fromMaybe "Unknown" (p ^. P.meterName))
