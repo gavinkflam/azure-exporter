@@ -27,5 +27,4 @@ renderCSV csv =
 -- | Render a `CSV` row in `Text`.
 renderRow :: [Text] -> H.HashMap Text Text -> Text
 renderRow headers row =
-  intercalate "," $ map (renderVal . flip (H.lookupDefault "") row) headers
-    where renderVal v = if v == "" then "\"\"" else v
+  intercalate "," $ map (flip (H.lookupDefault "") row) headers
