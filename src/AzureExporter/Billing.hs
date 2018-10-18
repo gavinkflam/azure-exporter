@@ -58,7 +58,7 @@ gaugesFromUsageAggregate currency meters usage =
           costGauge m =
             G.Gauge { G._name   = namePrefix <> "_cost"
                     , G._help   = namePrefix <> "_cost"
-                    , G._labels = labels
+                    , G._labels = labels ++ [("currency", currency)]
                     , G._value  = quantity * unitCost m
                     , G._time   = Just endTime
                     }
