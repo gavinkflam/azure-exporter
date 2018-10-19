@@ -34,6 +34,7 @@ gauge =
                         , ("subscription_id",   T.subscriptionId)
                         ]
           , G._value  = 4.2
+          , G._time   = Nothing
           }
 
 -- | `gauge` in Prometheus exporter syntax.
