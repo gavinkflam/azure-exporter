@@ -36,7 +36,9 @@ COPY --from=builder \
   /opt/azure-exporter/.stack-work/install/x86_64-linux/lts-12.10/8.4.3/bin \
   /opt/azure-exporter
 
+WORKDIR /opt/azure-exporter
+
 # Expose default port
 EXPOSE 9492
 
-CMD ["sh", "-c", "/opt/azure-exporter/azure-exporter-exe", "server"]
+CMD ["sh", "-c", "azure-exporter-exe", "server"]
