@@ -7,7 +7,7 @@ module AzureExporterExe.UsageDump
 
 import           Control.Monad.IO.Class (liftIO)
 import           Control.Lens ((^.))
-import           Data.Text.Lazy (Text, unpack)
+import           Data.Text.Lazy (Text, pack, unpack)
 
 import           Network.HTTP.Client (Manager, newManager)
 import           Network.HTTP.Client.TLS (tlsManagerSettings)
@@ -29,8 +29,8 @@ import qualified AzureExporterExe.Data.Config as C
 import           AzureExporterExe.HTTP (requestIO)
 
 -- | Dump usage data in CSV format.
-dumpUsage :: IO ()
-dumpUsage = do
+dumpUsage :: String -> String -> IO ()
+dumpUsage startTime endTime = do
   config   <- C.getConfig
   manager  <- newManager tlsManagerSettings
   tokenRes <- dieLeft =<< liftIO (acquireToken config manager)
@@ -38,8 +38,8 @@ dumpUsage = do
   let token   = T.fromResponse tokenRes ^. T.accessToken
       aParams = A.Params { A._subscriptionId         = config ^. C.subscriptionId
                          , A._aggregationGranularity = "daily"
-                         , A._reportedStartTime      = "2018-06-01T00:00:00+00:00"
-                         , A._reportedEndTime        = "2018-06-02T00:00:00+00:00"
+                         , A._reportedStartTime      = pack startTime
+                         , A._reportedEndTime        = pack endTime
                          , A._continuationToken      = Nothing
                          }
       gParams = G.Params { G._subscriptionId = config ^. C.subscriptionId

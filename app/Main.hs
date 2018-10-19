@@ -11,9 +11,9 @@ main :: IO ()
 main = do
   args <- getArgs
   case args of
-    ["server"]     -> runServer
-    ["dump-usage"] -> dumpUsage
-    _              -> die $ argsError args
+    ["server"]             -> runServer
+    ["dump-usage", t1, t2] -> dumpUsage t1 t2
+    _                      -> die $ argsError args
 
 -- | Derive the unrecognized argument error message from arguments.
 argsError :: [String] -> String
