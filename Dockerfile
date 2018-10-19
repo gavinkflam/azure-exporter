@@ -39,4 +39,4 @@ COPY --from=builder \
 # Expose default port
 EXPOSE 9492
 
-CMD ["sh", "-c", "/opt/azure-exporter/azure-exporter-exe"]
+CMD ["sh", "-c", "/opt/azure-exporter/azure-exporter-exe", "server"]
