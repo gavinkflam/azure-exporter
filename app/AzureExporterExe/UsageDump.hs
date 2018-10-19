@@ -43,10 +43,10 @@ dumpUsage = do
                          , A._continuationToken      = Nothing
                          }
       gParams = G.Params { G._subscriptionId = config ^. C.subscriptionId
-                         , G._offerId        = "MS-AZR-0003p"
-                         , G._currency       = "USD"
-                         , G._locale         = "en-US"
-                         , G._regionInfo     = "US"
+                         , G._offerId        = config ^. C.offerId
+                         , G._currency       = config ^. C.currency
+                         , G._locale         = config ^. C.locale
+                         , G._regionInfo     = config ^. C.regionInfo
                          }
   usages   <- fetchUsages manager token aParams
   rateCard <- fetchRateCard manager token gParams
