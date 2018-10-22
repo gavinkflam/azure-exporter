@@ -1,6 +1,6 @@
 # Change Log and Release Notes
 
-## 0.2.4 (Planned)
+## 0.2.5 (Planned)
 
 * TODO: Add more tests.
 * TODO: Add man page.
@@ -10,6 +10,10 @@
 * TODO: Unify exporter and usage dump architecture.
 * TODO: Organize imports and coding style.
 * TODO: Review and optimize implementations.
+
+## 0.2.4 (22 Oct 2018)
+
+* Fixed Docker image default command.
 
 ## 0.2.3 (19 Oct 2018)
 
