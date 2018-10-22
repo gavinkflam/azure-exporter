@@ -41,4 +41,4 @@ WORKDIR /opt/azure-exporter
 # Expose default port
 EXPOSE 9492
 
-CMD ["sh", "-c", "./azure-exporter-exe", "server"]
+CMD ["./azure-exporter-exe", "server"]
