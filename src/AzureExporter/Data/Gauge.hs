@@ -14,7 +14,7 @@ module AzureExporter.Data.Gauge
 
 import Data.Text.Lazy (Text)
 
-import Control.Lens (makeLenses)
+import Control.Lens ((^.), makeLenses)
 import Data.Scientific (Scientific)
 import Data.Time.Clock (UTCTime)
 
@@ -30,3 +30,7 @@ data Gauge =
         } deriving (Eq, Show)
 
 makeLenses ''Gauge
+
+-- | Order `Gauge` by time.
+instance Ord Gauge where
+  compare a b = compare (a ^. time) (b ^. time)
