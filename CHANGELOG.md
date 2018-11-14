@@ -1,6 +1,6 @@
 # Change Log and Release Notes
 
-## 0.2.5 (Planned)
+## 0.4.0 (Planned)
 
 * TODO: Add more tests.
 * TODO: Add man page.
@@ -10,6 +10,11 @@
 * TODO: Unify exporter and usage dump architecture.
 * TODO: Organize imports and coding style.
 * TODO: Review and optimize implementations.
+
+## 0.3.0 (14 Nov 2018)
+
+* Added date label to gauges.
+* Sort output CSV rows by time.
 
 ## 0.2.4 (22 Oct 2018)
 
