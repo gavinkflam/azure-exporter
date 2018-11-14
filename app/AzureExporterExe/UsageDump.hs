@@ -8,6 +8,7 @@ module AzureExporterExe.UsageDump
 import           Control.Monad.IO.Class (liftIO)
 import           Control.Lens ((^.))
 import           Data.Text.Lazy (Text, pack, unpack)
+import           Data.List (sort)
 
 import           Network.HTTP.Client (Manager, newManager)
 import           Network.HTTP.Client.TLS (tlsManagerSettings)
@@ -50,7 +51,7 @@ dumpUsage startTime endTime = do
                          }
   usages   <- fetchUsages manager token aParams
   rateCard <- fetchRateCard manager token gParams
-  putStr $ unpack $ renderCSV $ toCSV $ gauges rateCard usages
+  putStr $ unpack $ renderCSV $ toCSV $ sort $ gauges rateCard usages
 
 -- |
 -- Fetch usage aggregates from Azure while recursively fetching with the

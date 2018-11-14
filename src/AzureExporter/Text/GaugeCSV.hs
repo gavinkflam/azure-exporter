@@ -20,8 +20,8 @@ import qualified AzureExporter.Data.Gauge as G
 
 -- | Convert `Gauge`s to `CSV`.
 toCSV :: [G.Gauge] -> C.CSV
-toCSV = foldl f C.empty
-  where f csv gauge = C.prependRow csv $ toRow gauge
+toCSV = foldr f C.empty
+  where f gauge csv = C.prependRow csv $ toRow gauge
 
 -- | Convert `Gauge` to a `CSV` row.
 toRow :: G.Gauge -> H.HashMap Text Text
