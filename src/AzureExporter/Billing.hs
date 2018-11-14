@@ -87,6 +87,7 @@ gaugeLabels u =
   , ("year",               T.pack $ formatTime "%Y" time)
   , ("month",              T.pack $ formatTime "%m" time)
   , ("year_month",         T.pack $ formatTime "%Y-%m" time)
+  , ("date",               T.pack $ formatTime "%Y-%m-%d" time)
   ]
   ++ maybe [] gaugeLabelsFromInstanceData (p ^. P.instanceData)
     where p    = u ^. U.properties
