@@ -69,10 +69,10 @@ filterQuery p =
 -- |
 -- Construct `Request` from access token and `Params`.
 --
--- The `Request` has a modified response timeout of 90 seconds.
+-- The `Request` has a modified response timeout of 180 seconds.
 request :: Text -> Params -> Request
 request token p =
   setQueryString params $ addAuthHeader token req'
     where params = queryParams p
           req    = parseRequest_ $ url (p ^. subscriptionId)
-          req'   = req { responseTimeout = responseTimeoutMicro 90000000 }
+          req'   = req { responseTimeout = responseTimeoutMicro 180000000 }
