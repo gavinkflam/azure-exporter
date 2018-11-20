@@ -27,14 +27,14 @@ import Data.Aeson.Options (aesonOptions)
 -- | MetricValue
 --
 -- <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#metricvalue>
-data MetricValue =
-  MetricValue { _average   :: Maybe Scientific
-              , _count     :: Maybe Scientific
-              , _maximum   :: Maybe Scientific
-              , _minimum   :: Maybe Scientific
-              , _timeStamp :: Text
-              , _total     :: Maybe Scientific
-              } deriving (Generic, Show)
+data MetricValue = MetricValue
+  { _average   :: Maybe Scientific
+  , _count     :: Maybe Scientific
+  , _maximum   :: Maybe Scientific
+  , _minimum   :: Maybe Scientific
+  , _timeStamp :: Text
+  , _total     :: Maybe Scientific
+  } deriving (Generic, Show)
 
 instance FromJSON MetricValue where
   parseJSON = genericParseJSON aesonOptions

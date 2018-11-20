@@ -18,7 +18,8 @@ import Network.HTTP.Types.Header (hAuthorization)
 
 -- | Add the Authorization header to the `Request`.
 addAuthHeader :: Text -> Request -> Request
-addAuthHeader token req =
-  req { requestHeaders = headers ++ [(hAuthorization, authValue)] }
+addAuthHeader token req = req
+  { requestHeaders = headers ++ [(hAuthorization, authValue)]
+  }
     where headers   = requestHeaders req
           authValue = toStrict $ encodeUtf8 $ "Bearer " <> token

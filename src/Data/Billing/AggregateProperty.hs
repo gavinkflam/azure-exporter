@@ -32,19 +32,19 @@ import Data.Billing.InstanceData (InstanceData)
 -- | AggregateProperty
 --
 -- <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)#json-element-definitions>
-data AggregateProperty =
-  AggregateProperty { _meterId          :: Text
-                    , _meterCategory    :: Maybe Text
-                    , _meterSubCategory :: Maybe Text
-                    , _meterName        :: Maybe Text
-                    , _meterRegion      :: Maybe Text
-                    , _subscriptionId   :: Text
-                    , _unit             :: Maybe Text
-                    , _usageStartTime   :: UTCTime
-                    , _usageEndTime     :: UTCTime
-                    , _instanceData     :: Maybe InstanceData
-                    , _quantity         :: Scientific
-                    } deriving (Show)
+data AggregateProperty = AggregateProperty
+  { _meterId          :: Text
+  , _meterCategory    :: Maybe Text
+  , _meterSubCategory :: Maybe Text
+  , _meterName        :: Maybe Text
+  , _meterRegion      :: Maybe Text
+  , _subscriptionId   :: Text
+  , _unit             :: Maybe Text
+  , _usageStartTime   :: UTCTime
+  , _usageEndTime     :: UTCTime
+  , _instanceData     :: Maybe InstanceData
+  , _quantity         :: Scientific
+  } deriving (Show)
 
 instance FromJSON AggregateProperty where
   parseJSON =

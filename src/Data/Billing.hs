@@ -44,25 +44,26 @@ gaugesFromUsageAggregate
   :: T.Text -> H.HashMap T.Text M.Meter -> U.UsageAggregate -> [G.Gauge]
 gaugesFromUsageAggregate currency meters usage =
   catMaybes
-  [ Just G.Gauge { G._name   = name <> "_usage"
-                 , G._help   = name <> "_usage"
-                 , G._labels = labels
-                 , G._value  = quantity
-                 , G._time   = Just endTime
-                 }
+  [ Just G.Gauge
+    { G._name   = name <> "_usage"
+    , G._help   = name <> "_usage"
+    , G._labels = labels
+    , G._value  = quantity
+    , G._time   = Just endTime
+    }
   , costGauge <$> H.lookup (usage ^. U.properties ^. P.meterId) meters
   ]
     where name        = gaugeName usage
           labels      = gaugeLabels usage
           quantity    = usage ^. U.properties ^. P.quantity
           endTime     = usage ^. U.properties ^. P.usageEndTime
-          costGauge m =
-            G.Gauge { G._name   = name <> "_cost"
-                    , G._help   = name <> "_cost"
-                    , G._labels = labels ++ costGaugeLabels currency m
-                    , G._value  = quantity * resolveUnitCost m
-                    , G._time   = Just endTime
-                    }
+          costGauge m = G.Gauge
+            { G._name   = name <> "_cost"
+            , G._help   = name <> "_cost"
+            , G._labels = labels ++ costGaugeLabels currency m
+            , G._value  = quantity * resolveUnitCost m
+            , G._time   = Just endTime
+            }
 
 -- | Derive gauge name from `UsageAggregate`.
 gaugeName :: U.UsageAggregate -> T.Text

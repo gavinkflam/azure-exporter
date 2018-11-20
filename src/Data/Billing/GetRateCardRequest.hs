@@ -27,13 +27,13 @@ import Text.HTTP (addAuthHeader)
 -- | Parameters to construct `Request`.
 --
 -- <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)#request>
-data Params =
-  Params { _subscriptionId :: Text
-         , _offerId        :: Text
-         , _currency       :: Text
-         , _locale         :: Text
-         , _regionInfo     :: Text
-         } deriving Show
+data Params = Params
+  { _subscriptionId :: Text
+  , _offerId        :: Text
+  , _currency       :: Text
+  , _locale         :: Text
+  , _regionInfo     :: Text
+  } deriving Show
 
 makeLenses ''Params
 

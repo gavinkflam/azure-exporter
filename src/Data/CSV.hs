@@ -20,22 +20,23 @@ import Control.Lens ((^.), makeLenses)
 import Data.HashMap.Strict (HashMap, keys)
 
 -- | Data structure representing a CSV.
-data CSV =
-  CSV { _headers :: Set Text
-      , _rows    :: [HashMap Text Text]
-      } deriving (Eq, Show)
+data CSV = CSV
+  { _headers :: Set Text
+  , _rows    :: [HashMap Text Text]
+  } deriving (Eq, Show)
 
 makeLenses ''CSV
 
 -- | An empty CSV.
 empty :: CSV
-empty = CSV { _headers = Set.empty
-            , _rows    = []
-            }
+empty = CSV
+  { _headers = Set.empty
+  , _rows    = []
+  }
 
 -- | Prepend a row to the CSV while updating the headers automatically.
 prependRow :: CSV -> HashMap Text Text -> CSV
-prependRow csv row =
-  CSV { _headers = (csv ^. headers) `union` fromList (keys row)
-      , _rows    = row : (csv ^. rows)
-      }
+prependRow csv row = CSV
+  { _headers = (csv ^. headers) `union` fromList (keys row)
+  , _rows    = row : (csv ^. rows)
+  }

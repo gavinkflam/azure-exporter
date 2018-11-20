@@ -21,10 +21,10 @@ import Data.Aeson.Options (aesonOptions)
 -- | LocalizableString
 --
 -- <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#localizablestring>
-data LocalizableString =
-  LocalizableString { _value          :: Text
-                    , _localizedValue :: Text
-                    } deriving (Generic, Show)
+data LocalizableString = LocalizableString
+  { _value          :: Text
+  , _localizedValue :: Text
+  } deriving (Generic, Show)
 
 instance FromJSON LocalizableString where
   parseJSON = genericParseJSON aesonOptions

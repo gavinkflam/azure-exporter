@@ -21,10 +21,10 @@ import Data.Aeson.Options (aesonOptions)
 -- | Azure REST API Error object.
 --
 -- <https://github.com/Microsoft/api-guidelines/blob/master/Guidelines.md#error--object>
-data ErrorValue =
-  ErrorValue { _code    :: Text
-             , _message :: Text
-             } deriving (Generic, Show)
+data ErrorValue = ErrorValue
+  { _code    :: Text
+  , _message :: Text
+  } deriving (Generic, Show)
 
 instance FromJSON ErrorValue where
   parseJSON = genericParseJSON aesonOptions

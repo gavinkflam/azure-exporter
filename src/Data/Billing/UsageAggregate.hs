@@ -24,12 +24,12 @@ import Data.Billing.AggregateProperty (AggregateProperty)
 -- | UsageAggregate
 --
 -- <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)#json-element-definitions>
-data UsageAggregate =
-  UsageAggregate { __id        :: Text
-                 , _name       :: Text
-                 , _properties :: AggregateProperty
-                 , __type      :: Text
-                 } deriving (Generic, Show)
+data UsageAggregate = UsageAggregate
+  { __id        :: Text
+  , _name       :: Text
+  , _properties :: AggregateProperty
+  , __type      :: Text
+  } deriving (Generic, Show)
 
 instance FromJSON UsageAggregate where
   parseJSON = genericParseJSON aesonOptions

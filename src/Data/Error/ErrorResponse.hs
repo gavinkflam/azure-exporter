@@ -21,9 +21,9 @@ import Data.Error.ErrorValue (ErrorValue)
 -- | Azure REST API ErrorResponse object.
 --
 -- <https://github.com/Microsoft/api-guidelines/blob/master/Guidelines.md#errorresponse--object>
-newtype ErrorResponse =
-  ErrorResponse { __error :: ErrorValue
-                } deriving (Generic, Show)
+newtype ErrorResponse = ErrorResponse
+  { __error :: ErrorValue
+  } deriving (Generic, Show)
 
 instance FromJSON ErrorResponse where
   parseJSON = genericParseJSON aesonOptions

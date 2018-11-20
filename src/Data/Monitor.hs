@@ -65,13 +65,13 @@ gaugesFromMetricValue namePrefix labels value =
 -- Construct the corresponding list of `Gauge` for a individual aggregation.
 gaugeFromAggregation :: Text -> [(Text, Text)] -> Maybe Scientific -> Maybe G.Gauge
 gaugeFromAggregation _ _ Nothing          = Nothing
-gaugeFromAggregation name labels (Just n) =
-  Just G.Gauge { G._name   = name
-               , G._help   = name
-               , G._labels = labels
-               , G._value  = n
-               , G._time   = Nothing
-               }
+gaugeFromAggregation name labels (Just n) = Just G.Gauge
+  { G._name   = name
+  , G._help   = name
+  , G._labels = labels
+  , G._value  = n
+  , G._time   = Nothing
+  }
 
 -- | Derive labels from resource region, `ResourceMetadata` and `Metric`.
 deriveLabels :: Text -> D.ResourceMetadata -> M.Metric -> [(Text, Text)]

@@ -15,14 +15,14 @@ import qualified Data.ResourceMetadata as D
 
 -- | Parse an Azure resource URI and breakdown into meaningful components.
 parseResourceId :: Text -> D.ResourceMetadata
-parseResourceId id =
-  D.ResourceMetadata { D._resourceGroup    = s !! 4
-                     , D._resourceName     = s !! 8
-                     , D._resourceProvider = s !! 6
-                     , D._resourceType     = s !! 7
-                     , D._subscriptionId   = s !! 2
-                     }
-                       where s = splitOn "/" $ toLower id
+parseResourceId id = D.ResourceMetadata
+  { D._resourceGroup    = s !! 4
+  , D._resourceName     = s !! 8
+  , D._resourceProvider = s !! 6
+  , D._resourceType     = s !! 7
+  , D._subscriptionId   = s !! 2
+  }
+    where s = splitOn "/" $ toLower id
 
 -- |
 -- Extract the top level resource URI and standardize the resource URI.

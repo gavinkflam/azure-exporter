@@ -26,13 +26,13 @@ import Data.Monitor.TimeSeriesElement (TimeSeriesElement)
 -- | Metric
 --
 -- <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#metric>
-data Metric =
-  Metric { __id        :: Text
-         , __type      :: Text
-         , _name       :: LocalizableString
-         , _unit       :: Text
-         , _timeseries :: [TimeSeriesElement]
-         } deriving (Generic, Show)
+data Metric = Metric
+  { __id        :: Text
+  , __type      :: Text
+  , _name       :: LocalizableString
+  , _unit       :: Text
+  , _timeseries :: [TimeSeriesElement]
+  } deriving (Generic, Show)
 
 instance FromJSON Metric where
   parseJSON = genericParseJSON aesonOptions

@@ -20,8 +20,7 @@ import Text.Casing (quietSnake)
 --
 -- 1. Removing the underscore prefix from field names to derive the JSON keys.
 aesonOptions :: Options
-aesonOptions =
-  defaultOptions { fieldLabelModifier = dropWhile (== '_') }
+aesonOptions = defaultOptions { fieldLabelModifier = dropWhile (== '_') }
 
 -- |
 -- Aeson encoding options for API data structures with capitalized keys.
@@ -31,8 +30,8 @@ aesonOptions =
 -- 1. Removing the underscore prefix from field names.
 -- 2. Capitalize the first character.
 capitalizeAesonOptions :: Options
-capitalizeAesonOptions =
-  defaultOptions { fieldLabelModifier = capitalize . dropWhile (== '_') }
+capitalizeAesonOptions = defaultOptions
+  { fieldLabelModifier = capitalize . dropWhile (== '_') }
 
 -- | Capitalize the first character of a given `String`.
 capitalize :: String -> String
@@ -47,5 +46,5 @@ capitalize (x:xs) = toUpper x : xs
 -- 1. Removing the underscore prefix from field names to derive the JSON keys.
 -- 2. Converting the field names to lowercase snake case.
 oAuth2AesonOptions :: Options
-oAuth2AesonOptions =
-  defaultOptions { fieldLabelModifier = quietSnake . dropWhile (== '_') }
+oAuth2AesonOptions = defaultOptions
+  { fieldLabelModifier = quietSnake . dropWhile (== '_') }

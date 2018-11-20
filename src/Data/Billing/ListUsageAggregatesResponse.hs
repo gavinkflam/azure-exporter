@@ -30,10 +30,10 @@ import Data.Monitor.Metric (Metric)
 -- | Response for list usage aggregates API.
 --
 -- <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)#json-element-definitions>
-data ListUsageAggregatesResponse =
-  ListUsageAggregatesResponse { _value    :: [UsageAggregate]
-                              , _nextLink :: Maybe Text
-                              } deriving (Generic, Show)
+data ListUsageAggregatesResponse = ListUsageAggregatesResponse
+  { _value    :: [UsageAggregate]
+  , _nextLink :: Maybe Text
+  } deriving (Generic, Show)
 
 instance FromJSON ListUsageAggregatesResponse where
   parseJSON = genericParseJSON aesonOptions

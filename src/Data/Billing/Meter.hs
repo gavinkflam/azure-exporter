@@ -28,15 +28,15 @@ import Data.Aeson.Options (capitalizeAesonOptions)
 -- | Meter
 --
 -- <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219004(v%3dazure.100)#response>
-data Meter =
-  Meter { _meterId          :: Text
-        , _meterName        :: Text
-        , _meterCategory    :: Text
-        , _meterSubCategory :: Text
-        , _meterRegion      :: Text
-        , _meterRates       :: HashMap Text Scientific
-        , _unit             :: Text
-        } deriving (Generic, Show)
+data Meter = Meter
+  { _meterId          :: Text
+  , _meterName        :: Text
+  , _meterCategory    :: Text
+  , _meterSubCategory :: Text
+  , _meterRegion      :: Text
+  , _meterRates       :: HashMap Text Scientific
+  , _unit             :: Text
+  } deriving (Generic, Show)
 
 instance FromJSON Meter where
   parseJSON = genericParseJSON capitalizeAesonOptions
