@@ -53,13 +53,13 @@ spec = do
       C.unpack (path req) `shouldBe` expectedPath
 
 -- | Dummy `Params` item.
-params =
-  Params { _subscriptionId         = T.subscriptionId
-         , _aggregationGranularity = "daily"
-         , _reportedStartTime      = M.timestampFrom
-         , _reportedEndTime        = M.timestampTo
-         , _continuationToken      = Just "something"
-         }
+params = Params
+  { _subscriptionId         = T.subscriptionId
+  , _aggregationGranularity = "daily"
+  , _reportedStartTime      = M.timestampFrom
+  , _reportedEndTime        = M.timestampTo
+  , _continuationToken      = Just "something"
+  }
 
 -- |
 -- The expected path should

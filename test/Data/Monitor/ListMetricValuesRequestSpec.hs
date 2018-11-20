@@ -49,12 +49,12 @@ spec = do
       C.unpack (path req) `shouldBe` expectedPath
 
 -- | Dummy `Params` item.
-params =
-  Params { _aggregation = T.aggregation
-         , _metricNames = T.metricNames
-         , _resourceId  = T.resourceId
-         , _timespan    = T.timespan
-         }
+params = Params
+  { _aggregation = T.aggregation
+  , _metricNames = T.metricNames
+  , _resourceId  = T.resourceId
+  , _timespan    = T.timespan
+  }
 
 -- |
 -- The expected path should

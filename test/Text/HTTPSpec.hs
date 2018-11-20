@@ -31,9 +31,8 @@ spec = do
 
 -- | Dummy request to test for auth header adding behaviour.
 dummyRequest :: C.Request
-dummyRequest =
-  req { C.requestHeaders = dummyHeaders }
-    where req = C.parseRequest_ "https://example.com"
+dummyRequest = req { C.requestHeaders = dummyHeaders }
+  where req = C.parseRequest_ "https://example.com"
 
 -- | Dummy request headers to test for headers perserving behaviour.
 dummyHeaders :: H.RequestHeaders

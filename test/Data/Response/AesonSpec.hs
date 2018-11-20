@@ -62,11 +62,11 @@ expectedJsonValue = JsonValue { _value = T.jsonValueValue }
 
 -- | Construct a response from a status code and `ByteString` body.
 resp :: Status -> ByteString -> Response ByteString
-resp s b =
-  Response { responseStatus = s
-           , responseVersion = http11
-           , responseHeaders = []
-           , responseBody = b
-           , responseCookieJar = mempty
-           , responseClose' = ResponseClose $ return ()
-           }
+resp s b = Response
+  { responseStatus = s
+  , responseVersion = http11
+  , responseHeaders = []
+  , responseBody = b
+  , responseCookieJar = mempty
+  , responseClose' = ResponseClose $ return ()
+  }

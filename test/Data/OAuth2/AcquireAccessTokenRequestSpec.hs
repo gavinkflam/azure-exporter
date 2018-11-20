@@ -52,11 +52,11 @@ spec = do
       errorExtractor T.jsonValueJSON `shouldBe` Nothing
 
 -- | Dummy `Params` item.
-params =
-  Params { _clientId     = T.clientId
-         , _clientSecret = T.clientSecret
-         , _tenantId     = T.tenantId
-         }
+params = Params
+  { _clientId     = T.clientId
+  , _clientSecret = T.clientSecret
+  , _tenantId     = T.tenantId
+  }
 
 -- |
 -- The expected path should

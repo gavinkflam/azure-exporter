@@ -11,9 +11,9 @@ import GHC.Generics
 import Data.Aeson
 
 -- | JsonValue type to test for JSON deserialization mechanism
-newtype JsonValue =
-  JsonValue { _value :: Int
-            } deriving (Eq, Generic, Show)
+newtype JsonValue = JsonValue
+  { _value :: Int
+  } deriving (Eq, Generic, Show)
 
 instance FromJSON JsonValue where
   parseJSON = genericParseJSON options

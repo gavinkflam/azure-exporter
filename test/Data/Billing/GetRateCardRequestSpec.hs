@@ -44,13 +44,13 @@ spec = do
       C.unpack (path req) `shouldBe` expectedPath
 
 -- | Dummy `Params` item.
-params =
-  Params { _subscriptionId = T.subscriptionId
-         , _offerId        = T.offerId
-         , _currency       = T.currency
-         , _locale         = T.locale
-         , _regionInfo     = T.regionInfo
-         }
+params = Params
+  { _subscriptionId = T.subscriptionId
+  , _offerId        = T.offerId
+  , _currency       = T.currency
+  , _locale         = T.locale
+  , _regionInfo     = T.regionInfo
+  }
 
 -- |
 -- The expected path should
