@@ -5,29 +5,29 @@ module UsageDump
   ( dumpUsage
   ) where
 
-import           Control.Monad.IO.Class (liftIO)
-import           Control.Lens ((^.))
-import           Data.Text.Lazy (Text, pack, unpack)
-import           Data.List (sort)
+import Control.Monad.IO.Class (liftIO)
+import Data.Text.Lazy (Text, pack, unpack)
+import Data.List (sort)
 
-import           Network.HTTP.Client (Manager, newManager)
-import           Network.HTTP.Client.TLS (tlsManagerSettings)
+import Control.Lens ((^.))
+import Network.HTTP.Client (Manager, newManager)
+import Network.HTTP.Client.TLS (tlsManagerSettings)
 
-import           Data.Response.Aeson (errorExtractor)
+import Auth (acquireToken)
+import Control.Monad.Either (dieLeft)
+import qualified Data.AccessToken as T
+import Data.Billing (gauges)
 import qualified Data.Billing.GetRateCardResponse as GR
 import qualified Data.Billing.ListUsageAggregatesResponse as AR
 import qualified Data.Billing.Meter as M
 import qualified Data.Billing.UsageAggregate as U
 import qualified Data.Billing.GetRateCardRequest as G
 import qualified Data.Billing.ListUsageAggregatesRequest as A
-import           Data.Billing (gauges)
-import           Text.CSV (renderCSV)
-import           Text.GaugeCSV (toCSV)
-import           Auth (acquireToken)
-import           Control.Monad.Either (dieLeft)
-import qualified Data.AccessToken as T
 import qualified Data.Config as C
-import           HTTP (requestIO)
+import Data.Response.Aeson (errorExtractor)
+import HTTP (requestIO)
+import Text.CSV (renderCSV)
+import Text.GaugeCSV (toCSV)
 
 -- | Dump usage data in CSV format.
 dumpUsage :: String -> String -> IO ()

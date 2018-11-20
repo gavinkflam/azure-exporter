@@ -3,9 +3,11 @@ module Types
   ( AppAction
   ) where
 
-import Control.Monad.AppEnvSTM (AppEnvSTM)
 import Data.Text.Lazy (Text)
+
 import Web.Scotty.Trans (ActionT)
+
+import Control.Monad.AppEnvSTM (AppEnvSTM)
 
 -- |
 -- Type for Scotty `ActionT` monad.

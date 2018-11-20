@@ -7,16 +7,16 @@ module HTTP
   , request
   ) where
 
-import           Control.Monad.IO.Class (liftIO)
-import           Data.ByteString.Lazy (ByteString)
+import Control.Monad.IO.Class (liftIO)
+import Data.ByteString.Lazy (ByteString)
 
-import           Control.Lens ((^.))
-import           Data.Aeson (FromJSON)
-import           Network.HTTP.Client (Manager, Request, httpLbs)
+import Control.Lens ((^.))
+import Data.Aeson (FromJSON)
+import Network.HTTP.Client (Manager, Request, httpLbs)
 
-import           Data.Response.Aeson (ErrorHandler, errorExtractor, mapEitherDecode)
-import           Control.Monad.AppEnvSTM
+import Control.Monad.AppEnvSTM
 import qualified Data.AppEnv as E
+import Data.Response.Aeson (ErrorHandler, errorExtractor, mapEitherDecode)
 
 -- |
 -- Response comprising either `String` error messages or `FromJSON` response

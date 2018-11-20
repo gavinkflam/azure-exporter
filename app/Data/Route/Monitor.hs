@@ -5,20 +5,22 @@ module Data.Route.Monitor
   ( metrics
   ) where
 
+import Control.Monad.IO.Class (liftIO)
+import Data.Text.Lazy (Text, intercalate, pack)
+import Data.Time.Clock (getCurrentTime)
+
+import Control.Lens ((^.))
+import Web.Scotty.Trans (param, text)
+
+import Auth (getTokenOrRaise, refreshTokenIfExpired)
+import Control.Monad.AppEnvSTM (AppEnvSTM, liftSTM)
+import Control.Monad.Either (raiseLeft)
+import Data.Monitor (gauges)
 import qualified Data.Monitor.ListMetricValuesRequest as M
-import           Text.Timespan (timespanFrom)
-import           Data.Monitor (gauges)
-import           Text.Gauge (renderGauge)
-import           HTTP (request)
-import           Auth (getTokenOrRaise, refreshTokenIfExpired)
-import           Control.Monad.AppEnvSTM (AppEnvSTM, liftSTM)
-import           Control.Monad.Either (raiseLeft)
-import           Types (AppAction)
-import           Control.Lens ((^.))
-import           Control.Monad.IO.Class (liftIO)
-import           Data.Text.Lazy (Text, intercalate, pack)
-import           Data.Time.Clock (getCurrentTime)
-import           Web.Scotty.Trans (param, text)
+import HTTP (request)
+import Text.Gauge (renderGauge)
+import Text.Timespan (timespanFrom)
+import Types (AppAction)
 
 -- | Route for Azure Monitor metrics.
 metrics :: AppAction ()

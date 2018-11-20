@@ -8,23 +8,25 @@ module Auth
   , refreshTokenIfExpired
   ) where
 
-import           Control.Monad.AppEnvSTM
-import           Control.Monad.Either (raiseLeft)
-import           Control.Monad.Maybe (raiseIfNothing)
+import Control.Monad (when)
+import Control.Monad.IO.Class (liftIO)
+import Data.Text.Lazy (Text)
+import Data.Time.Clock (NominalDiffTime, addUTCTime)
+import Data.Time.Clock.System (getSystemTime, systemToUTCTime)
+
+import Control.Lens ((^.), (&), (.~))
+import Network.HTTP.Client (Manager)
+
+import Control.Monad.AppEnvSTM
+import Control.Monad.Either (raiseLeft)
+import Control.Monad.Maybe (raiseIfNothing)
 import qualified Data.AccessToken as T
 import qualified Data.AppEnv as E
 import qualified Data.Config as C
-import           Types (AppAction)
-import           HTTP (IOResponse, requestIO)
+import Data.OAuth2.AcquireAccessTokenRequest as AT
 import qualified Data.OAuth2.AcquireAccessTokenResponse as R
-import           Data.OAuth2.AcquireAccessTokenRequest as AT
-import           Control.Lens ((^.), (&), (.~))
-import           Control.Monad (when)
-import           Control.Monad.IO.Class (liftIO)
-import           Data.Text.Lazy (Text)
-import           Data.Time.Clock (NominalDiffTime, addUTCTime)
-import           Data.Time.Clock.System (getSystemTime, systemToUTCTime)
-import           Network.HTTP.Client (Manager)
+import HTTP (IOResponse, requestIO)
+import Types (AppAction)
 
 -- |
 -- Acquire a token from Azure with credentials in `Config`.

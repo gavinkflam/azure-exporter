@@ -10,11 +10,13 @@ module Data.AccessToken
   , fromResponse
   ) where
 
+import Data.Text.Lazy (Text, unpack)
+import Data.Time.Clock (UTCTime)
+import Data.Time.Clock.POSIX (posixSecondsToUTCTime)
+
+import Control.Lens (makeLenses, (^.))
+
 import qualified Data.OAuth2.AcquireAccessTokenResponse as R
-import           Control.Lens (makeLenses, (^.))
-import           Data.Text.Lazy (Text, unpack)
-import           Data.Time.Clock (UTCTime)
-import           Data.Time.Clock.POSIX (posixSecondsToUTCTime)
 
 -- | Type representing an Azure OAuth2 access token.
 data AccessToken =

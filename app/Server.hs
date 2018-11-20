@@ -3,15 +3,17 @@ module Server
   ( runServer
   ) where
 
-import App (app)
-import Control.Monad.AppEnvSTM
-import Data.AppEnv (AppEnv (..))
-import Data.Config (getConfig, port)
 import Control.Concurrent.STM (newTVarIO)
+
 import Control.Lens ((^.))
 import Network.HTTP.Client (newManager)
 import Network.HTTP.Client.TLS (tlsManagerSettings)
 import Web.Scotty.Trans (scottyT)
+
+import App (app)
+import Control.Monad.AppEnvSTM
+import Data.AppEnv (AppEnv (..))
+import Data.Config (getConfig, port)
 
 -- | Start the exporter HTTP server.
 runServer :: IO ()

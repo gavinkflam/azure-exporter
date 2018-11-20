@@ -5,6 +5,7 @@ module Control.Monad.Either
   ) where
 
 import System.Exit (die)
+
 import Web.Scotty.Trans (ActionT, ScottyError, raise, stringError)
 
 -- | Raise the error message from `Left`, otherwise extract value from `Right`.

@@ -16,16 +16,17 @@ module Control.Monad.AppEnvSTM
   , modifyAppEnv
   ) where
 
-import Data.AppEnv (AppEnv)
 import Control.Concurrent.STM (TVar, atomically, modifyTVar', readTVarIO)
 import Control.Monad.Reader
 
+import Data.AppEnv (AppEnv)
+
 -- | Reader monad providing the `AppEnv` STM variable.
-newtype AppEnvSTM a =
-  AppEnvSTM { runAppEnvTVarReader :: ReaderT (TVar AppEnv) IO a
-            } deriving ( Applicative, Functor, Monad, MonadIO
-                       , MonadReader (TVar AppEnv)
-                       )
+newtype AppEnvSTM a = AppEnvSTM
+  { runAppEnvTVarReader :: ReaderT (TVar AppEnv) IO a
+  } deriving ( Applicative, Functor, Monad, MonadIO
+             , MonadReader (TVar AppEnv)
+             )
 
 -- | Lift a computation from the `AppEnvSTM` monad.
 liftSTM :: MonadTrans t => AppEnvSTM a -> t AppEnvSTM a
