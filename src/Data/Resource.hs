@@ -2,7 +2,7 @@
 
 -- |
 -- Utility functions related to Azure resources.
-module AzureExporter.Util.Resource
+module Data.Resource
   (
   -- * Resource
     parseResourceId

@@ -26,9 +26,9 @@ import qualified Data.Billing.UsageAggregate as U
 import           Text.Scientific (showFixed)
 import           Text.Time (formatTime)
 import qualified Data.Gauge as G
-import           AzureExporter.Util.Prometheus (metricName, sanitizeName, sanitizeLabelValue)
+import           Data.Prometheus (metricName, sanitizeName, sanitizeLabelValue)
 import qualified Data.ResourceMetadata as D
-import           AzureExporter.Util.Resource (parseResourceId)
+import           Data.Resource (parseResourceId)
 
 -- |
 -- Extract information from `GetRateCardResponse` and `Meter`s to construct the

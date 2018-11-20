@@ -15,7 +15,7 @@ import qualified Data.Monitor.MetricValue as V
 import qualified Data.Monitor.TimeSeriesElement as E
 import qualified Data.Gauge as G
 import qualified Data.ResourceMetadata as D
-import           AzureExporter.Util.Resource (parseResourceId, resourceId)
+import           Data.Resource (parseResourceId, resourceId)
 import           Control.Lens ((^.))
 import           Data.Maybe (catMaybes)
 import           Data.Scientific (Scientific)

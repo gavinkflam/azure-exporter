@@ -1,12 +1,12 @@
 -- |
 -- Test utility functions related to Azure resources.
-module AzureExporter.Util.ResourceSpec
+module Data.ResourceSpec
   (
   -- * Spec
     spec
   ) where
 
-import           AzureExporter.Util.Resource
+import           Data.Resource
 import qualified Data.ResourceMetadata as M
 import           Control.Lens ((^.))
 import qualified Data.Dummy.Text as T

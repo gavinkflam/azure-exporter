@@ -2,7 +2,7 @@
 
 -- |
 -- Utility functions related to Prometheus.
-module AzureExporter.Util.Prometheus
+module Data.Prometheus
   -- * Data Model
   ( sanitizeName
   , metricName
