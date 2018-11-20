@@ -2,7 +2,7 @@
 
 -- |
 -- Utility to convert `ListMetricValuesResponse` to list of `Gauge`.
-module AzureExporter.Monitor
+module Data.Monitor
   (
   -- * Gauge
     gauges

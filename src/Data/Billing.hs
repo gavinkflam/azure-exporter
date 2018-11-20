@@ -2,7 +2,7 @@
 
 -- |
 -- Utility to convert `GetRateCardResponse` and `Meter`s to `Gauge`s.
-module AzureExporter.Billing
+module Data.Billing
   (
   -- * Gauge
     gauges

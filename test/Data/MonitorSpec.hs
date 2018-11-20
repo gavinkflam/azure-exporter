@@ -1,12 +1,12 @@
 -- |
 -- Test the mechanism constructing `Gauge` from `ListMetricValuesResponse`.
-module AzureExporter.MonitorSpec
+module Data.MonitorSpec
   (
   -- * Spec
     spec
   ) where
 
-import           AzureExporter.Monitor
+import           Data.Monitor
 import qualified Data.Dummy.Gauge as G
 import           Expectations
 import           Test.Hspec

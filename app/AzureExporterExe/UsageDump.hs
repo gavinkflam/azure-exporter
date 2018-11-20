@@ -20,7 +20,7 @@ import qualified Data.Billing.Meter as M
 import qualified Data.Billing.UsageAggregate as U
 import qualified Data.Billing.GetRateCardRequest as G
 import qualified Data.Billing.ListUsageAggregatesRequest as A
-import           AzureExporter.Billing (gauges)
+import           Data.Billing (gauges)
 import           Text.CSV (renderCSV)
 import           Text.GaugeCSV (toCSV)
 import           AzureExporterExe.Auth (acquireToken)
