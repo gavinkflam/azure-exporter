@@ -3,7 +3,7 @@ module AzureExporterExe.Types
   ( AppAction
   ) where
 
-import AzureExporterExe.Control.Monad.AppEnvSTM (AppEnvSTM)
+import Control.Monad.AppEnvSTM (AppEnvSTM)
 import Data.Text.Lazy (Text)
 import Web.Scotty.Trans (ActionT)
 

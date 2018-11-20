@@ -15,8 +15,8 @@ import           Data.Aeson (FromJSON)
 import           Network.HTTP.Client (Manager, Request, httpLbs)
 
 import           Data.Response.Aeson (ErrorHandler, errorExtractor, mapEitherDecode)
-import           AzureExporterExe.Control.Monad.AppEnvSTM
-import qualified AzureExporterExe.Data.AppEnv as E
+import           Control.Monad.AppEnvSTM
+import qualified Data.AppEnv as E
 
 -- |
 -- Response comprising either `String` error messages or `FromJSON` response

@@ -8,12 +8,12 @@ module AzureExporterExe.Auth
   , refreshTokenIfExpired
   ) where
 
-import           AzureExporterExe.Control.Monad.AppEnvSTM
-import           AzureExporterExe.Control.Monad.Either (raiseLeft)
-import           AzureExporterExe.Control.Monad.Maybe (raiseIfNothing)
-import qualified AzureExporterExe.Data.AccessToken as T
-import qualified AzureExporterExe.Data.AppEnv as E
-import qualified AzureExporterExe.Data.Config as C
+import           Control.Monad.AppEnvSTM
+import           Control.Monad.Either (raiseLeft)
+import           Control.Monad.Maybe (raiseIfNothing)
+import qualified Data.AccessToken as T
+import qualified Data.AppEnv as E
+import qualified Data.Config as C
 import           AzureExporterExe.Types (AppAction)
 import           AzureExporterExe.HTTP (IOResponse, requestIO)
 import qualified Data.OAuth2.AcquireAccessTokenResponse as R

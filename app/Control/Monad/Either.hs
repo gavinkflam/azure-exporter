@@ -1,4 +1,4 @@
-module AzureExporterExe.Control.Monad.Either
+module Control.Monad.Either
   -- * Exceptions
   ( raiseLeft
   , dieLeft

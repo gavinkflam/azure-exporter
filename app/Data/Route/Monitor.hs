@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module AzureExporterExe.Route.Monitor
+module Data.Route.Monitor
   -- * Routes
   ( metrics
   ) where
@@ -11,8 +11,8 @@ import           Data.Monitor (gauges)
 import           Text.Gauge (renderGauge)
 import           AzureExporterExe.HTTP (request)
 import           AzureExporterExe.Auth (getTokenOrRaise, refreshTokenIfExpired)
-import           AzureExporterExe.Control.Monad.AppEnvSTM (AppEnvSTM, liftSTM)
-import           AzureExporterExe.Control.Monad.Either (raiseLeft)
+import           Control.Monad.AppEnvSTM (AppEnvSTM, liftSTM)
+import           Control.Monad.Either (raiseLeft)
 import           AzureExporterExe.Types (AppAction)
 import           Control.Lens ((^.))
 import           Control.Monad.IO.Class (liftIO)

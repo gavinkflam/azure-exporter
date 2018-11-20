@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module AzureExporterExe.Data.AppEnv
+module Data.AppEnv
   -- * Types
   ( AppEnv (..)
   -- * Lenses
@@ -9,8 +9,8 @@ module AzureExporterExe.Data.AppEnv
   , httpManager
   ) where
 
-import AzureExporterExe.Data.AccessToken (AccessToken)
-import AzureExporterExe.Data.Config (Config)
+import Data.AccessToken (AccessToken)
+import Data.Config (Config)
 import Control.Lens (makeLenses)
 import Network.HTTP.Client (Manager)
 

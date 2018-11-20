@@ -6,7 +6,7 @@
 -- Inspired from Scotty global state example.
 --
 -- <https://github.com/scotty-web/scotty/blob/master/examples/globalstate.hs>
-module AzureExporterExe.Control.Monad.AppEnvSTM
+module Control.Monad.AppEnvSTM
   -- * Monad
   ( AppEnvSTM (..)
   , liftSTM
@@ -16,7 +16,7 @@ module AzureExporterExe.Control.Monad.AppEnvSTM
   , modifyAppEnv
   ) where
 
-import AzureExporterExe.Data.AppEnv (AppEnv)
+import Data.AppEnv (AppEnv)
 import Control.Concurrent.STM (TVar, atomically, modifyTVar', readTVarIO)
 import Control.Monad.Reader
 

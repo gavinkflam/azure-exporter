@@ -24,9 +24,9 @@ import           Data.Billing (gauges)
 import           Text.CSV (renderCSV)
 import           Text.GaugeCSV (toCSV)
 import           AzureExporterExe.Auth (acquireToken)
-import           AzureExporterExe.Control.Monad.Either (dieLeft)
-import qualified AzureExporterExe.Data.AccessToken as T
-import qualified AzureExporterExe.Data.Config as C
+import           Control.Monad.Either (dieLeft)
+import qualified Data.AccessToken as T
+import qualified Data.Config as C
 import           AzureExporterExe.HTTP (requestIO)
 
 -- | Dump usage data in CSV format.

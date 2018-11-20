@@ -1,4 +1,4 @@
-module AzureExporterExe.Control.Monad.Maybe
+module Control.Monad.Maybe
   -- * Exceptions
   ( raiseIfNothing
   ) where

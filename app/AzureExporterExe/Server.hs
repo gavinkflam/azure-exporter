@@ -4,9 +4,9 @@ module AzureExporterExe.Server
   ) where
 
 import AzureExporterExe.App (app)
-import AzureExporterExe.Control.Monad.AppEnvSTM
-import AzureExporterExe.Data.AppEnv (AppEnv (..))
-import AzureExporterExe.Data.Config (getConfig, port)
+import Control.Monad.AppEnvSTM
+import Data.AppEnv (AppEnv (..))
+import Data.Config (getConfig, port)
 import Control.Concurrent.STM (newTVarIO)
 import Control.Lens ((^.))
 import Network.HTTP.Client (newManager)

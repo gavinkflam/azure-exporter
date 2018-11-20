@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module AzureExporterExe.Data.Config
+module Data.Config
   -- * Types
   ( Config
   -- * Lenses

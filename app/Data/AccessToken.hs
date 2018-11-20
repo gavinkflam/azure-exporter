@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module AzureExporterExe.Data.AccessToken
+module Data.AccessToken
   -- * Types
   ( AccessToken (..)
   -- * Lenses
