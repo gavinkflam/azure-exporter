@@ -5,7 +5,7 @@
 -- Lists the usage aggregates of a subscription.
 --
 -- <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)>
-module Azure.Request.Billing.ListUsageAggregates
+module Data.Billing.ListUsageAggregatesRequest
   (
   -- * Types
     Params (..)

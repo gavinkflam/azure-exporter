@@ -5,7 +5,7 @@
 -- Lists the metric values for a resource.
 --
 -- <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list>
-module Azure.Request.Monitor.ListMetricValues
+module Data.Monitor.ListMetricValuesRequest
   (
   -- * Types
     Params (..)

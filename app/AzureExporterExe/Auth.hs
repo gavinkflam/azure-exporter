@@ -17,7 +17,7 @@ import qualified AzureExporterExe.Data.Config as C
 import           AzureExporterExe.Types (AppAction)
 import           AzureExporterExe.HTTP (IOResponse, requestIO)
 import qualified Data.OAuth2.AcquireAccessTokenResponse as R
-import           Azure.Request.OAuth2.AcquireAccessToken as AT
+import           Data.OAuth2.AcquireAccessTokenRequest as AT
 import           Control.Lens ((^.), (&), (.~))
 import           Control.Monad (when)
 import           Control.Monad.IO.Class (liftIO)

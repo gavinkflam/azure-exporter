@@ -2,14 +2,14 @@
 
 -- |
 -- Test `Request` construction for the list usage aggregates API.
-module Azure.Request.Billing.ListUsageAggregatesSpec
+module Data.Billing.ListUsageAggregatesRequestSpec
   (
   -- * Spec
     spec
   ) where
 
 import           Azure.Contract (billingApiVersion)
-import           Azure.Request.Billing.ListUsageAggregates
+import           Data.Billing.ListUsageAggregatesRequest
 import qualified Data.ByteString.Char8 as C
 import           Data.ByteString.Lazy (toStrict)
 import qualified Data.Dummy.Text as T

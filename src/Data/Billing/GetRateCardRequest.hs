@@ -5,7 +5,7 @@
 -- Get resource price and meter metadata for a subscription.
 --
 -- <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219004(v%3dazure.100)>
-module Azure.Request.Billing.GetRateCard
+module Data.Billing.GetRateCardRequest
   (
   -- * Types
     Params (..)

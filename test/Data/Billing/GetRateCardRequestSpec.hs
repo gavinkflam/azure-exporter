@@ -1,27 +1,30 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- |
--- Test `Request` construction for the list metric values API.
-module Azure.Request.Monitor.ListMetricValuesSpec
+-- Test `Request` construction for the get rate card API.
+module Data.Billing.GetRateCardRequestSpec
   (
   -- * Spec
     spec
   ) where
 
-import           Azure.Contract (monitorApiVersion)
-import           Azure.Request.Monitor.ListMetricValues
 import qualified Data.ByteString.Char8 as C
 import           Data.ByteString.Lazy (toStrict)
-import qualified Data.Dummy.Text as T
 import           Data.Text.Lazy (Text, unpack)
 import           Data.Text.Lazy.Encoding (encodeUtf8)
-import           Expectations
+
 import           Network.HTTP.Client (requestHeaders, path, queryString)
 import           Network.HTTP.Types (Header, hAuthorization, parseSimpleQuery)
 import           Test.Hspec
+
+import           Azure.Contract (billingApiVersion)
+import           Data.Billing.GetRateCardRequest
+import qualified Data.Dummy.Text as T
+import qualified Data.Dummy.Time as M
+import           Expectations
 import           Util.Text (toBS)
 
--- | Spec for `ListMetricValues`.
+-- | Spec for `GetRateCard`.
 spec :: Spec
 spec = do
   let req    = request T.accessToken params
@@ -32,35 +35,33 @@ spec = do
       requestHeaders req `shouldContain` [authHeader]
 
     it "contains api-version query item" $
-      qItems `shouldContain` [("api-version", toBS monitorApiVersion)]
+      qItems `shouldContain` [("api-version", toBS billingApiVersion)]
 
-    it "contains aggregation query item" $
-      qItems `shouldContain` [("aggregation", toBS T.aggregation)]
-
-    it "contains metricnames query item" $
-      qItems `shouldContain` [("metricnames", toBS T.metricNames)]
-
-    it "contains timespan query item" $
-      qItems `shouldContain` [("timespan", toBS T.timespan)]
+    it "contains $filter query item" $
+      qItems `shouldContain` [("$filter", toBS T.filterQuery)]
 
     it "contains the expected path" $
       C.unpack (path req) `shouldBe` expectedPath
 
 -- | Dummy `Params` item.
 params =
-  Params { _aggregation = T.aggregation
-         , _metricNames = T.metricNames
-         , _resourceId  = T.resourceId
-         , _timespan    = T.timespan
+  Params { _subscriptionId = T.subscriptionId
+         , _offerId        = T.offerId
+         , _currency       = T.currency
+         , _locale         = T.locale
+         , _regionInfo     = T.regionInfo
          }
 
 -- |
 -- The expected path should
 --
--- 1. Starts with the resource ID
+-- 1. Starts with the subscription ID
 -- 2. Follows by the API Endpoint
 expectedPath :: String
-expectedPath = unpack $ T.resourceId <> "/providers/microsoft.insights/metrics"
+expectedPath =
+  "/subscriptions/"
+  <> unpack T.subscriptionId
+  <> "/providers/Microsoft.Commerce/RateCard"
 
 -- | Dummy authorization header.
 authHeader :: Header

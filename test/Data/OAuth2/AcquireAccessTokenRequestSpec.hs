@@ -2,13 +2,13 @@
 
 -- |
 -- Test `Request` construction for the acquire access token API.
-module Azure.Request.OAuth2.AcquireAccessTokenSpec
+module Data.OAuth2.AcquireAccessTokenRequestSpec
   (
   -- * Spec
     spec
   ) where
 
-import           Azure.Request.OAuth2.AcquireAccessToken
+import           Data.OAuth2.AcquireAccessTokenRequest
 import qualified Data.ByteString.Char8 as C
 import qualified Data.Dummy.Text as T
 import           Data.Text.Lazy (unpack)

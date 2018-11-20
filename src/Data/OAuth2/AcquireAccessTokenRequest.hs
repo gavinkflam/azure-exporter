@@ -6,7 +6,7 @@
 -- Service-to-service access token request with a shared secret.
 --
 -- <https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-oauth2-client-creds-grant-flow#first-case-access-token-request-with-a-shared-secret>
-module Azure.Request.OAuth2.AcquireAccessToken
+module Data.OAuth2.AcquireAccessTokenRequest
   (
   -- * Types
     Params (..)

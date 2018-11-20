@@ -18,8 +18,8 @@ import qualified Data.Billing.GetRateCardResponse as GR
 import qualified Data.Billing.ListUsageAggregatesResponse as AR
 import qualified Data.Billing.Meter as M
 import qualified Data.Billing.UsageAggregate as U
-import qualified Azure.Request.Billing.GetRateCard as G
-import qualified Azure.Request.Billing.ListUsageAggregates as A
+import qualified Data.Billing.GetRateCardRequest as G
+import qualified Data.Billing.ListUsageAggregatesRequest as A
 import           AzureExporter.Billing (gauges)
 import           Text.CSV (renderCSV)
 import           Text.GaugeCSV (toCSV)
