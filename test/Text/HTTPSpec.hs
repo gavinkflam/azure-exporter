@@ -8,13 +8,14 @@ module Text.HTTPSpec
     spec
   ) where
 
-import           Text.HTTP
-import qualified Data.Dummy.Text as T
-import           Expectations
 import qualified Network.HTTP.Client as C
 import qualified Network.HTTP.Types.Header as H
-import           Test.Hspec
-import           Util.Text (toBS)
+import Test.Hspec
+
+import qualified Data.Dummy.Text as T
+import Expectations
+import Text.HTTP
+import Util.Text (toBS)
 
 -- | Spec for `Timespan`.
 spec :: Spec

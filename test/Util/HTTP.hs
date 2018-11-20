@@ -6,6 +6,7 @@ module Util.HTTP
 
 import Data.ByteString (ByteString)
 import Data.ByteString.Lazy (toStrict)
+
 import Network.HTTP.Client (RequestBody(..))
 import Network.HTTP.Types (parseSimpleQuery)
 

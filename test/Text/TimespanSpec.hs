@@ -6,10 +6,11 @@ module Text.TimespanSpec
     spec
   ) where
 
-import           Text.Timespan
+import Test.Hspec
+
 import qualified Data.Dummy.Time as T
-import           Expectations
-import           Test.Hspec
+import Text.Timespan
+import Expectations
 
 -- | Spec for `Timespan`.
 spec :: Spec

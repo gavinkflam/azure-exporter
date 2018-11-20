@@ -6,10 +6,11 @@ module Data.MonitorSpec
     spec
   ) where
 
-import           Data.Monitor
+import Test.Hspec
+
 import qualified Data.Dummy.Gauge as G
-import           Expectations
-import           Test.Hspec
+import Data.Monitor
+import Expectations
 
 -- | Spec for `Monitor`.
 spec :: Spec

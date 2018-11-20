@@ -8,18 +8,20 @@ module Data.Monitor.ListMetricValuesRequestSpec
     spec
   ) where
 
-import           Data.Contract (monitorApiVersion)
-import           Data.Monitor.ListMetricValuesRequest
 import qualified Data.ByteString.Char8 as C
-import           Data.ByteString.Lazy (toStrict)
+import Data.ByteString.Lazy (toStrict)
+import Data.Text.Lazy (Text, unpack)
+import Data.Text.Lazy.Encoding (encodeUtf8)
+
+import Network.HTTP.Client (requestHeaders, path, queryString)
+import Network.HTTP.Types (Header, hAuthorization, parseSimpleQuery)
+import Test.Hspec
+
+import Data.Contract (monitorApiVersion)
 import qualified Data.Dummy.Text as T
-import           Data.Text.Lazy (Text, unpack)
-import           Data.Text.Lazy.Encoding (encodeUtf8)
-import           Expectations
-import           Network.HTTP.Client (requestHeaders, path, queryString)
-import           Network.HTTP.Types (Header, hAuthorization, parseSimpleQuery)
-import           Test.Hspec
-import           Util.Text (toBS)
+import Data.Monitor.ListMetricValuesRequest
+import Expectations
+import Util.Text (toBS)
 
 -- | Spec for `ListMetricValues`.
 spec :: Spec

@@ -6,10 +6,11 @@ module Text.GaugeSpec
     spec
   ) where
 
-import           Text.Gauge
+import Test.Hspec
+
 import qualified Data.Dummy.Gauge as G
-import           Expectations
-import           Test.Hspec
+import Expectations
+import Text.Gauge
 
 -- | Spec for `Gauge`.
 spec :: Spec

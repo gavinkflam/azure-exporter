@@ -8,15 +8,17 @@ module Data.OAuth2.AcquireAccessTokenRequestSpec
     spec
   ) where
 
-import           Data.OAuth2.AcquireAccessTokenRequest
 import qualified Data.ByteString.Char8 as C
+import Data.Text.Lazy (unpack)
+
+import Network.HTTP.Client (path, requestBody)
+import Test.Hspec
+
 import qualified Data.Dummy.Text as T
-import           Data.Text.Lazy (unpack)
-import           Expectations
-import           Network.HTTP.Client (path, requestBody)
-import           Test.Hspec
-import           Util.HTTP (parseSimpleRequestBody)
-import           Util.Text (toBS)
+import Data.OAuth2.AcquireAccessTokenRequest
+import Expectations
+import Util.HTTP (parseSimpleRequestBody)
+import Util.Text (toBS)
 
 -- | Spec for `AcquireAccessToken`.
 spec :: Spec

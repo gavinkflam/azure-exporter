@@ -6,8 +6,9 @@ module Data.JsonValue
     JsonValue (..)
   ) where
 
-import Data.Aeson
 import GHC.Generics
+
+import Data.Aeson
 
 -- | JsonValue type to test for JSON deserialization mechanism
 newtype JsonValue =

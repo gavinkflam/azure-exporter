@@ -9,16 +9,18 @@ module Data.Dummy.Gauge
   , listMetricValuesResponse
   ) where
 
+import Data.Text.Lazy (Text, intercalate, pack, toLower)
+
+import Control.Lens ((^.))
+
+import qualified Data.Gauge as G
+import qualified Data.Dummy.Text as T
+import qualified Data.Dummy.Time as TI
 import qualified Data.Monitor.ListMetricValuesResponse as R
 import qualified Data.Monitor.LocalizableString as LS
 import qualified Data.Monitor.Metric as M
 import qualified Data.Monitor.MetricValue as V
 import qualified Data.Monitor.TimeSeriesElement as E
-import qualified Data.Gauge as G
-import           Control.Lens ((^.))
-import qualified Data.Dummy.Text as T
-import qualified Data.Dummy.Time as TI
-import           Data.Text.Lazy (Text, intercalate, pack, toLower)
 
 -- | Dummy `Gauge`.
 gauge :: G.Gauge

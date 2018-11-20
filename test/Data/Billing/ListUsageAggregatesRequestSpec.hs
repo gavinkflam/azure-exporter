@@ -8,19 +8,21 @@ module Data.Billing.ListUsageAggregatesRequestSpec
     spec
   ) where
 
-import           Data.Contract (billingApiVersion)
-import           Data.Billing.ListUsageAggregatesRequest
 import qualified Data.ByteString.Char8 as C
-import           Data.ByteString.Lazy (toStrict)
+import Data.ByteString.Lazy (toStrict)
+import Data.Text.Lazy (Text, unpack)
+import Data.Text.Lazy.Encoding (encodeUtf8)
+
+import Network.HTTP.Client (requestHeaders, path, queryString)
+import Network.HTTP.Types (Header, hAuthorization, parseSimpleQuery)
+import Test.Hspec
+
+import Data.Billing.ListUsageAggregatesRequest
+import Data.Contract (billingApiVersion)
 import qualified Data.Dummy.Text as T
 import qualified Data.Dummy.Time as M
-import           Data.Text.Lazy (Text, unpack)
-import           Data.Text.Lazy.Encoding (encodeUtf8)
-import           Expectations
-import           Network.HTTP.Client (requestHeaders, path, queryString)
-import           Network.HTTP.Types (Header, hAuthorization, parseSimpleQuery)
-import           Test.Hspec
-import           Util.Text (toBS)
+import Expectations
+import Util.Text (toBS)
 
 -- | Spec for `ListUsageAggregates`.
 spec :: Spec

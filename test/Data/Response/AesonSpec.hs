@@ -8,18 +8,18 @@ module Data.Response.AesonSpec
     spec
   ) where
 
-import           Data.ByteString.Lazy (ByteString)
-import           Data.Monoid (mempty)
-import           Data.Text.Lazy (unpack)
+import Data.ByteString.Lazy (ByteString)
+import Data.Monoid (mempty)
+import Data.Text.Lazy (unpack)
 
-import           Network.HTTP.Client.Internal (Response(..), ResponseClose(..))
-import           Network.HTTP.Types (Status, badRequest400, http11, ok200)
-import           Test.Hspec
+import Network.HTTP.Client.Internal (Response(..), ResponseClose(..))
+import Network.HTTP.Types (Status, badRequest400, http11, ok200)
+import Test.Hspec
 
-import           Data.Response.Aeson
 import qualified Data.Dummy.Text as T
-import           Data.JsonValue
-import           Expectations
+import Data.JsonValue
+import Data.Response.Aeson
+import Expectations
 
 -- | Spec for `Parser`.
 spec :: Spec

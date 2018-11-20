@@ -6,14 +6,16 @@ module Data.ResourceSpec
     spec
   ) where
 
-import           Data.Resource
-import qualified Data.ResourceMetadata as M
-import           Control.Lens ((^.))
+import Data.Text.Lazy (toLower)
+
+import Control.Lens ((^.))
+import Expectations
+import Test.Hspec
+
 import qualified Data.Dummy.Text as T
-import           Data.Text.Lazy (toLower)
-import           Expectations
-import           Test.Hspec
-import           Util.Text (toBS)
+import Data.Resource
+import qualified Data.ResourceMetadata as M
+import Util.Text (toBS)
 
 -- | Spec for `Resource`.
 spec :: Spec
