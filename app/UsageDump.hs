@@ -37,18 +37,20 @@ dumpUsage startTime endTime = do
   tokenRes <- dieLeft =<< liftIO (acquireToken config manager)
 
   let token   = T.fromResponse tokenRes ^. T.accessToken
-      aParams = A.Params { A._subscriptionId         = config ^. C.subscriptionId
-                         , A._aggregationGranularity = "daily"
-                         , A._reportedStartTime      = pack startTime
-                         , A._reportedEndTime        = pack endTime
-                         , A._continuationToken      = Nothing
-                         }
-      gParams = G.Params { G._subscriptionId = config ^. C.subscriptionId
-                         , G._offerId        = config ^. C.offerId
-                         , G._currency       = config ^. C.currency
-                         , G._locale         = config ^. C.locale
-                         , G._regionInfo     = config ^. C.regionInfo
-                         }
+      aParams = A.Params
+        { A._subscriptionId         = config ^. C.subscriptionId
+        , A._aggregationGranularity = "daily"
+        , A._reportedStartTime      = pack startTime
+        , A._reportedEndTime        = pack endTime
+        , A._continuationToken      = Nothing
+        }
+      gParams = G.Params
+        { G._subscriptionId = config ^. C.subscriptionId
+        , G._offerId        = config ^. C.offerId
+        , G._currency       = config ^. C.currency
+        , G._locale         = config ^. C.locale
+        , G._regionInfo     = config ^. C.regionInfo
+        }
   usages   <- fetchUsages manager token aParams
   rateCard <- fetchRateCard manager token gParams
   putStr $ unpack $ renderCSV $ toCSV $ sort $ gauges rateCard usages

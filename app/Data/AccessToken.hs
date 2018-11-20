@@ -19,19 +19,19 @@ import Control.Lens (makeLenses, (^.))
 import qualified Data.OAuth2.AcquireAccessTokenResponse as R
 
 -- | Type representing an Azure OAuth2 access token.
-data AccessToken =
-  AccessToken { _accessToken :: Text
-              , _expiresOn   :: UTCTime
-              } deriving Show
+data AccessToken = AccessToken
+  { _accessToken :: Text
+  , _expiresOn   :: UTCTime
+  } deriving Show
 
 makeLenses ''AccessToken
 
 -- | Extract and construct the `AccessToken` from `AcquireAccessTokenResponse`.
 fromResponse :: R.AcquireAccessTokenResponse -> AccessToken
-fromResponse r =
-  AccessToken { _accessToken = r ^. R.accessToken
-              , _expiresOn   = parseTimestampText (r ^. R.expiresOn)
-              }
+fromResponse r = AccessToken
+  { _accessToken = r ^. R.accessToken
+  , _expiresOn   = parseTimestampText (r ^. R.expiresOn)
+  }
 
 -- | Parse the UNIX timestamp in `Text` into `UTCTime`.
 parseTimestampText :: Text -> UTCTime

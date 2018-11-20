@@ -26,17 +26,17 @@ import Text.Read (readMaybe)
 import Control.Lens (makeLenses, (^.))
 
 -- | Configurations for the application.
-data Config =
-  Config { _clientId       :: Text
-         , _clientSecret   :: Text
-         , _port           :: Int
-         , _subscriptionId :: Text
-         , _tenantId       :: Text
-         , _offerId        :: Text
-         , _currency       :: Text
-         , _locale         :: Text
-         , _regionInfo     :: Text
-         } deriving Show
+data Config = Config
+  { _clientId       :: Text
+  , _clientSecret   :: Text
+  , _port           :: Int
+  , _subscriptionId :: Text
+  , _tenantId       :: Text
+  , _offerId        :: Text
+  , _currency       :: Text
+  , _locale         :: Text
+  , _regionInfo     :: Text
+  } deriving Show
 
 makeLenses ''Config
 
@@ -53,16 +53,17 @@ getConfig = do
   locale         <- getEnv' "en-US" "LOCALE"
   regionInfo     <- getEnv' "US" "REGION_INFO"
 
-  return Config { _clientId       = pack clientId
-                , _clientSecret   = pack clientSecret
-                , _port           = port
-                , _subscriptionId = pack subscriptionId
-                , _tenantId       = pack tenantId
-                , _offerId        = pack offerId
-                , _currency       = pack currency
-                , _locale         = pack locale
-                , _regionInfo     = pack regionInfo
-                }
+  return Config
+    { _clientId       = pack clientId
+    , _clientSecret   = pack clientSecret
+    , _port           = port
+    , _subscriptionId = pack subscriptionId
+    , _tenantId       = pack tenantId
+    , _offerId        = pack offerId
+    , _currency       = pack currency
+    , _locale         = pack locale
+    , _regionInfo     = pack regionInfo
+    }
 
 -- | Get an environment variable with a fallback.
 getEnv' :: String -> String -> IO String

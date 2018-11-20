@@ -20,8 +20,9 @@ runServer :: IO ()
 runServer = do
   config  <- getConfig
   manager <- newManager tlsManagerSettings
-  appEnv  <- newTVarIO AppEnv { _accessToken = Nothing
-                              , _config      = config
-                              , _httpManager = manager
-                              }
+  appEnv  <- newTVarIO AppEnv
+    { _accessToken = Nothing
+    , _config      = config
+    , _httpManager = manager
+    }
   scottyT (config ^. port) (runAppEnvSTMIntoIO appEnv) app

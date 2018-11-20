@@ -24,9 +24,7 @@ import Data.AppEnv (AppEnv)
 -- | Reader monad providing the `AppEnv` STM variable.
 newtype AppEnvSTM a = AppEnvSTM
   { runAppEnvTVarReader :: ReaderT (TVar AppEnv) IO a
-  } deriving ( Applicative, Functor, Monad, MonadIO
-             , MonadReader (TVar AppEnv)
-             )
+  } deriving (Applicative, Functor, Monad, MonadIO ,MonadReader (TVar AppEnv))
 
 -- | Lift a computation from the `AppEnvSTM` monad.
 liftSTM :: MonadTrans t => AppEnvSTM a -> t AppEnvSTM a
