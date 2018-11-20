@@ -14,7 +14,7 @@ module Data.Billing.ListUsageAggregatesRequest
   ) where
 
 import Azure.Contract (billingApiVersion)
-import Azure.Util.HTTP (addAuthHeader)
+import Text.HTTP (addAuthHeader)
 import Control.Lens (makeLenses, (^.))
 import Data.Text.Lazy (Text, unpack)
 import Data.Text.Lazy.Encoding (encodeUtf8)

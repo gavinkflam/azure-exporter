@@ -2,13 +2,13 @@
 
 -- |
 -- Test utility functions related to the HTTP Client .
-module Azure.Util.HTTPSpec
+module Text.HTTPSpec
   (
   -- * Spec
     spec
   ) where
 
-import           Azure.Util.HTTP
+import           Text.HTTP
 import qualified Data.Dummy.Text as T
 import           Expectations
 import qualified Network.HTTP.Client as C
@@ -38,7 +38,7 @@ dummyRequest =
 dummyHeaders :: H.RequestHeaders
 dummyHeaders =
   [ (H.hContentType, "application/x-www-form-urlencoded")
-  , (H.hUserAgent, "Azure.Util.HTTPSpec")
+  , (H.hUserAgent, "Text.HTTPSpec")
   ]
 
 -- | Dummy auth header constructed from `accessToken` dummy text.

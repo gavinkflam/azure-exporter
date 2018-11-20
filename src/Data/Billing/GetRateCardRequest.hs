@@ -22,7 +22,7 @@ import Control.Lens (makeLenses, (^.))
 import Network.HTTP.Client (Request(..), parseRequest_, responseTimeoutMicro, setQueryString)
 
 import Azure.Contract (billingApiVersion)
-import Azure.Util.HTTP (addAuthHeader)
+import Text.HTTP (addAuthHeader)
 
 -- | Parameters to construct `Request`.
 --

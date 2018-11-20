@@ -14,7 +14,7 @@ module Data.Monitor.ListMetricValuesRequest
   ) where
 
 import Azure.Contract (monitorApiVersion)
-import Azure.Util.HTTP (addAuthHeader)
+import Text.HTTP (addAuthHeader)
 import Control.Lens (makeLenses, (^.))
 import Data.Text.Lazy (Text, unpack)
 import Data.Text.Lazy.Encoding (encodeUtf8)

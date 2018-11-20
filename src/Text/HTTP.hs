@@ -2,7 +2,7 @@
 
 -- |
 -- Utility functions related to the HTTP clientt.
-module Azure.Util.HTTP
+module Text.HTTP
   (
   -- * Request
     addAuthHeader
