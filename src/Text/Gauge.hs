@@ -8,7 +8,7 @@ module Text.Gauge
     renderGauge
   ) where
 
-import qualified AzureExporter.Data.Gauge as G
+import qualified Data.Gauge as G
 import           Control.Lens ((^.))
 import           Data.Monoid (mconcat)
 import           Data.Text.Lazy (Text, intercalate, pack)

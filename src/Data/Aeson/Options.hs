@@ -1,6 +1,6 @@
 -- |
 -- Aeson encoding options.
-module Azure.Data.Aeson.Options
+module Data.Aeson.Options
   (
   -- * Options
     aesonOptions

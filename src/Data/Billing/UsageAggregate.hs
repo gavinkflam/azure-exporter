@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Azure.Data.Billing.UsageAggregate
+module Data.Billing.UsageAggregate
   (
   -- * Types
     UsageAggregate (..)
@@ -12,8 +12,8 @@ module Azure.Data.Billing.UsageAggregate
   , _type
   ) where
 
-import Azure.Data.Aeson.Options (aesonOptions)
-import Azure.Data.Billing.AggregateProperty (AggregateProperty)
+import Data.Aeson.Options (aesonOptions)
+import Data.Billing.AggregateProperty (AggregateProperty)
 import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Text.Lazy (Text)

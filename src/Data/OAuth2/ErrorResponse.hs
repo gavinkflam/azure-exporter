@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Azure.Data.OAuth2.ErrorResponse
+module Data.OAuth2.ErrorResponse
   (
   -- * Types
     ErrorResponse (..)
@@ -14,7 +14,7 @@ module Azure.Data.OAuth2.ErrorResponse
   , traceId
   ) where
 
-import Azure.Data.Aeson.Options (oAuth2AesonOptions)
+import Data.Aeson.Options (oAuth2AesonOptions)
 import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Text.Lazy (Text)

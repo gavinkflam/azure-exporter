@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Azure.Data.Error.ErrorResponse
+module Data.Error.ErrorResponse
   (
   -- * Types
     ErrorResponse (..)
@@ -9,8 +9,8 @@ module Azure.Data.Error.ErrorResponse
   , _error
   ) where
 
-import Azure.Data.Aeson.Options (aesonOptions)
-import Azure.Data.Error.ErrorValue (ErrorValue)
+import Data.Aeson.Options (aesonOptions)
+import Data.Error.ErrorValue (ErrorValue)
 import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Text.Lazy (Text)

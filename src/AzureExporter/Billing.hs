@@ -17,17 +17,17 @@ import qualified Data.HashMap.Strict as H
 import           Data.Scientific (Scientific)
 import           Text.Casing (quietSnake)
 
-import qualified Azure.Data.Billing.AggregateProperty as P
-import qualified Azure.Data.Billing.GetRateCardResponse as R
-import qualified Azure.Data.Billing.InstanceData as I
-import qualified Azure.Data.Billing.Meter as M
-import qualified Azure.Data.Billing.ResourceData as R
-import qualified Azure.Data.Billing.UsageAggregate as U
+import qualified Data.Billing.AggregateProperty as P
+import qualified Data.Billing.GetRateCardResponse as R
+import qualified Data.Billing.InstanceData as I
+import qualified Data.Billing.Meter as M
+import qualified Data.Billing.ResourceData as R
+import qualified Data.Billing.UsageAggregate as U
 import           Text.Scientific (showFixed)
 import           Text.Time (formatTime)
-import qualified AzureExporter.Data.Gauge as G
+import qualified Data.Gauge as G
 import           AzureExporter.Util.Prometheus (metricName, sanitizeName, sanitizeLabelValue)
-import qualified AzureExporter.Data.ResourceMetadata as D
+import qualified Data.ResourceMetadata as D
 import           AzureExporter.Util.Resource (parseResourceId)
 
 -- |

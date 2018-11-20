@@ -9,12 +9,12 @@ module Data.Dummy.Gauge
   , listMetricValuesResponse
   ) where
 
-import qualified Azure.Data.Monitor.ListMetricValuesResponse as R
-import qualified Azure.Data.Monitor.LocalizableString as LS
-import qualified Azure.Data.Monitor.Metric as M
-import qualified Azure.Data.Monitor.MetricValue as V
-import qualified Azure.Data.Monitor.TimeSeriesElement as E
-import qualified AzureExporter.Data.Gauge as G
+import qualified Data.Monitor.ListMetricValuesResponse as R
+import qualified Data.Monitor.LocalizableString as LS
+import qualified Data.Monitor.Metric as M
+import qualified Data.Monitor.MetricValue as V
+import qualified Data.Monitor.TimeSeriesElement as E
+import qualified Data.Gauge as G
 import           Control.Lens ((^.))
 import qualified Data.Dummy.Text as T
 import qualified Data.Dummy.Time as TI

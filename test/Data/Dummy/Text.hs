@@ -67,7 +67,7 @@ errorValueJSON = encodeUtf8 $
     "\"message\": \"" <> errorMessage <> "\"" <>
   "}"
 
--- | Dummy `Azure.Data.OAuth2.ErrorResponse` in JSON ByteString.
+-- | Dummy `Data.OAuth2.ErrorResponse` in JSON ByteString.
 oAuth2ErrorResponseJSON :: ByteString
 oAuth2ErrorResponseJSON = encodeUtf8 $
   "{" <>

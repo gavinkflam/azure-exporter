@@ -9,7 +9,7 @@ module AzureExporter.Util.Resource
   , resourceId
   ) where
 
-import qualified AzureExporter.Data.ResourceMetadata as D
+import qualified Data.ResourceMetadata as D
 import           Data.Text.Lazy (Text, intercalate, splitOn, toLower)
 
 -- | Parse an Azure resource URI and breakdown into meaningful components.

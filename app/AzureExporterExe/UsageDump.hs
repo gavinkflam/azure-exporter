@@ -13,11 +13,11 @@ import           Data.List (sort)
 import           Network.HTTP.Client (Manager, newManager)
 import           Network.HTTP.Client.TLS (tlsManagerSettings)
 
-import           Azure.Data.Aeson.Parser (errorExtractor)
-import qualified Azure.Data.Billing.GetRateCardResponse as GR
-import qualified Azure.Data.Billing.ListUsageAggregatesResponse as AR
-import qualified Azure.Data.Billing.Meter as M
-import qualified Azure.Data.Billing.UsageAggregate as U
+import           Data.Response.Aeson (errorExtractor)
+import qualified Data.Billing.GetRateCardResponse as GR
+import qualified Data.Billing.ListUsageAggregatesResponse as AR
+import qualified Data.Billing.Meter as M
+import qualified Data.Billing.UsageAggregate as U
 import qualified Azure.Request.Billing.GetRateCard as G
 import qualified Azure.Request.Billing.ListUsageAggregates as A
 import           AzureExporter.Billing (gauges)

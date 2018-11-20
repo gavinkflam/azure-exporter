@@ -7,7 +7,7 @@ module AzureExporter.Util.ResourceSpec
   ) where
 
 import           AzureExporter.Util.Resource
-import qualified AzureExporter.Data.ResourceMetadata as M
+import qualified Data.ResourceMetadata as M
 import           Control.Lens ((^.))
 import qualified Data.Dummy.Text as T
 import           Data.Text.Lazy (toLower)

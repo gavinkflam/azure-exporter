@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Azure.Data.Billing.AggregateProperty
+module Data.Billing.AggregateProperty
   (
   -- * Types
     AggregateProperty (..)
@@ -26,8 +26,8 @@ import Data.Aeson
 import Data.Scientific (Scientific)
 import Data.Time.Clock (UTCTime)
 
-import Azure.Data.Aeson.Options (aesonOptions)
-import Azure.Data.Billing.InstanceData (InstanceData)
+import Data.Aeson.Options (aesonOptions)
+import Data.Billing.InstanceData (InstanceData)
 
 -- | AggregateProperty
 --

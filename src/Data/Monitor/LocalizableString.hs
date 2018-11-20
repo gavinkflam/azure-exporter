@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Azure.Data.Monitor.LocalizableString
+module Data.Monitor.LocalizableString
   (
   -- * Types
     LocalizableString (..)
@@ -10,7 +10,7 @@ module Azure.Data.Monitor.LocalizableString
   , localizedValue
   ) where
 
-import Azure.Data.Aeson.Options (aesonOptions)
+import Data.Aeson.Options (aesonOptions)
 import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Text.Lazy (Text)

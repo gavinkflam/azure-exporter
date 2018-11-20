@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module AzureExporter.Data.ResourceMetadata
+module Data.ResourceMetadata
   (
   -- * Types
     ResourceMetadata (..)

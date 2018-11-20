@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Azure.Data.OAuth2.AcquireAccessTokenResponse
+module Data.OAuth2.AcquireAccessTokenResponse
   (
   -- * Types
     AcquireAccessTokenResponse (..)
@@ -15,7 +15,7 @@ module Azure.Data.OAuth2.AcquireAccessTokenResponse
   , tokenType
   ) where
 
-import Azure.Data.Aeson.Options (oAuth2AesonOptions)
+import Data.Aeson.Options (oAuth2AesonOptions)
 import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Text.Lazy (Text)

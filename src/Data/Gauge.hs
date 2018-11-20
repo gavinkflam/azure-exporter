@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module AzureExporter.Data.Gauge
+module Data.Gauge
   (
   -- * Types
     Gauge (..)

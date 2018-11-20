@@ -2,7 +2,7 @@
 
 -- |
 -- Test JSON decoding and error extraction mechanism.
-module Azure.Data.Aeson.ParserSpec
+module Data.Response.AesonSpec
   (
   -- * Spec
     spec
@@ -16,7 +16,7 @@ import           Network.HTTP.Client.Internal (Response(..), ResponseClose(..))
 import           Network.HTTP.Types (Status, badRequest400, http11, ok200)
 import           Test.Hspec
 
-import           Azure.Data.Aeson.Parser
+import           Data.Response.Aeson
 import qualified Data.Dummy.Text as T
 import           Data.JsonValue
 import           Expectations

@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Azure.Data.Billing.InstanceData
+module Data.Billing.InstanceData
   (
   -- * Types
     InstanceData (..)
@@ -14,8 +14,8 @@ import Data.Text.Lazy (Text)
 import Control.Lens (makeLenses)
 import Data.Aeson
 
-import Azure.Data.Aeson.Options (aesonOptions)
-import Azure.Data.Billing.ResourceData (ResourceData)
+import Data.Aeson.Options (aesonOptions)
+import Data.Billing.ResourceData (ResourceData)
 
 -- | InstanceData
 --

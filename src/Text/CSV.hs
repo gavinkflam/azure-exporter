@@ -16,8 +16,8 @@ import           Data.List (sort)
 import           Data.Set (Set, (\\), fromList, toList)
 import           Prelude hiding (unlines)
 
-import qualified AzureExporter.Data.CSV as C
-import qualified AzureExporter.Data.Gauge as G
+import qualified Data.CSV as C
+import qualified Data.Gauge as G
 
 -- | Render a `CSV` in `Text`.
 renderCSV :: C.CSV -> Text

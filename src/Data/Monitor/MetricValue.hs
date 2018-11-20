@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Azure.Data.Monitor.MetricValue
+module Data.Monitor.MetricValue
   (
   -- * Types
     MetricValue (..)
@@ -14,7 +14,7 @@ module Azure.Data.Monitor.MetricValue
   , total
   ) where
 
-import Azure.Data.Aeson.Options (aesonOptions)
+import Data.Aeson.Options (aesonOptions)
 import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Scientific (Scientific)

@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Azure.Data.Billing.Meter
+module Data.Billing.Meter
   (
   -- * Types
     Meter (..)
@@ -23,7 +23,7 @@ import Data.Aeson
 import Data.HashMap.Strict (HashMap)
 import Data.Scientific (Scientific)
 
-import Azure.Data.Aeson.Options (capitalizeAesonOptions)
+import Data.Aeson.Options (capitalizeAesonOptions)
 
 -- | Meter
 --

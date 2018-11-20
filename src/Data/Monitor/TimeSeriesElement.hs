@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Azure.Data.Monitor.TimeSeriesElement
+module Data.Monitor.TimeSeriesElement
   (
   -- * Types
     TimeSeriesElement (..)
@@ -9,8 +9,8 @@ module Azure.Data.Monitor.TimeSeriesElement
   , _data
   ) where
 
-import Azure.Data.Aeson.Options (aesonOptions)
-import Azure.Data.Monitor.MetricValue (MetricValue)
+import Data.Aeson.Options (aesonOptions)
+import Data.Monitor.MetricValue (MetricValue)
 import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Text.Lazy (Text)

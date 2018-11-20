@@ -2,7 +2,7 @@
 
 -- |
 -- JSON decoding and error extraction using Aeson.
-module Azure.Data.Aeson.Parser
+module Data.Response.Aeson
   -- * Error
   ( ErrorHandler
   , errorExtractor
@@ -21,8 +21,8 @@ import qualified Data.Aeson as A
 import           Network.HTTP.Client (Response, responseBody, responseStatus)
 import           Network.HTTP.Types (ok200, created201)
 
-import qualified Azure.Data.Error.ErrorResponse as E
-import qualified Azure.Data.Error.ErrorValue as V
+import qualified Data.Error.ErrorResponse as E
+import qualified Data.Error.ErrorValue as V
 
 -- | Error handler function type.
 type ErrorHandler = ByteString -> Maybe String

@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Azure.Data.Billing.GetRateCardResponse
+module Data.Billing.GetRateCardResponse
   (
   -- * Types
     GetRateCardResponse (..)
@@ -18,8 +18,8 @@ import GHC.Generics
 import Control.Lens (makeLenses)
 import Data.Aeson
 
-import Azure.Data.Aeson.Options (capitalizeAesonOptions)
-import Azure.Data.Billing.Meter (Meter)
+import Data.Aeson.Options (capitalizeAesonOptions)
+import Data.Billing.Meter (Meter)
 
 -- | Response for list usage aggregates API.
 --

@@ -15,8 +15,8 @@ import qualified Data.HashMap.Strict as H
 import           Data.Time.Clock.POSIX (utcTimeToPOSIXSeconds)
 
 import           Text.Scientific (showFixed)
-import qualified AzureExporter.Data.CSV as C
-import qualified AzureExporter.Data.Gauge as G
+import qualified Data.CSV as C
+import qualified Data.Gauge as G
 
 -- | Convert `Gauge`s to `CSV`.
 toCSV :: [G.Gauge] -> C.CSV

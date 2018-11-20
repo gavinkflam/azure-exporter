@@ -16,8 +16,8 @@ module Azure.Request.OAuth2.AcquireAccessToken
   , errorExtractor
   ) where
 
-import           Azure.Data.Aeson.Parser (ErrorHandler)
-import           Azure.Data.OAuth2.ErrorResponse (errorDescription)
+import           Data.Response.Aeson (ErrorHandler)
+import           Data.OAuth2.ErrorResponse (errorDescription)
 import           Control.Lens (makeLenses, (^.))
 import           Data.Aeson (decode)
 import           Data.Text.Lazy (Text, lines, stripEnd, unpack)

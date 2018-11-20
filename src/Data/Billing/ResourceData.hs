@@ -1,7 +1,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Azure.Data.Billing.ResourceData
+module Data.Billing.ResourceData
   (
   -- * Types
     ResourceData (..)
@@ -19,7 +19,7 @@ import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.HashMap.Strict (HashMap)
 
-import Azure.Data.Aeson.Options (aesonOptions)
+import Data.Aeson.Options (aesonOptions)
 
 -- | ResourceData
 --

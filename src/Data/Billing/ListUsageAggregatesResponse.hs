@@ -2,7 +2,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE TemplateHaskell #-}
 
-module Azure.Data.Billing.ListUsageAggregatesResponse
+module Data.Billing.ListUsageAggregatesResponse
   (
   -- * Types
     ListUsageAggregatesResponse (..)
@@ -23,9 +23,9 @@ import Data.ByteString.Lazy.Char8 (pack, unpack)
 import Data.Text.Lazy.Encoding (decodeUtf8, encodeUtf8)
 import Network.HTTP.Types.URI (parseSimpleQuery)
 
-import Azure.Data.Aeson.Options (aesonOptions)
-import Azure.Data.Billing.UsageAggregate (UsageAggregate)
-import Azure.Data.Monitor.Metric (Metric)
+import Data.Aeson.Options (aesonOptions)
+import Data.Billing.UsageAggregate (UsageAggregate)
+import Data.Monitor.Metric (Metric)
 
 -- | Response for list usage aggregates API.
 --

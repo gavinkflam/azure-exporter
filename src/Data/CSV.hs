@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module AzureExporter.Data.CSV
+module Data.CSV
   (
   -- * Types
     CSV (..)
