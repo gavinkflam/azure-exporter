@@ -6,9 +6,9 @@ module AzureExporterExe.Route.Monitor
   ) where
 
 import qualified Azure.Request.Monitor.ListMetricValues as M
-import           Azure.Text.Timespan (timespanFrom)
+import           Text.Timespan (timespanFrom)
 import           AzureExporter.Monitor (gauges)
-import           AzureExporter.Text.Gauge (renderGauge)
+import           Text.Gauge (renderGauge)
 import           AzureExporterExe.HTTP (request)
 import           AzureExporterExe.Auth (getTokenOrRaise, refreshTokenIfExpired)
 import           AzureExporterExe.Control.Monad.AppEnvSTM (AppEnvSTM, liftSTM)

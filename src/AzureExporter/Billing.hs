@@ -23,8 +23,8 @@ import qualified Azure.Data.Billing.InstanceData as I
 import qualified Azure.Data.Billing.Meter as M
 import qualified Azure.Data.Billing.ResourceData as R
 import qualified Azure.Data.Billing.UsageAggregate as U
-import           Azure.Text.Scientific (showFixed)
-import           Azure.Text.Time (formatTime)
+import           Text.Scientific (showFixed)
+import           Text.Time (formatTime)
 import qualified AzureExporter.Data.Gauge as G
 import           AzureExporter.Util.Prometheus (metricName, sanitizeName, sanitizeLabelValue)
 import qualified AzureExporter.Data.ResourceMetadata as D

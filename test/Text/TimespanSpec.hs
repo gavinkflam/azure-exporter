@@ -1,12 +1,12 @@
 -- |
 -- Test timespan `String` construction from `UTCTime`.
-module Azure.Text.TimespanSpec
+module Text.TimespanSpec
   (
   -- * Spec
     spec
   ) where
 
-import           Azure.Text.Timespan
+import           Text.Timespan
 import qualified Data.Dummy.Time as T
 import           Expectations
 import           Test.Hspec

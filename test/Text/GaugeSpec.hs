@@ -1,12 +1,12 @@
 -- |
 -- Test the rendering of a `Gauge` in Prometheus exporter syntax.
-module AzureExporter.Text.GaugeSpec
+module Text.GaugeSpec
   (
   -- * Spec
     spec
   ) where
 
-import           AzureExporter.Text.Gauge
+import           Text.Gauge
 import qualified Data.Dummy.Gauge as G
 import           Expectations
 import           Test.Hspec

@@ -2,7 +2,7 @@
 
 -- |
 -- Utility to convert `Gauge`s to `CSV`.
-module AzureExporter.Text.GaugeCSV
+module Text.GaugeCSV
   (
   -- * Gauge
     toCSV
@@ -14,7 +14,7 @@ import           Control.Lens ((^.))
 import qualified Data.HashMap.Strict as H
 import           Data.Time.Clock.POSIX (utcTimeToPOSIXSeconds)
 
-import           Azure.Text.Scientific (showFixed)
+import           Text.Scientific (showFixed)
 import qualified AzureExporter.Data.CSV as C
 import qualified AzureExporter.Data.Gauge as G
 

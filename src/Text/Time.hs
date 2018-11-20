@@ -1,6 +1,6 @@
 -- |
 -- Utility to format `UTCTime` to `String`.
-module Azure.Text.Time
+module Text.Time
   (
   -- * Time
     formatTime

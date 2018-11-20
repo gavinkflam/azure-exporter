@@ -1,6 +1,6 @@
 -- |
 -- Utility to format timespan `String` from `UTCTime`
-module Azure.Text.Timespan
+module Text.Timespan
   (
   -- * Timespan
     timespan

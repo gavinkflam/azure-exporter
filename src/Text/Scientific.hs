@@ -1,6 +1,6 @@
 -- |
 -- Utility to format `Scientific` to `String`.
-module Azure.Text.Scientific
+module Text.Scientific
   (
   -- * Scientific
     showFixed

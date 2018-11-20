@@ -2,7 +2,7 @@
 
 -- |
 -- Utility to render a `Gauge` in Prometheus exporter syntax.
-module AzureExporter.Text.Gauge
+module Text.Gauge
   (
   -- * Gauge
     renderGauge

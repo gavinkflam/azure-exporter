@@ -21,8 +21,8 @@ import qualified Azure.Data.Billing.UsageAggregate as U
 import qualified Azure.Request.Billing.GetRateCard as G
 import qualified Azure.Request.Billing.ListUsageAggregates as A
 import           AzureExporter.Billing (gauges)
-import           AzureExporter.Text.CSV (renderCSV)
-import           AzureExporter.Text.GaugeCSV (toCSV)
+import           Text.CSV (renderCSV)
+import           Text.GaugeCSV (toCSV)
 import           AzureExporterExe.Auth (acquireToken)
 import           AzureExporterExe.Control.Monad.Either (dieLeft)
 import qualified AzureExporterExe.Data.AccessToken as T

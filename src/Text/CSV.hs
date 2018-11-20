@@ -2,7 +2,7 @@
 
 -- |
 -- Utility to render a `CSV`.
-module AzureExporter.Text.CSV
+module Text.CSV
   (
   -- * CSV
     renderCSV
