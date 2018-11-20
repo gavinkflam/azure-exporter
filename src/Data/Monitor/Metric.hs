@@ -13,13 +13,15 @@ module Data.Monitor.Metric
   , timeseries
   ) where
 
+import Data.Text.Lazy (Text)
+import GHC.Generics
+
+import Control.Lens (makeLenses)
+import Data.Aeson
+
 import Data.Aeson.Options (aesonOptions)
 import Data.Monitor.LocalizableString (LocalizableString)
 import Data.Monitor.TimeSeriesElement (TimeSeriesElement)
-import Control.Lens (makeLenses)
-import Data.Aeson
-import Data.Text.Lazy (Text)
-import GHC.Generics
 
 -- | Metric
 --

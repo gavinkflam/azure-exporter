@@ -8,14 +8,14 @@ module Data.Billing
     gauges
   ) where
 
-import           Data.Char (toLower)
-import           Data.Maybe (catMaybes, fromMaybe, isJust)
+import Data.Char (toLower)
+import Data.Maybe (catMaybes, fromMaybe, isJust)
 import qualified Data.Text.Lazy as T
 
-import           Control.Lens ((^.))
+import Control.Lens ((^.))
 import qualified Data.HashMap.Strict as H
-import           Data.Scientific (Scientific)
-import           Text.Casing (quietSnake)
+import Data.Scientific (Scientific)
+import Text.Casing (quietSnake)
 
 import qualified Data.Billing.AggregateProperty as P
 import qualified Data.Billing.GetRateCardResponse as R
@@ -23,12 +23,12 @@ import qualified Data.Billing.InstanceData as I
 import qualified Data.Billing.Meter as M
 import qualified Data.Billing.ResourceData as R
 import qualified Data.Billing.UsageAggregate as U
-import           Text.Scientific (showFixed)
-import           Text.Time (formatTime)
 import qualified Data.Gauge as G
-import           Data.Prometheus (metricName, sanitizeName, sanitizeLabelValue)
+import Data.Prometheus (metricName, sanitizeName, sanitizeLabelValue)
 import qualified Data.ResourceMetadata as D
-import           Data.Resource (parseResourceId)
+import Data.Resource (parseResourceId)
+import Text.Scientific (showFixed)
+import Text.Time (formatTime)
 
 -- |
 -- Extract information from `GetRateCardResponse` and `Meter`s to construct the

@@ -6,7 +6,7 @@ module Text.Time
     formatTime
   ) where
 
-import           Data.Time.Clock (UTCTime)
+import Data.Time.Clock (UTCTime)
 import qualified Data.Time.Format as F
 
 -- | Format a `UTCTime` with the given format.

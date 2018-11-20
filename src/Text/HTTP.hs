@@ -12,6 +12,7 @@ import Data.ByteString (ByteString)
 import Data.ByteString.Lazy (toStrict)
 import Data.Text.Lazy (Text)
 import Data.Text.Lazy.Encoding (encodeUtf8)
+
 import Network.HTTP.Client (Request, requestHeaders)
 import Network.HTTP.Types.Header (hAuthorization)
 

@@ -14,11 +14,13 @@ module Data.OAuth2.ErrorResponse
   , traceId
   ) where
 
-import Data.Aeson.Options (oAuth2AesonOptions)
-import Control.Lens (makeLenses)
-import Data.Aeson
 import Data.Text.Lazy (Text)
 import GHC.Generics
+
+import Control.Lens (makeLenses)
+import Data.Aeson
+
+import Data.Aeson.Options (oAuth2AesonOptions)
 
 -- | Azure OAuth 2.0 credentials grant error response.
 --

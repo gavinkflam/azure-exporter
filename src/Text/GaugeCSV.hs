@@ -8,15 +8,15 @@ module Text.GaugeCSV
     toCSV
   ) where
 
-import           Data.Text.Lazy (Text, pack)
+import Data.Text.Lazy (Text, pack)
+import Data.Time.Clock.POSIX (utcTimeToPOSIXSeconds)
 
-import           Control.Lens ((^.))
+import Control.Lens ((^.))
 import qualified Data.HashMap.Strict as H
-import           Data.Time.Clock.POSIX (utcTimeToPOSIXSeconds)
 
-import           Text.Scientific (showFixed)
 import qualified Data.CSV as C
 import qualified Data.Gauge as G
+import Text.Scientific (showFixed)
 
 -- | Convert `Gauge`s to `CSV`.
 toCSV :: [G.Gauge] -> C.CSV

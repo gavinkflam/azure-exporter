@@ -13,14 +13,16 @@ module Data.Monitor.ListMetricValuesRequest
   , request
   ) where
 
-import Data.Contract (monitorApiVersion)
-import Text.HTTP (addAuthHeader)
-import Control.Lens (makeLenses, (^.))
-import Data.Text.Lazy (Text, unpack)
-import Data.Text.Lazy.Encoding (encodeUtf8)
 import Data.ByteString (ByteString)
 import Data.ByteString.Lazy (toStrict)
+import Data.Text.Lazy (Text, unpack)
+import Data.Text.Lazy.Encoding (encodeUtf8)
+
+import Control.Lens (makeLenses, (^.))
 import Network.HTTP.Client (Request, parseRequest_, setQueryString)
+
+import Data.Contract (monitorApiVersion)
+import Text.HTTP (addAuthHeader)
 
 -- | Parameters to construct `Request`.
 --

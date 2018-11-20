@@ -12,12 +12,12 @@ module Data.CSV
   , prependRow
   ) where
 
-import           Data.Set (Set, fromList, union)
+import Data.Set (Set, fromList, union)
 import qualified Data.Set as Set
-import           Data.Text.Lazy (Text)
+import Data.Text.Lazy (Text)
 
-import           Control.Lens ((^.), makeLenses)
-import           Data.HashMap.Strict (HashMap, keys)
+import Control.Lens ((^.), makeLenses)
+import Data.HashMap.Strict (HashMap, keys)
 
 -- | Data structure representing a CSV.
 data CSV =

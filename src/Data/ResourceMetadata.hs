@@ -12,8 +12,9 @@ module Data.ResourceMetadata
   , subscriptionId
   ) where
 
-import Control.Lens (makeLenses)
 import Data.Text.Lazy (Text)
+
+import Control.Lens (makeLenses)
 
 -- | Data structure for breaking down an Azure resource URI.
 data ResourceMetadata =

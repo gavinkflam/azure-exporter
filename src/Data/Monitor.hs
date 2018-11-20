@@ -8,19 +8,21 @@ module Data.Monitor
     gauges
   ) where
 
+import Data.Maybe (catMaybes)
+import Data.Text.Lazy (Text, intercalate, pack, unpack)
+
+import Control.Lens ((^.))
+import Data.Scientific (Scientific)
+import Text.Casing (quietSnake)
+
 import qualified Data.Monitor.ListMetricValuesResponse as R
 import qualified Data.Monitor.LocalizableString as LS
 import qualified Data.Monitor.Metric as M
 import qualified Data.Monitor.MetricValue as V
 import qualified Data.Monitor.TimeSeriesElement as E
 import qualified Data.Gauge as G
+import Data.Resource (parseResourceId, resourceId)
 import qualified Data.ResourceMetadata as D
-import           Data.Resource (parseResourceId, resourceId)
-import           Control.Lens ((^.))
-import           Data.Maybe (catMaybes)
-import           Data.Scientific (Scientific)
-import           Data.Text.Lazy (Text, intercalate, pack, unpack)
-import           Text.Casing (quietSnake)
 
 -- |
 -- Extract information from `ListMetricValuesResponse` and construct the

@@ -8,13 +8,13 @@ module Text.CSV
     renderCSV
   ) where
 
-import           Data.Text.Lazy (Text, intercalate, pack, unlines)
+import Data.Text.Lazy (Text, intercalate, pack, unlines)
+import Data.List (sort)
+import Data.Set (Set, (\\), fromList, toList)
+import Prelude hiding (unlines)
 
-import           Control.Lens ((^.))
+import Control.Lens ((^.))
 import qualified Data.HashMap.Strict as H
-import           Data.List (sort)
-import           Data.Set (Set, (\\), fromList, toList)
-import           Prelude hiding (unlines)
 
 import qualified Data.CSV as C
 import qualified Data.Gauge as G

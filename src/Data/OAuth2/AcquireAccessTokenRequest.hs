@@ -16,16 +16,18 @@ module Data.OAuth2.AcquireAccessTokenRequest
   , errorExtractor
   ) where
 
-import           Data.Response.Aeson (ErrorHandler)
-import           Data.OAuth2.ErrorResponse (errorDescription)
-import           Control.Lens (makeLenses, (^.))
-import           Data.Aeson (decode)
-import           Data.Text.Lazy (Text, lines, stripEnd, unpack)
-import           Data.Text.Lazy.Encoding (encodeUtf8)
+import Data.Text.Lazy (Text, lines, stripEnd, unpack)
+import Data.Text.Lazy.Encoding (encodeUtf8)
 import qualified Data.ByteString as BS
-import           Data.ByteString.Lazy (ByteString, toStrict)
-import           Network.HTTP.Client (Request, parseRequest_, urlEncodedBody)
-import           Prelude hiding (lines)
+import Data.ByteString.Lazy (ByteString, toStrict)
+import Prelude hiding (lines)
+
+import Control.Lens (makeLenses, (^.))
+import Data.Aeson (decode)
+import Network.HTTP.Client (Request, parseRequest_, urlEncodedBody)
+
+import Data.OAuth2.ErrorResponse (errorDescription)
+import Data.Response.Aeson (ErrorHandler)
 
 -- | Parameters to construct `Request`.
 --

@@ -8,10 +8,12 @@ module Text.Gauge
     renderGauge
   ) where
 
+import Data.Monoid (mconcat)
+import Data.Text.Lazy (Text, intercalate, pack)
+
+import Control.Lens ((^.))
+
 import qualified Data.Gauge as G
-import           Control.Lens ((^.))
-import           Data.Monoid (mconcat)
-import           Data.Text.Lazy (Text, intercalate, pack)
 
 -- | Render a `Gauge` in Prometheus exporter syntax.
 --

@@ -9,8 +9,9 @@ module Data.Resource
   , resourceId
   ) where
 
+import Data.Text.Lazy (Text, intercalate, splitOn, toLower)
+
 import qualified Data.ResourceMetadata as D
-import           Data.Text.Lazy (Text, intercalate, splitOn, toLower)
 
 -- | Parse an Azure resource URI and breakdown into meaningful components.
 parseResourceId :: Text -> D.ResourceMetadata

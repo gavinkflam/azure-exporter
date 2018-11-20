@@ -10,16 +10,16 @@ module Data.Response.Aeson
   , mapEitherDecode
   ) where
 
-import           Data.Bifunctor (first)
-import           Data.ByteString.Lazy (ByteString)
+import Data.Bifunctor (first)
+import Data.ByteString.Lazy (ByteString)
 import qualified Data.ByteString.Lazy.Char8 as BS
-import           Data.Maybe (catMaybes, fromMaybe)
+import Data.Maybe (catMaybes, fromMaybe)
 import qualified Data.Text.Lazy as T
 
-import           Control.Lens ((^.))
+import Control.Lens ((^.))
 import qualified Data.Aeson as A
-import           Network.HTTP.Client (Response, responseBody, responseStatus)
-import           Network.HTTP.Types (ok200, created201)
+import Network.HTTP.Client (Response, responseBody, responseStatus)
+import Network.HTTP.Types (ok200, created201)
 
 import qualified Data.Error.ErrorResponse as E
 import qualified Data.Error.ErrorValue as V

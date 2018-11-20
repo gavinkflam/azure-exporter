@@ -14,12 +14,14 @@ module Data.Monitor.ListMetricValuesResponse
   , value
   ) where
 
-import Data.Aeson.Options (aesonOptions)
-import Data.Monitor.Metric (Metric)
-import Control.Lens (makeLenses)
-import Data.Aeson
 import Data.Text.Lazy (Text)
 import GHC.Generics
+
+import Control.Lens (makeLenses)
+import Data.Aeson
+
+import Data.Aeson.Options (aesonOptions)
+import Data.Monitor.Metric (Metric)
 
 -- | Response for list metrics API.
 --

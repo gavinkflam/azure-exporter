@@ -13,10 +13,10 @@ module Data.Billing.GetRateCardRequest
   , request
   ) where
 
-import Data.Text.Lazy (Text, unpack)
-import Data.Text.Lazy.Encoding (encodeUtf8)
 import Data.ByteString (ByteString)
 import Data.ByteString.Lazy (toStrict)
+import Data.Text.Lazy (Text, unpack)
+import Data.Text.Lazy.Encoding (encodeUtf8)
 
 import Control.Lens (makeLenses, (^.))
 import Network.HTTP.Client (Request(..), parseRequest_, responseTimeoutMicro, setQueryString)

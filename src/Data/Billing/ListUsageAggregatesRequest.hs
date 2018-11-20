@@ -13,14 +13,16 @@ module Data.Billing.ListUsageAggregatesRequest
   , request
   ) where
 
-import Data.Contract (billingApiVersion)
-import Text.HTTP (addAuthHeader)
-import Control.Lens (makeLenses, (^.))
-import Data.Text.Lazy (Text, unpack)
-import Data.Text.Lazy.Encoding (encodeUtf8)
 import Data.ByteString (ByteString)
 import Data.ByteString.Lazy (toStrict)
+import Data.Text.Lazy (Text, unpack)
+import Data.Text.Lazy.Encoding (encodeUtf8)
 import Network.HTTP.Client (Request(..), parseRequest_, responseTimeoutMicro, setQueryString)
+
+import Control.Lens (makeLenses, (^.))
+
+import Data.Contract (billingApiVersion)
+import Text.HTTP (addAuthHeader)
 
 -- | Parameters to construct `Request`.
 --

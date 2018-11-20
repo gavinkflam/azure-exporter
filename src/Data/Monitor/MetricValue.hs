@@ -14,13 +14,15 @@ module Data.Monitor.MetricValue
   , total
   ) where
 
-import Data.Aeson.Options (aesonOptions)
-import Control.Lens (makeLenses)
-import Data.Aeson
-import Data.Scientific (Scientific)
 import Data.Text.Lazy (Text)
 import GHC.Generics
 import Prelude hiding (maximum, minimum)
+
+import Control.Lens (makeLenses)
+import Data.Aeson
+import Data.Scientific (Scientific)
+
+import Data.Aeson.Options (aesonOptions)
 
 -- | MetricValue
 --
