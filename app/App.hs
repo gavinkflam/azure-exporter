@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module AzureExporterExe.App
+module App
   -- * Scotty App
   ( app
   ) where

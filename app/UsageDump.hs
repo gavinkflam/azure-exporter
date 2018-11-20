@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module AzureExporterExe.UsageDump
+module UsageDump
   -- * Usage
   ( dumpUsage
   ) where
@@ -23,11 +23,11 @@ import qualified Data.Billing.ListUsageAggregatesRequest as A
 import           Data.Billing (gauges)
 import           Text.CSV (renderCSV)
 import           Text.GaugeCSV (toCSV)
-import           AzureExporterExe.Auth (acquireToken)
+import           Auth (acquireToken)
 import           Control.Monad.Either (dieLeft)
 import qualified Data.AccessToken as T
 import qualified Data.Config as C
-import           AzureExporterExe.HTTP (requestIO)
+import           HTTP (requestIO)
 
 -- | Dump usage data in CSV format.
 dumpUsage :: String -> String -> IO ()

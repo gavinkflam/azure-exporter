@@ -1,4 +1,4 @@
-module AzureExporterExe.HTTP
+module HTTP
   -- * Types
   ( IOResponse
   , STMResponse

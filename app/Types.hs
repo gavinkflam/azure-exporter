@@ -1,4 +1,4 @@
-module AzureExporterExe.Types
+module Types
   -- * Types
   ( AppAction
   ) where

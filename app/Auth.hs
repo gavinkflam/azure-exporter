@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module AzureExporterExe.Auth
+module Auth
   -- * OAuth2
   ( acquireToken
   -- * STM
@@ -14,8 +14,8 @@ import           Control.Monad.Maybe (raiseIfNothing)
 import qualified Data.AccessToken as T
 import qualified Data.AppEnv as E
 import qualified Data.Config as C
-import           AzureExporterExe.Types (AppAction)
-import           AzureExporterExe.HTTP (IOResponse, requestIO)
+import           Types (AppAction)
+import           HTTP (IOResponse, requestIO)
 import qualified Data.OAuth2.AcquireAccessTokenResponse as R
 import           Data.OAuth2.AcquireAccessTokenRequest as AT
 import           Control.Lens ((^.), (&), (.~))

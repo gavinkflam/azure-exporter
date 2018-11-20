@@ -3,8 +3,8 @@ module Main where
 import System.Environment (getArgs)
 import System.Exit (die)
 
-import AzureExporterExe.Server (runServer)
-import AzureExporterExe.UsageDump (dumpUsage)
+import Server (runServer)
+import UsageDump (dumpUsage)
 
 -- | Entry point for Azure exporter executable.
 main :: IO ()

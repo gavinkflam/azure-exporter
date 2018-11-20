@@ -1,9 +1,9 @@
-module AzureExporterExe.Server
+module Server
   -- * Server
   ( runServer
   ) where
 
-import AzureExporterExe.App (app)
+import App (app)
 import Control.Monad.AppEnvSTM
 import Data.AppEnv (AppEnv (..))
 import Data.Config (getConfig, port)
