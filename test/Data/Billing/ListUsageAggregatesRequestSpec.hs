@@ -8,7 +8,7 @@ module Data.Billing.ListUsageAggregatesRequestSpec
     spec
   ) where
 
-import           Azure.Contract (billingApiVersion)
+import           Data.Contract (billingApiVersion)
 import           Data.Billing.ListUsageAggregatesRequest
 import qualified Data.ByteString.Char8 as C
 import           Data.ByteString.Lazy (toStrict)

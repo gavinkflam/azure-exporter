@@ -2,7 +2,7 @@
 
 -- |
 -- The constants for Azure API.
-module Azure.Contract
+module Data.Contract
   (
   -- * Versions
     monitorApiVersion

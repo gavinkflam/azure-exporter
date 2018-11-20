@@ -8,7 +8,7 @@ module Data.Monitor.ListMetricValuesRequestSpec
     spec
   ) where
 
-import           Azure.Contract (monitorApiVersion)
+import           Data.Contract (monitorApiVersion)
 import           Data.Monitor.ListMetricValuesRequest
 import qualified Data.ByteString.Char8 as C
 import           Data.ByteString.Lazy (toStrict)

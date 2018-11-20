@@ -21,7 +21,7 @@ import Data.ByteString.Lazy (toStrict)
 import Control.Lens (makeLenses, (^.))
 import Network.HTTP.Client (Request(..), parseRequest_, responseTimeoutMicro, setQueryString)
 
-import Azure.Contract (billingApiVersion)
+import Data.Contract (billingApiVersion)
 import Text.HTTP (addAuthHeader)
 
 -- | Parameters to construct `Request`.

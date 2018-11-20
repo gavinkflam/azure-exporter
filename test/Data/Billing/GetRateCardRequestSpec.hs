@@ -17,7 +17,7 @@ import           Network.HTTP.Client (requestHeaders, path, queryString)
 import           Network.HTTP.Types (Header, hAuthorization, parseSimpleQuery)
 import           Test.Hspec
 
-import           Azure.Contract (billingApiVersion)
+import           Data.Contract (billingApiVersion)
 import           Data.Billing.GetRateCardRequest
 import qualified Data.Dummy.Text as T
 import qualified Data.Dummy.Time as M
