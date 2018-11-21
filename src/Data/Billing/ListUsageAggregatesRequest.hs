@@ -1,5 +1,4 @@
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
 
 -- | Lists the usage aggregates of a subscription.
 --

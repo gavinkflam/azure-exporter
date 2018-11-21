@@ -1,5 +1,4 @@
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE DeriveGeneric, TemplateHaskell #-}
 
 module Data.Monitor.Metric
     (

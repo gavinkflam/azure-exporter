@@ -1,5 +1,4 @@
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
 
 -- | Get resource price and meter metadata for a subscription.
 --

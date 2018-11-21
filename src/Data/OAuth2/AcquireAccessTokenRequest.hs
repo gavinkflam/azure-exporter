@@ -1,6 +1,4 @@
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE DeriveGeneric, OverloadedStrings, TemplateHaskell #-}
 
 -- | Service-to-service access token request with a shared secret.
 --

@@ -1,6 +1,4 @@
-{-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TemplateHaskell #-}
+{-# LANGUAGE DeriveGeneric, OverloadedStrings, TemplateHaskell #-}
 
 module Data.Billing.ListUsageAggregatesResponse
     (
