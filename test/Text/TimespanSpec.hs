@@ -9,7 +9,6 @@ import Test.Hspec
 
 import qualified Data.Dummy.Time as T
 import Text.Timespan
-import Expectations
 
 -- | Spec for `Timespan`.
 spec :: Spec

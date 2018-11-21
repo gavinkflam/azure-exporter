@@ -51,6 +51,7 @@ spec = do
             errorExtractor T.jsonValueJSON `shouldBe` Nothing
 
 -- | Dummy `Params` item.
+params :: Params
 params = Params
     { _clientId     = T.clientId
     , _clientSecret = T.clientSecret

@@ -8,12 +8,9 @@ module Data.Billing.InstanceData
     , resourceData
     ) where
 
-import Data.Text.Lazy (Text)
-
 import Control.Lens (makeLenses)
 import Data.Aeson
 
-import Data.Aeson.Options (aesonOptions)
 import Data.Billing.ResourceData (ResourceData)
 
 -- | InstanceData

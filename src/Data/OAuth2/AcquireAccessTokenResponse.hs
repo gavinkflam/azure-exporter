@@ -19,7 +19,6 @@ import GHC.Generics
 
 import Control.Lens (makeLenses)
 import Data.Aeson
-import Text.Casing (quietSnake)
 
 import Data.Aeson.Options (oAuth2AesonOptions)
 

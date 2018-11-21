@@ -9,7 +9,7 @@ module Data.Monitor.ListMetricValuesRequestSpec
 
 import qualified Data.ByteString.Char8 as C
 import Data.ByteString.Lazy (toStrict)
-import Data.Text.Lazy (Text, unpack)
+import Data.Text.Lazy (unpack)
 import Data.Text.Lazy.Encoding (encodeUtf8)
 
 import Network.HTTP.Client (requestHeaders, path, queryString)
@@ -19,7 +19,6 @@ import Test.Hspec
 import Data.Contract (monitorApiVersion)
 import qualified Data.Dummy.Text as T
 import Data.Monitor.ListMetricValuesRequest
-import Expectations
 import Util.Text (toBS)
 
 -- | Spec for `ListMetricValues`.
@@ -48,6 +47,7 @@ spec = do
             C.unpack (path req) `shouldBe` expectedPath
 
 -- | Dummy `Params` item.
+params :: Params
 params = Params
     { _aggregation = T.aggregation
     , _metricNames = T.metricNames

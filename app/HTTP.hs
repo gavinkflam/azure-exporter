@@ -9,7 +9,6 @@ module HTTP
     ) where
 
 import Control.Monad.IO.Class (liftIO)
-import Data.ByteString.Lazy (ByteString)
 
 import Control.Lens ((^.))
 import Data.Aeson (FromJSON)
@@ -31,8 +30,8 @@ type STMResponse a = AppEnvSTM (Either String a)
 --
 --   HTTP `Manager` and the error handler are required.
 requestIO :: FromJSON a => Manager -> ErrorHandler -> Request -> IOResponse a
-requestIO manager handler request = do
-    res <- httpLbs request manager
+requestIO manager handler request' = do
+    res <- httpLbs request' manager
     return $ mapEitherDecode handler res
 
 -- | Make a request with `AppEnvSTM` effect.
@@ -41,6 +40,6 @@ requestIO manager handler request = do
 --
 --  `errorExtractor` will be applied as the error handler.
 request :: FromJSON a => Request -> STMResponse a
-request request = do
+request request' = do
     manager <- fmap (^. E.httpManager) readAppEnv
-    liftIO $ requestIO manager errorExtractor request
+    liftIO $ requestIO manager errorExtractor request'

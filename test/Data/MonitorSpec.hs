@@ -9,7 +9,6 @@ import Test.Hspec
 
 import qualified Data.Dummy.Gauge as G
 import Data.Monitor
-import Expectations
 
 -- | Spec for `Monitor`.
 spec :: Spec

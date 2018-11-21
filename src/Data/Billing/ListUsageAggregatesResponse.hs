@@ -12,7 +12,6 @@ module Data.Billing.ListUsageAggregatesResponse
     ) where
 
 import Data.ByteString.Lazy (fromStrict, toStrict)
-import Data.ByteString.Lazy.Char8 (pack, unpack)
 import Data.Text.Lazy (Text)
 import Data.Text.Lazy.Encoding (decodeUtf8, encodeUtf8)
 import GHC.Generics
@@ -23,7 +22,6 @@ import Network.HTTP.Types.URI (parseSimpleQuery)
 
 import Data.Aeson.Options (aesonOptions)
 import Data.Billing.UsageAggregate (UsageAggregate)
-import Data.Monitor.Metric (Metric)
 
 -- | Response for list usage aggregates API.
 --

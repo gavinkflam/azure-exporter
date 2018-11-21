@@ -8,7 +8,6 @@ module Text.GaugeSpec
 import Test.Hspec
 
 import qualified Data.Dummy.Gauge as G
-import Expectations
 import Text.Gauge
 
 -- | Spec for `Gauge`.

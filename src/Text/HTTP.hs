@@ -7,7 +7,6 @@ module Text.HTTP
       addAuthHeader
     ) where
 
-import Data.ByteString (ByteString)
 import Data.ByteString.Lazy (toStrict)
 import Data.Text.Lazy (Text)
 import Data.Text.Lazy.Encoding (encodeUtf8)

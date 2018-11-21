@@ -7,14 +7,12 @@ module Data.Billing
       gauges
     ) where
 
-import Data.Char (toLower)
-import Data.Maybe (catMaybes, fromMaybe, isJust)
+import Data.Maybe (catMaybes, fromMaybe)
 import qualified Data.Text.Lazy as T
 
 import Control.Lens ((^.))
 import qualified Data.HashMap.Strict as H
 import Data.Scientific (Scientific)
-import Text.Casing (quietSnake)
 
 import qualified Data.Billing.AggregateProperty as P
 import qualified Data.Billing.GetRateCardResponse as R

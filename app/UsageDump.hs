@@ -20,7 +20,6 @@ import qualified Data.AccessToken as T
 import Data.Billing (gauges)
 import qualified Data.Billing.GetRateCardResponse as GR
 import qualified Data.Billing.ListUsageAggregatesResponse as AR
-import qualified Data.Billing.Meter as M
 import qualified Data.Billing.UsageAggregate as U
 import qualified Data.Billing.GetRateCardRequest as G
 import qualified Data.Billing.ListUsageAggregatesRequest as A

@@ -37,9 +37,9 @@ makeLenses ''Params
 
 -- | Construct URL from subscription ID.
 url :: Text -> String
-url subscriptionId =
+url subscriptionId' =
     "https://management.azure.com/subscriptions/"
-    <> unpack subscriptionId
+    <> unpack subscriptionId'
     <> "/providers/Microsoft.Commerce/UsageAggregates"
 
 -- | Construct query string parameters from `Params`.

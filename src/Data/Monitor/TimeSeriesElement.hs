@@ -8,7 +8,6 @@ module Data.Monitor.TimeSeriesElement
     , _data
     ) where
 
-import Data.Text.Lazy (Text)
 import GHC.Generics
 
 import Control.Lens (makeLenses)

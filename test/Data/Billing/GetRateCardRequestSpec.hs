@@ -9,7 +9,7 @@ module Data.Billing.GetRateCardRequestSpec
 
 import qualified Data.ByteString.Char8 as C
 import Data.ByteString.Lazy (toStrict)
-import Data.Text.Lazy (Text, unpack)
+import Data.Text.Lazy (unpack)
 import Data.Text.Lazy.Encoding (encodeUtf8)
 
 import Network.HTTP.Client (requestHeaders, path, queryString)
@@ -19,8 +19,6 @@ import Test.Hspec
 import Data.Billing.GetRateCardRequest
 import Data.Contract (billingApiVersion)
 import qualified Data.Dummy.Text as T
-import qualified Data.Dummy.Time as M
-import Expectations
 import Util.Text (toBS)
 
 -- | Spec for `GetRateCard`.
@@ -43,6 +41,7 @@ spec = do
             C.unpack (path req) `shouldBe` expectedPath
 
 -- | Dummy `Params` item.
+params :: Params
 params = Params
     { _subscriptionId = T.subscriptionId
     , _offerId        = T.offerId

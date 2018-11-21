@@ -10,17 +10,17 @@ module Expectations
 -- | Return `True` if the given value is a `Just` value of the given value,
 --   `False` otherwise.
 isJustOf :: Eq a => a -> Maybe a -> Bool
-isJustOf exp (Just v) = exp == v
-isJustOf _ Nothing    = False
+isJustOf x (Just v) = x == v
+isJustOf _ Nothing  = False
 
 -- | Return `True` if the given value is a `Left` value of the given value,
 --   `False` otherwise.
 isLeftOf :: Eq a => a -> Either a b -> Bool
-isLeftOf exp (Left v) = exp == v
-isLeftOf _ (Right _)  = False
+isLeftOf x (Left v) = x == v
+isLeftOf _ (Right _)= False
 
 -- | Return `True` if the given value is a `Right` value of the given value,
 --   `False` otherwise.
 isRightOf :: Eq b => b -> Either a b -> Bool
-isRightOf exp (Right v) = exp == v
-isRightOf _ (Left _)    = False
+isRightOf x (Right v) = x == v
+isRightOf _ (Left _)  = False

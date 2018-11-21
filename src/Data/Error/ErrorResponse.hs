@@ -8,7 +8,6 @@ module Data.Error.ErrorResponse
     , _error
     ) where
 
-import Data.Text.Lazy (Text)
 import GHC.Generics
 
 import Control.Lens (makeLenses)

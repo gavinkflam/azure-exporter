@@ -8,19 +8,17 @@ module Data.ResourceSpec
 import Data.Text.Lazy (toLower)
 
 import Control.Lens ((^.))
-import Expectations
 import Test.Hspec
 
 import qualified Data.Dummy.Text as T
 import Data.Resource
 import qualified Data.ResourceMetadata as M
-import Util.Text (toBS)
 
 -- | Spec for `Resource`.
 spec :: Spec
 spec = do
     let meta = parseResourceId T.resourceId
-        id   = resourceId T.subResourceId
+        id'  = resourceId T.subResourceId
 
     describe "parseResourceId" $ do
         it "extracts the resource group correctly" $
@@ -40,7 +38,7 @@ spec = do
 
     describe "resourceId" $ do
         it "extracts the top-level resource ID" $
-            id `shouldBe` toLower T.resourceId
+            id' `shouldBe` toLower T.resourceId
 
         it "is idempotent" $
-            id `shouldBe` resourceId id
+            id' `shouldBe` resourceId id'

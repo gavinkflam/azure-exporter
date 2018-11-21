@@ -12,7 +12,6 @@ import qualified Network.HTTP.Types.Header as H
 import Test.Hspec
 
 import qualified Data.Dummy.Text as T
-import Expectations
 import Text.HTTP
 import Util.Text (toBS)
 

@@ -7,14 +7,13 @@ module Data.Route.Monitor
     ) where
 
 import Control.Monad.IO.Class (liftIO)
-import Data.Text.Lazy (Text, intercalate, pack)
+import Data.Text.Lazy (intercalate, pack)
 import Data.Time.Clock (getCurrentTime)
 
-import Control.Lens ((^.))
 import Web.Scotty.Trans (param, text)
 
 import Auth (getTokenOrRaise, refreshTokenIfExpired)
-import Control.Monad.AppEnvSTM (AppEnvSTM, liftSTM)
+import Control.Monad.AppEnvSTM (liftSTM)
 import Control.Monad.Either (raiseLeft)
 import Data.Monitor (gauges)
 import qualified Data.Monitor.ListMetricValuesRequest as M
@@ -38,5 +37,5 @@ metrics = do
           , M._resourceId  = target
           , M._timespan    = pack $ timespanFrom now 150 90
           }
-    metrics <- raiseLeft =<< liftSTM (request $ M.request token params)
-    text $ intercalate "\n" $ map renderGauge $ gauges metrics
+    metrics' <- raiseLeft =<< liftSTM (request $ M.request token params)
+    text $ intercalate "\n" $ map renderGauge $ gauges metrics'

@@ -14,7 +14,7 @@ import qualified Data.ResourceMetadata as D
 
 -- | Parse an Azure resource URI and breakdown into meaningful components.
 parseResourceId :: Text -> D.ResourceMetadata
-parseResourceId id = D.ResourceMetadata
+parseResourceId id' = D.ResourceMetadata
     { D._resourceGroup    = s !! 4
     , D._resourceName     = s !! 8
     , D._resourceProvider = s !! 6
@@ -22,7 +22,7 @@ parseResourceId id = D.ResourceMetadata
     , D._subscriptionId   = s !! 2
     }
   where
-    s = splitOn "/" $ toLower id
+    s = splitOn "/" $ toLower id'
 
 -- | Extract the top level resource URI and standardize the resource URI.
 --
@@ -30,4 +30,4 @@ parseResourceId id = D.ResourceMetadata
 --   with. Thus, we can only ensure the consistency by downcasing the resource
 --   URI.
 resourceId :: Text -> Text
-resourceId id = intercalate "/" $ take 9 $ splitOn "/" $ toLower id
+resourceId id' = intercalate "/" $ take 9 $ splitOn "/" $ toLower id'

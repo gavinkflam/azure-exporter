@@ -25,7 +25,6 @@ import Data.Aeson
 import Data.Scientific (Scientific)
 import Data.Time.Clock (UTCTime)
 
-import Data.Aeson.Options (aesonOptions)
 import Data.Billing.InstanceData (InstanceData)
 
 -- | AggregateProperty

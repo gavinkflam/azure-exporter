@@ -16,7 +16,7 @@ module Data.OAuth2.AcquireAccessTokenRequest
 import Data.Text.Lazy (Text, lines, stripEnd, unpack)
 import Data.Text.Lazy.Encoding (encodeUtf8)
 import qualified Data.ByteString as BS
-import Data.ByteString.Lazy (ByteString, toStrict)
+import Data.ByteString.Lazy (toStrict)
 import Prelude hiding (lines)
 
 import Control.Lens (makeLenses, (^.))
@@ -39,8 +39,8 @@ makeLenses ''Params
 
 -- | Construct URL from tenant ID.
 url :: Text -> String
-url tenantId =
-    "https://login.microsoftonline.com/" <> unpack tenantId <> "/oauth2/token"
+url tenantId' =
+    "https://login.microsoftonline.com/" <> unpack tenantId' <> "/oauth2/token"
 
 -- | Construct form parameters from `Params`.
 --

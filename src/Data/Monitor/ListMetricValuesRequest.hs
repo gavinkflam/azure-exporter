@@ -36,9 +36,9 @@ makeLenses ''Params
 
 -- | Construct URL from resource URI.
 url :: Text -> String
-url resourceId =
+url resourceId' =
     "https://management.azure.com"
-    <> unpack resourceId
+    <> unpack resourceId'
     <> "/providers/microsoft.insights/metrics"
 
 -- | Construct query string parameters from `Params`.
