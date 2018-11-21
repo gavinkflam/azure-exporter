@@ -50,13 +50,13 @@ gaugesFromUsageAggregate currency meters usage =
         , G._value  = quantity
         , G._time   = Just endTime
         }
-    , costGauge <$> H.lookup (usage ^. U.properties ^. P.meterId) meters
+    , costGauge <$> H.lookup (usage ^. (U.properties . P.meterId)) meters
     ]
   where
     name        = gaugeName usage
     labels      = gaugeLabels usage
-    quantity    = usage ^. U.properties ^. P.quantity
-    endTime     = usage ^. U.properties ^. P.usageEndTime
+    quantity    = usage ^. (U.properties . P.quantity)
+    endTime     = usage ^. (U.properties . P.usageEndTime)
     costGauge m = G.Gauge
         { G._name   = name <> "_cost"
         , G._help   = name <> "_cost"

@@ -43,7 +43,7 @@ gaugesFromMetric region metric =
         joinNameSegments
         [ "azure"
         , metadata ^. D.resourceType
-        , metric ^. M.name ^. LS.value
+        , metric ^. (M.name . LS.value)
         , metric ^. M.unit
         ]
     labels     = deriveLabels region metadata metric

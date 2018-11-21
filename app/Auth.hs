@@ -15,7 +15,7 @@ import Data.Text.Lazy (Text)
 import Data.Time.Clock (NominalDiffTime, addUTCTime)
 import Data.Time.Clock.System (getSystemTime, systemToUTCTime)
 
-import Control.Lens ((^.), (&), (.~))
+import Control.Lens ((^.), (?~))
 import Network.HTTP.Client (Manager)
 
 import Control.Monad.AppEnvSTM
@@ -63,7 +63,7 @@ refreshToken = do
     conf    <- liftSTM $ fmap (^. E.config) readAppEnv
     manager <- liftSTM $ fmap (^. E.httpManager) readAppEnv
     resp    <- raiseLeft =<< liftIO (acquireToken conf manager)
-    liftSTM $ modifyAppEnv (& E.accessToken .~ Just (T.fromResponse resp))
+    liftSTM $ modifyAppEnv (E.accessToken ?~ T.fromResponse resp)
 
 -- | Check if the given `AccessToken` is still valid.
 tokenExpired :: NominalDiffTime -> T.AccessToken -> IO Bool

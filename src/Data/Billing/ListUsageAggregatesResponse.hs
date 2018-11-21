@@ -44,6 +44,6 @@ continuationToken res =
     case _nextLink res of
         Nothing  -> Nothing
         Just url ->
-            (decodeUtf8 . fromStrict) <$> lookup "continuationToken" q
+            decodeUtf8 . fromStrict <$> lookup "continuationToken" q
           where
             q = parseSimpleQuery $ toStrict $ encodeUtf8 url
