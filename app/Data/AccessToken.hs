@@ -21,8 +21,8 @@ import qualified Data.OAuth2.AcquireAccessTokenResponse as R
 
 -- | Type representing an Azure OAuth2 access token.
 data AccessToken = AccessToken
-    { _accessToken :: Text
-    , _expiresOn   :: UTCTime
+    { _accessToken :: {-# UNPACK #-} !Text
+    , _expiresOn   :: {-# UNPACK #-} !UTCTime
     } deriving Show
 
 makeLenses ''AccessToken

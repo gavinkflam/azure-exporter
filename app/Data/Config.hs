@@ -27,15 +27,15 @@ import Control.Lens (makeLenses)
 
 -- | Configurations for the application.
 data Config = Config
-    { _clientId       :: Text
-    , _clientSecret   :: Text
-    , _port           :: Int
-    , _subscriptionId :: Text
-    , _tenantId       :: Text
-    , _offerId        :: Text
-    , _currency       :: Text
-    , _locale         :: Text
-    , _regionInfo     :: Text
+    { _clientId       :: {-# UNPACK #-} !Text
+    , _clientSecret   :: {-# UNPACK #-} !Text
+    , _port           :: {-# UNPACK #-} !Int
+    , _subscriptionId :: {-# UNPACK #-} !Text
+    , _tenantId       :: {-# UNPACK #-} !Text
+    , _offerId        :: {-# UNPACK #-} !Text
+    , _currency       :: {-# UNPACK #-} !Text
+    , _locale         :: {-# UNPACK #-} !Text
+    , _regionInfo     :: {-# UNPACK #-} !Text
     } deriving Show
 
 makeLenses ''Config

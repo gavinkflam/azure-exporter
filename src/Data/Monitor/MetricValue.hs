@@ -31,7 +31,7 @@ data MetricValue = MetricValue
     , _count     :: Maybe Scientific
     , _maximum   :: Maybe Scientific
     , _minimum   :: Maybe Scientific
-    , _timeStamp :: Text
+    , _timeStamp :: {-# UNPACK #-} !Text
     , _total     :: Maybe Scientific
     } deriving (Generic, Show)
 

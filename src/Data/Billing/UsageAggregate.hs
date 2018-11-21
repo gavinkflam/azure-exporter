@@ -24,10 +24,10 @@ import Data.Billing.AggregateProperty (AggregateProperty)
 --
 --   <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)#json-element-definitions>
 data UsageAggregate = UsageAggregate
-    { __id        :: Text
-    , _name       :: Text
+    { __id        :: {-# UNPACK #-} !Text
+    , _name       :: {-# UNPACK #-} !Text
     , _properties :: AggregateProperty
-    , __type      :: Text
+    , __type      :: {-# UNPACK #-} !Text
     } deriving (Generic, Show)
 
 instance FromJSON UsageAggregate where

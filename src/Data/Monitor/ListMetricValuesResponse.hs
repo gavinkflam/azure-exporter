@@ -26,11 +26,11 @@ import Data.Monitor.Metric (Metric)
 --
 --   <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#response>
 data ListMetricValuesResponse = ListMetricValuesResponse
-    { _cost           :: Int
-    , _interval       :: Text
-    , _namespace      :: Text
-    , _resourceregion :: Text
-    , _timespan       :: Text
+    { _cost           :: {-# UNPACK #-} !Int
+    , _interval       :: {-# UNPACK #-} !Text
+    , _namespace      :: {-# UNPACK #-} !Text
+    , _resourceregion :: {-# UNPACK #-} !Text
+    , _timespan       :: {-# UNPACK #-} !Text
     , _value          :: [Metric]
     } deriving (Generic, Show)
 

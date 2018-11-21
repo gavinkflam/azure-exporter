@@ -26,10 +26,10 @@ import Text.HTTP (addAuthHeader)
 --
 --   <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)#request>
 data Params = Params
-    { _subscriptionId         :: Text
-    , _aggregationGranularity :: Text
-    , _reportedStartTime      :: Text
-    , _reportedEndTime        :: Text
+    { _subscriptionId         :: {-# UNPACK #-} !Text
+    , _aggregationGranularity :: {-# UNPACK #-} !Text
+    , _reportedStartTime      :: {-# UNPACK #-} !Text
+    , _reportedEndTime        :: {-# UNPACK #-} !Text
     , _continuationToken      :: Maybe Text
     } deriving Show
 

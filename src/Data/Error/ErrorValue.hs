@@ -21,8 +21,8 @@ import Data.Aeson.Options (aesonOptions)
 --
 --   <https://github.com/Microsoft/api-guidelines/blob/master/Guidelines.md#error--object>
 data ErrorValue = ErrorValue
-    { _code    :: Text
-    , _message :: Text
+    { _code    :: {-# UNPACK #-} !Text
+    , _message :: {-# UNPACK #-} !Text
     } deriving (Generic, Show)
 
 instance FromJSON ErrorValue where

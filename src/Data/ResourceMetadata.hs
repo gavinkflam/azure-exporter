@@ -18,11 +18,11 @@ import Control.Lens (makeLenses)
 
 -- | Data structure for breaking down an Azure resource URI.
 data ResourceMetadata = ResourceMetadata
-    { _resourceGroup    :: Text
-    , _resourceName     :: Text
-    , _resourceProvider :: Text
-    , _resourceType     :: Text
-    , _subscriptionId   :: Text
+    { _resourceGroup    :: {-# UNPACK #-} !Text
+    , _resourceName     :: {-# UNPACK #-} !Text
+    , _resourceProvider :: {-# UNPACK #-} !Text
+    , _resourceType     :: {-# UNPACK #-} !Text
+    , _subscriptionId   :: {-# UNPACK #-} !Text
     } deriving Show
 
 makeLenses ''ResourceMetadata

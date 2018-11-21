@@ -19,8 +19,8 @@ import Data.Config (Config)
 -- | The shared application state for actions to persist cachable information.
 data AppEnv = AppEnv
     { _accessToken :: Maybe AccessToken
-    , _config      :: Config
-    , _httpManager :: Manager
+    , _config      :: {-# UNPACK #-} !Config
+    , _httpManager :: {-# UNPACK #-} !Manager
     }
 
 makeLenses ''AppEnv

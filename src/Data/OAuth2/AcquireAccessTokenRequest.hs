@@ -29,9 +29,9 @@ import Data.Response.Aeson (ErrorHandler)
 --
 --   <https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-oauth2-client-creds-grant-flow#first-case-access-token-request-with-a-shared-secret>
 data Params = Params
-    { _clientId     :: Text
-    , _clientSecret :: Text
-    , _tenantId     :: Text
+    { _clientId     :: {-# UNPACK #-} !Text
+    , _clientSecret :: {-# UNPACK #-} !Text
+    , _tenantId     :: {-# UNPACK #-} !Text
     } deriving Show
 
 makeLenses ''Params

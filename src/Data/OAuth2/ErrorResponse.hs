@@ -25,12 +25,12 @@ import Data.Aeson.Options (oAuth2AesonOptions)
 --
 --   <https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-oauth2-on-behalf-of-flow#error-response-example>
 data ErrorResponse = ErrorResponse
-    { _correlationId    :: Text
-    , __error           :: Text
+    { _correlationId    :: {-# UNPACK #-} !Text
+    , __error           :: {-# UNPACK #-} !Text
     , _errorCodes       :: [Int]
-    , _errorDescription :: Text
-    , _timestamp        :: Text
-    , _traceId          :: Text
+    , _errorDescription :: {-# UNPACK #-} !Text
+    , _timestamp        :: {-# UNPACK #-} !Text
+    , _traceId          :: {-# UNPACK #-} !Text
     } deriving (Generic, Show)
 
 instance FromJSON ErrorResponse where

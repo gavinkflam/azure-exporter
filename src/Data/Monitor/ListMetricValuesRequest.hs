@@ -25,10 +25,10 @@ import Text.HTTP (addAuthHeader)
 --
 --   <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#uri-parameters>
 data Params = Params
-    { _aggregation :: Text
-    , _metricNames :: Text
-    , _resourceId  :: Text
-    , _timespan    :: Text
+    { _aggregation :: {-# UNPACK #-} !Text
+    , _metricNames :: {-# UNPACK #-} !Text
+    , _resourceId  :: {-# UNPACK #-} !Text
+    , _timespan    :: {-# UNPACK #-} !Text
     } deriving Show
 
 makeLenses ''Params

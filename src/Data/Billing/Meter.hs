@@ -28,13 +28,13 @@ import Data.Aeson.Options (capitalizeAesonOptions)
 --
 --   <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219004(v%3dazure.100)#response>
 data Meter = Meter
-    { _meterId          :: Text
-    , _meterName        :: Text
-    , _meterCategory    :: Text
-    , _meterSubCategory :: Text
-    , _meterRegion      :: Text
+    { _meterId          :: {-# UNPACK #-} !Text
+    , _meterName        :: {-# UNPACK #-} !Text
+    , _meterCategory    :: {-# UNPACK #-} !Text
+    , _meterSubCategory :: {-# UNPACK #-} !Text
+    , _meterRegion      :: {-# UNPACK #-} !Text
     , _meterRates       :: HashMap Text Scientific
-    , _unit             :: Text
+    , _unit             :: {-# UNPACK #-} !Text
     } deriving (Generic, Show)
 
 instance FromJSON Meter where

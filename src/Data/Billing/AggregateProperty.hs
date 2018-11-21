@@ -31,17 +31,17 @@ import Data.Billing.InstanceData (InstanceData)
 --
 --   <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)#json-element-definitions>
 data AggregateProperty = AggregateProperty
-    { _meterId          :: Text
+    { _meterId          :: {-# UNPACK #-} !Text
     , _meterCategory    :: Maybe Text
     , _meterSubCategory :: Maybe Text
     , _meterName        :: Maybe Text
     , _meterRegion      :: Maybe Text
-    , _subscriptionId   :: Text
+    , _subscriptionId   :: {-# UNPACK #-} !Text
     , _unit             :: Maybe Text
-    , _usageStartTime   :: UTCTime
-    , _usageEndTime     :: UTCTime
+    , _usageStartTime   :: {-# UNPACK #-} !UTCTime
+    , _usageEndTime     :: {-# UNPACK #-} !UTCTime
     , _instanceData     :: Maybe InstanceData
-    , _quantity         :: Scientific
+    , _quantity         :: {-# UNPACK #-} !Scientific
     } deriving (Show)
 
 instance FromJSON AggregateProperty where

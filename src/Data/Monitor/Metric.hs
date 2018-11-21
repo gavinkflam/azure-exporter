@@ -26,10 +26,10 @@ import Data.Monitor.TimeSeriesElement (TimeSeriesElement)
 --
 --   <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#metric>
 data Metric = Metric
-    { __id        :: Text
-    , __type      :: Text
-    , _name       :: LocalizableString
-    , _unit       :: Text
+    { __id        :: {-# UNPACK #-} !Text
+    , __type      :: {-# UNPACK #-} !Text
+    , _name       :: {-# UNPACK #-} !LocalizableString
+    , _unit       :: {-# UNPACK #-} !Text
     , _timeseries :: [TimeSeriesElement]
     } deriving (Generic, Show)
 
