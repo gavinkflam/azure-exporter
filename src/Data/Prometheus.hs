@@ -36,11 +36,11 @@ isLegalNameChar c
 --
 --   The metric name will be processed in three steps.
 --
--- 1. Sanitized by `sanitizeName` first.
+-- #. Sanitized by `sanitizeName` first.
 --
--- 2. Remove consecutive underscore characters.
+-- #. Remove consecutive underscore characters.
 --
--- 3. Downcase the alphabetical characters.
+-- #. Downcase the alphabetical characters.
 metricName :: T.Text -> T.Text
 metricName =
     T.toLower . T.intercalate "_" . filter (/= T.empty) . T.splitOn "_" . sanitizeName

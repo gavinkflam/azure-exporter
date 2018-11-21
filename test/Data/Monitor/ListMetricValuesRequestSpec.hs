@@ -57,9 +57,9 @@ params = Params
 
 -- | The expected path should
 --
--- 1. Starts with the resource ID
+-- #. Starts with the resource ID
 --
--- 2. Follows by the API Endpoint
+-- #. Follows by the API Endpoint
 expectedPath :: String
 expectedPath = unpack $ T.resourceId <> "/providers/microsoft.insights/metrics"
 

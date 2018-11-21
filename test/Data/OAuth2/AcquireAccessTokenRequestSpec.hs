@@ -59,8 +59,8 @@ params = Params
 
 -- | The expected path should
 --
--- 1. Starts with the tenant ID
+-- #. Starts with the tenant ID
 --
--- 2. Follows by the API Endpoint
+-- #. Follows by the API Endpoint
 expectedPath :: String
 expectedPath = unpack $ "/" <> T.tenantId <> "/oauth2/token"

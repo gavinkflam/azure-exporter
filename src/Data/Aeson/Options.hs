@@ -16,7 +16,7 @@ import Text.Casing (quietSnake)
 --
 --   The options include:
 --
--- 1. Removing the underscore prefix from field names to derive the JSON keys.
+-- #. Removing the underscore prefix from field names to derive the JSON keys.
 aesonOptions :: Options
 aesonOptions = defaultOptions { fieldLabelModifier = dropWhile (== '_') }
 
@@ -24,9 +24,9 @@ aesonOptions = defaultOptions { fieldLabelModifier = dropWhile (== '_') }
 --
 --   The options include:
 --
--- 1. Removing the underscore prefix from field names.
+-- #. Removing the underscore prefix from field names.
 --
--- 2. Capitalize the first character.
+-- #. Capitalize the first character.
 capitalizeAesonOptions :: Options
 capitalizeAesonOptions = defaultOptions
     { fieldLabelModifier = capitalize . dropWhile (== '_') }
@@ -40,9 +40,9 @@ capitalize (x:xs) = toUpper x : xs
 --
 --   The options include:
 --
--- 1. Removing the underscore prefix from field names to derive the JSON keys.
+-- #. Removing the underscore prefix from field names to derive the JSON keys.
 --
--- 2. Converting the field names to lowercase snake case.
+-- #. Converting the field names to lowercase snake case.
 oAuth2AesonOptions :: Options
 oAuth2AesonOptions = defaultOptions
     { fieldLabelModifier = quietSnake . dropWhile (== '_') }
