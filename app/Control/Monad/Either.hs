@@ -1,8 +1,9 @@
 module Control.Monad.Either
-  -- * Exceptions
-  ( raiseLeft
-  , dieLeft
-  ) where
+    (
+      -- * Exceptions
+      raiseLeft
+    , dieLeft
+    ) where
 
 import System.Exit (die)
 

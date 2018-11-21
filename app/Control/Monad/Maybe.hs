@@ -1,7 +1,8 @@
 module Control.Monad.Maybe
-  -- * Exceptions
-  ( raiseIfNothing
-  ) where
+    (
+      -- * Exceptions
+      raiseIfNothing
+    ) where
 
 import Web.Scotty.Trans (ActionT, ScottyError, raise, stringError)
 

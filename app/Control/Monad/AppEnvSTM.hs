@@ -1,20 +1,20 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
--- |
--- STM varialbe reader Monad for sharing `AppEnv`.
+-- | STM varialbe reader Monad for sharing `AppEnv`.
 --
--- Inspired from Scotty global state example.
+--   Inspired from Scotty global state example.
 --
--- <https://github.com/scotty-web/scotty/blob/master/examples/globalstate.hs>
+--   <https://github.com/scotty-web/scotty/blob/master/examples/globalstate.hs>
 module Control.Monad.AppEnvSTM
-  -- * Monad
-  ( AppEnvSTM (..)
-  , liftSTM
-  , runAppEnvSTMIntoIO
-  -- * STM
-  , readAppEnv
-  , modifyAppEnv
-  ) where
+    (
+      -- * Monad
+      AppEnvSTM (..)
+    , liftSTM
+    , runAppEnvSTMIntoIO
+      -- * STM
+    , readAppEnv
+    , modifyAppEnv
+    ) where
 
 import Control.Concurrent.STM (TVar, atomically, modifyTVar', readTVarIO)
 import Control.Monad.Reader
@@ -23,8 +23,8 @@ import Data.AppEnv (AppEnv)
 
 -- | Reader monad providing the `AppEnv` STM variable.
 newtype AppEnvSTM a = AppEnvSTM
-  { runAppEnvTVarReader :: ReaderT (TVar AppEnv) IO a
-  } deriving (Applicative, Functor, Monad, MonadIO ,MonadReader (TVar AppEnv))
+    { runAppEnvTVarReader :: ReaderT (TVar AppEnv) IO a
+    } deriving (Applicative, Functor, Monad, MonadIO ,MonadReader (TVar AppEnv))
 
 -- | Lift a computation from the `AppEnvSTM` monad.
 liftSTM :: MonadTrans t => AppEnvSTM a -> t AppEnvSTM a

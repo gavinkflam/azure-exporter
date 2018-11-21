@@ -9,11 +9,11 @@ import UsageDump (dumpUsage)
 -- | Entry point for Azure exporter executable.
 main :: IO ()
 main = do
-  args <- getArgs
-  case args of
-    ["server"]             -> runServer
-    ["dump-usage", t1, t2] -> dumpUsage t1 t2
-    _                      -> die $ argsError args
+    args <- getArgs
+    case args of
+        ["server"]             -> runServer
+        ["dump-usage", t1, t2] -> dumpUsage t1 t2
+        _                      -> die $ argsError args
 
 -- | Derive the unrecognized argument error message from arguments.
 argsError :: [String] -> String

@@ -1,9 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module UsageDump
-  -- * Usage
-  ( dumpUsage
-  ) where
+    (
+      -- * Usage
+      dumpUsage
+    ) where
 
 import Control.Monad.IO.Class (liftIO)
 import Data.Text.Lazy (Text, pack, unpack)
@@ -32,44 +33,46 @@ import Text.GaugeCSV (toCSV)
 -- | Dump usage data in CSV format.
 dumpUsage :: String -> String -> IO ()
 dumpUsage startTime endTime = do
-  config   <- C.getConfig
-  manager  <- newManager tlsManagerSettings
-  tokenRes <- dieLeft =<< liftIO (acquireToken config manager)
+    config   <- C.getConfig
+    manager  <- newManager tlsManagerSettings
+    tokenRes <- dieLeft =<< liftIO (acquireToken config manager)
 
-  let token   = T.fromResponse tokenRes ^. T.accessToken
-      aParams = A.Params
-        { A._subscriptionId         = config ^. C.subscriptionId
-        , A._aggregationGranularity = "daily"
-        , A._reportedStartTime      = pack startTime
-        , A._reportedEndTime        = pack endTime
-        , A._continuationToken      = Nothing
-        }
-      gParams = G.Params
-        { G._subscriptionId = config ^. C.subscriptionId
-        , G._offerId        = config ^. C.offerId
-        , G._currency       = config ^. C.currency
-        , G._locale         = config ^. C.locale
-        , G._regionInfo     = config ^. C.regionInfo
-        }
-  usages   <- fetchUsages manager token aParams
-  rateCard <- fetchRateCard manager token gParams
-  putStr $ unpack $ renderCSV $ toCSV $ sort $ gauges rateCard usages
+    let token   = T.fromResponse tokenRes ^. T.accessToken
+        aParams = A.Params
+            { A._subscriptionId         = config ^. C.subscriptionId
+            , A._aggregationGranularity = "daily"
+            , A._reportedStartTime      = pack startTime
+            , A._reportedEndTime        = pack endTime
+            , A._continuationToken      = Nothing
+            }
+        gParams = G.Params
+            { G._subscriptionId = config ^. C.subscriptionId
+            , G._offerId        = config ^. C.offerId
+            , G._currency       = config ^. C.currency
+            , G._locale         = config ^. C.locale
+            , G._regionInfo     = config ^. C.regionInfo
+            }
+    usages   <- fetchUsages manager token aParams
+    rateCard <- fetchRateCard manager token gParams
+    putStr $ unpack $ renderCSV $ toCSV $ sort $ gauges rateCard usages
 
--- |
--- Fetch usage aggregates from Azure while recursively fetching with the
--- continuation token if any.
+-- | Fetch usage aggregates from Azure while recursively fetching with the
+--   continuation token if any.
 fetchUsages :: Manager -> Text -> A.Params -> IO [U.UsageAggregate]
 fetchUsages manager token params = do
-  let req = A.request token params
-  res <- dieLeft =<< liftIO (requestIO manager errorExtractor req)
+    let req = A.request token params
+    res <- dieLeft =<< liftIO (requestIO manager errorExtractor req)
 
-  case res ^. AR.nextLink of
-    Nothing -> return (res ^. AR.value)
-    Just _  -> (++ (res ^. AR.value)) <$> fetchUsages manager token nParams
-      where nParams = params { A._continuationToken = AR.continuationToken res }
+    case res ^. AR.nextLink of
+        Nothing -> return (res ^. AR.value)
+        Just _  ->
+            (++ (res ^. AR.value)) <$> fetchUsages manager token nParams
+          where
+            nParams = params
+                { A._continuationToken = AR.continuationToken res }
 
 -- | Fetch rate card from Azure.
 fetchRateCard :: Manager -> Text -> G.Params -> IO GR.GetRateCardResponse
 fetchRateCard manager token params = do
-  let req = G.request token params
-  dieLeft =<< liftIO (requestIO manager errorExtractor req)
+    let req = G.request token params
+    dieLeft =<< liftIO (requestIO manager errorExtractor req)
