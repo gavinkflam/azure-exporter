@@ -1,10 +1,9 @@
--- |
--- Utility to format `UTCTime` to `String`.
+-- | Utility to format `UTCTime` to `String`.
 module Text.Time
-  (
-  -- * Time
-    formatTime
-  ) where
+    (
+      -- * Time
+      formatTime
+    ) where
 
 import Data.Time.Clock (UTCTime)
 import qualified Data.Time.Format as F

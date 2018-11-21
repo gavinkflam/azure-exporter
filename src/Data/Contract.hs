@@ -1,13 +1,12 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- |
--- The constants for Azure API.
+-- | The constants for Azure API.
 module Data.Contract
-  (
-  -- * Versions
-    monitorApiVersion
-  , billingApiVersion
-  ) where
+    (
+      -- * Versions
+      monitorApiVersion
+    , billingApiVersion
+    ) where
 
 import Data.Text.Lazy (Text)
 

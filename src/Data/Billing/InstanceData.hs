@@ -2,12 +2,12 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module Data.Billing.InstanceData
-  (
-  -- * Types
-    InstanceData (..)
-  -- * Lenses
-  , resourceData
-  ) where
+    (
+    -- * Types
+      InstanceData (..)
+    -- * Lenses
+    , resourceData
+    ) where
 
 import Data.Text.Lazy (Text)
 
@@ -19,14 +19,14 @@ import Data.Billing.ResourceData (ResourceData)
 
 -- | InstanceData
 --
--- <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)#json-element-definitions>
+--   <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)#json-element-definitions>
 newtype InstanceData = InstanceData
-  { _resourceData :: ResourceData
-  } deriving (Show)
+    { _resourceData :: ResourceData
+    } deriving (Show)
 
 instance FromJSON InstanceData where
-  parseJSON =
-    withObject "InstanceData" $ \v -> InstanceData
-      <$> v .: "Microsoft.Resources"
+    parseJSON =
+        withObject "InstanceData" $ \v -> InstanceData
+            <$> v .: "Microsoft.Resources"
 
 makeLenses ''InstanceData

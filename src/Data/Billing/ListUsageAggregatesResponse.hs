@@ -3,15 +3,15 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module Data.Billing.ListUsageAggregatesResponse
-  (
-  -- * Types
-    ListUsageAggregatesResponse (..)
-  -- * Lenses
-  , value
-  , nextLink
-  -- * Query
-  , continuationToken
-  ) where
+    (
+      -- * Types
+      ListUsageAggregatesResponse (..)
+      -- * Lenses
+    , value
+    , nextLink
+      -- * Query
+    , continuationToken
+    ) where
 
 import Data.ByteString.Lazy (fromStrict, toStrict)
 import Data.ByteString.Lazy.Char8 (pack, unpack)
@@ -29,21 +29,23 @@ import Data.Monitor.Metric (Metric)
 
 -- | Response for list usage aggregates API.
 --
--- <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)#json-element-definitions>
+--   <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)#json-element-definitions>
 data ListUsageAggregatesResponse = ListUsageAggregatesResponse
-  { _value    :: [UsageAggregate]
-  , _nextLink :: Maybe Text
-  } deriving (Generic, Show)
+    { _value    :: [UsageAggregate]
+    , _nextLink :: Maybe Text
+    } deriving (Generic, Show)
 
 instance FromJSON ListUsageAggregatesResponse where
-  parseJSON = genericParseJSON aesonOptions
+    parseJSON = genericParseJSON aesonOptions
 
 makeLenses ''ListUsageAggregatesResponse
 
 -- | Extract continuation token from `ListUsageAggregatesResponse`.
 continuationToken :: ListUsageAggregatesResponse -> Maybe Text
 continuationToken res =
-  case _nextLink res of
-    Nothing  -> Nothing
-    Just url -> (decodeUtf8 . fromStrict) <$> lookup "continuationToken" q
-      where q = parseSimpleQuery $ toStrict $ encodeUtf8 url
+    case _nextLink res of
+        Nothing  -> Nothing
+        Just url ->
+            (decodeUtf8 . fromStrict) <$> lookup "continuationToken" q
+          where
+            q = parseSimpleQuery $ toStrict $ encodeUtf8 url

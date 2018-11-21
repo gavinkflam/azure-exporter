@@ -2,12 +2,12 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module Data.Monitor.TimeSeriesElement
-  (
-  -- * Types
-    TimeSeriesElement (..)
-  -- * Lenses
-  , _data
-  ) where
+    (
+      -- * Types
+      TimeSeriesElement (..)
+      -- * Lenses
+    , _data
+    ) where
 
 import Data.Text.Lazy (Text)
 import GHC.Generics
@@ -20,12 +20,12 @@ import Data.Monitor.MetricValue (MetricValue)
 
 -- | TimeSeriesElement
 --
--- <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#timeserieselement>
+--   <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#timeserieselement>
 newtype TimeSeriesElement = TimeSeriesElement
-  { __data :: [MetricValue]
-  } deriving (Generic, Show)
+    { __data :: [MetricValue]
+    } deriving (Generic, Show)
 
 instance FromJSON TimeSeriesElement where
-  parseJSON = genericParseJSON aesonOptions
+    parseJSON = genericParseJSON aesonOptions
 
 makeLenses ''TimeSeriesElement

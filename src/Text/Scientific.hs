@@ -1,10 +1,9 @@
--- |
--- Utility to format `Scientific` to `String`.
+-- | Utility to format `Scientific` to `String`.
 module Text.Scientific
-  (
-  -- * Scientific
-    showFixed
-  ) where
+    (
+      -- * Scientific
+      showFixed
+    ) where
 
 import Data.Scientific (FPFormat(Fixed), Scientific, formatScientific)
 

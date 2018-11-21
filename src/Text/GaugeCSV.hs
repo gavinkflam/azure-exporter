@@ -1,12 +1,11 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- |
--- Utility to convert `Gauge`s to `CSV`.
+-- | Utility to convert `Gauge`s to `CSV`.
 module Text.GaugeCSV
-  (
-  -- * Gauge
-    toCSV
-  ) where
+    (
+      -- * Gauge
+      toCSV
+    ) where
 
 import Data.Text.Lazy (Text, pack)
 import Data.Time.Clock.POSIX (utcTimeToPOSIXSeconds)
@@ -20,18 +19,21 @@ import Text.Scientific (showFixed)
 
 -- | Convert `Gauge`s to `CSV`.
 toCSV :: [G.Gauge] -> C.CSV
-toCSV = foldr f C.empty
-  where f gauge csv = C.prependRow csv $ toRow gauge
+toCSV =
+    foldr f C.empty
+  where
+    f gauge csv = C.prependRow csv $ toRow gauge
 
 -- | Convert `Gauge` to a `CSV` row.
 toRow :: G.Gauge -> H.HashMap Text Text
 toRow g =
-  H.fromList $
-    [ ("series", g ^. G.name)
-    , ("value",  pack $ showFixed (g ^. G.value))
-    ]
+    H.fromList $
+        [ ("series", g ^. G.name)
+        , ("value",  pack $ showFixed (g ^. G.value))
+        ]
     ++ maybe []  fTimestamp (g ^. G.time)
     ++ map fLabel (g ^. G.labels)
-      where fLabel (k, v)  = ("label_" <> k, v)
-            showUTCTime    = filter (/= 's') . show . utcTimeToPOSIXSeconds
-            fTimestamp t   = [("timestamp", pack $ showUTCTime t)]
+  where
+    fLabel (k, v)  = ("label_" <> k, v)
+    showUTCTime    = filter (/= 's') . show . utcTimeToPOSIXSeconds
+    fTimestamp t   = [("timestamp", pack $ showUTCTime t)]

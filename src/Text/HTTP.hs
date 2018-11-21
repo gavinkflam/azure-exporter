@@ -1,12 +1,11 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- |
--- Utility functions related to the HTTP clientt.
+-- | Utility functions related to the HTTP clientt.
 module Text.HTTP
-  (
-  -- * Request
-    addAuthHeader
-  ) where
+    (
+      -- * Request
+      addAuthHeader
+    ) where
 
 import Data.ByteString (ByteString)
 import Data.ByteString.Lazy (toStrict)
@@ -19,7 +18,8 @@ import Network.HTTP.Types.Header (hAuthorization)
 -- | Add the Authorization header to the `Request`.
 addAuthHeader :: Text -> Request -> Request
 addAuthHeader token req = req
-  { requestHeaders = headers ++ [(hAuthorization, authValue)]
-  }
-    where headers   = requestHeaders req
-          authValue = toStrict $ encodeUtf8 $ "Bearer " <> token
+    { requestHeaders = headers ++ [(hAuthorization, authValue)]
+    }
+  where
+    headers   = requestHeaders req
+    authValue = toStrict $ encodeUtf8 $ "Bearer " <> token
