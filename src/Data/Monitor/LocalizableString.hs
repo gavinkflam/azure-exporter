@@ -9,7 +9,7 @@ module Data.Monitor.LocalizableString
     , localizedValue
     ) where
 
-import Data.Text.Lazy (Text)
+import Data.Text (Text)
 import GHC.Generics
 
 import Control.Lens (makeLenses)

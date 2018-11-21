@@ -11,7 +11,7 @@ module Data.AccessToken
     , fromResponse
     ) where
 
-import Data.Text.Lazy (Text, unpack)
+import Data.Text (Text, unpack)
 import Data.Time.Clock (UTCTime)
 import Data.Time.Clock.POSIX (posixSecondsToUTCTime)
 

@@ -19,7 +19,7 @@ module Data.Config
     ) where
 
 import Data.Maybe (fromMaybe)
-import Data.Text.Lazy (Text, pack)
+import Data.Text (Text, pack)
 import System.Environment (getEnv, lookupEnv)
 import Text.Read (readMaybe)
 

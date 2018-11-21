@@ -18,7 +18,7 @@ module Data.Billing.AggregateProperty
     , quantity
     ) where
 
-import Data.Text.Lazy (Text)
+import Data.Text (Text)
 
 import Control.Lens (makeLenses)
 import Data.Aeson

@@ -9,7 +9,7 @@ module Text.CSV
 
 import Data.List (sort)
 import Data.Set (Set, fromList, toList, (\\))
-import Data.Text.Lazy (Text, intercalate, unlines)
+import Data.Text (Text, intercalate, unlines)
 import Prelude hiding (unlines)
 
 import Control.Lens ((^.))

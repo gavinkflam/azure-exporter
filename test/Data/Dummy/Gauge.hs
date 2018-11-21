@@ -9,7 +9,7 @@ module Data.Dummy.Gauge
     , listMetricValuesResponse
     ) where
 
-import Data.Text.Lazy (Text, intercalate, pack, toLower)
+import Data.Text (Text, intercalate, pack, toLower)
 
 import Control.Lens ((^.))
 

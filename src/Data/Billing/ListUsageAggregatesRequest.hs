@@ -12,9 +12,8 @@ module Data.Billing.ListUsageAggregatesRequest
     ) where
 
 import Data.ByteString (ByteString)
-import Data.ByteString.Lazy (toStrict)
-import Data.Text.Lazy (Text, unpack)
-import Data.Text.Lazy.Encoding (encodeUtf8)
+import Data.Text (Text, unpack)
+import Data.Text.Encoding (encodeUtf8)
 import Network.HTTP.Client
     (Request(..), parseRequest_, responseTimeoutMicro, setQueryString)
 
@@ -50,8 +49,8 @@ queryParams :: Params -> [(ByteString, Maybe ByteString)]
 queryParams p =
     maybeAdd params "continuationToken" maybeToken
   where
-    maybeToken = fmap (toStrict . encodeUtf8) (p ^. continuationToken)
-    param      = Just . toStrict . encodeUtf8
+    maybeToken = fmap encodeUtf8 (p ^. continuationToken)
+    param      = Just . encodeUtf8
     params     =
         [ ("api-version",            param billingApiVersion)
         , ("aggregationGranularity", param (p ^. aggregationGranularity))

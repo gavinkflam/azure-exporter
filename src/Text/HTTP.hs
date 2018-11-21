@@ -7,9 +7,8 @@ module Text.HTTP
       addAuthHeader
     ) where
 
-import Data.ByteString.Lazy (toStrict)
-import Data.Text.Lazy (Text)
-import Data.Text.Lazy.Encoding (encodeUtf8)
+import Data.Text (Text)
+import Data.Text.Encoding (encodeUtf8)
 
 import Network.HTTP.Client (Request, requestHeaders)
 import Network.HTTP.Types.Header (hAuthorization)
@@ -21,4 +20,4 @@ addAuthHeader token req = req
     }
   where
     headers   = requestHeaders req
-    authValue = toStrict $ encodeUtf8 $ "Bearer " <> token
+    authValue = encodeUtf8 $ "Bearer " <> token

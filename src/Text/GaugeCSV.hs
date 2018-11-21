@@ -7,7 +7,7 @@ module Text.GaugeCSV
       toCSV
     ) where
 
-import Data.Text.Lazy (Text, pack)
+import Data.Text (Text, pack)
 import Data.Time.Clock.POSIX (utcTimeToPOSIXSeconds)
 
 import Control.Lens ((^.))

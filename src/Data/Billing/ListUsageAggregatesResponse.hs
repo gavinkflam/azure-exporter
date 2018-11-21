@@ -11,9 +11,8 @@ module Data.Billing.ListUsageAggregatesResponse
     , continuationToken
     ) where
 
-import Data.ByteString.Lazy (fromStrict, toStrict)
-import Data.Text.Lazy (Text)
-import Data.Text.Lazy.Encoding (decodeUtf8, encodeUtf8)
+import Data.Text (Text)
+import Data.Text.Encoding (decodeUtf8, encodeUtf8)
 import GHC.Generics
 
 import Control.Lens (makeLenses)
@@ -42,6 +41,6 @@ continuationToken res =
     case _nextLink res of
         Nothing  -> Nothing
         Just url ->
-            decodeUtf8 . fromStrict <$> lookup "continuationToken" q
+            decodeUtf8 <$> lookup "continuationToken" q
           where
-            q = parseSimpleQuery $ toStrict $ encodeUtf8 url
+            q = parseSimpleQuery $ encodeUtf8 url

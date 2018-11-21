@@ -11,7 +11,7 @@ module Auth
 
 import Control.Monad (when)
 import Control.Monad.IO.Class (liftIO)
-import Data.Text.Lazy (Text)
+import Data.Text (Text)
 import Data.Time.Clock (NominalDiffTime, addUTCTime)
 import Data.Time.Clock.System (getSystemTime, systemToUTCTime)
 

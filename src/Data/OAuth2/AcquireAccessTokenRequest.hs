@@ -13,10 +13,9 @@ module Data.OAuth2.AcquireAccessTokenRequest
     , errorExtractor
     ) where
 
-import qualified Data.ByteString as BS
-import Data.ByteString.Lazy (toStrict)
-import Data.Text.Lazy (Text, lines, stripEnd, unpack)
-import Data.Text.Lazy.Encoding (encodeUtf8)
+import Data.ByteString (ByteString)
+import Data.Text (Text, lines, stripEnd, unpack)
+import Data.Text.Encoding (encodeUtf8)
 import Prelude hiding (lines)
 
 import Control.Lens (makeLenses, (^.))
@@ -45,12 +44,12 @@ url tenantId' =
 -- | Construct form parameters from `Params`.
 --
 --   <https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-oauth2-client-creds-grant-flow#first-case-access-token-request-with-a-shared-secret>
-form :: Params -> [(BS.ByteString, BS.ByteString)]
+form :: Params -> [(ByteString, ByteString)]
 form p =
     [ ("grant_type",    "client_credentials")
     , ("resource",      "https://management.azure.com/")
-    , ("client_id",     toStrict $ encodeUtf8 (p ^. clientId))
-    , ("client_secret", toStrict $ encodeUtf8 (p ^. clientSecret))
+    , ("client_id",     encodeUtf8 (p ^. clientId))
+    , ("client_secret", encodeUtf8 (p ^. clientSecret))
     ]
 
 -- | Construct `Request` from `Params`.

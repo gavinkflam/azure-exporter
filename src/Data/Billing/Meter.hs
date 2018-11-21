@@ -14,7 +14,7 @@ module Data.Billing.Meter
     , unit
     ) where
 
-import Data.Text.Lazy (Text)
+import Data.Text (Text)
 import GHC.Generics
 
 import Control.Lens (makeLenses)

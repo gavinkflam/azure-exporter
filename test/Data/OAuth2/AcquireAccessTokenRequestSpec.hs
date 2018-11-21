@@ -8,7 +8,8 @@ module Data.OAuth2.AcquireAccessTokenRequestSpec
     ) where
 
 import qualified Data.ByteString.Char8 as C
-import Data.Text.Lazy (unpack)
+import Data.Text (unpack)
+import Data.Text.Encoding (encodeUtf8)
 
 import Network.HTTP.Client (path, requestBody)
 import Test.Hspec
@@ -17,7 +18,6 @@ import qualified Data.Dummy.Text as T
 import Data.OAuth2.AcquireAccessTokenRequest
 import Expectations
 import Util.HTTP (parseSimpleRequestBody)
-import Util.Text (toBS)
 
 -- | Spec for `AcquireAccessToken`.
 spec :: Spec
@@ -33,10 +33,10 @@ spec = do
             fItems `shouldContain` [("resource", "https://management.azure.com/")]
 
         it "contains client_id form item" $
-            fItems `shouldContain` [("client_id", toBS T.clientId)]
+            fItems `shouldContain` [("client_id", encodeUtf8 T.clientId)]
 
         it "contains client_secret form item" $
-            fItems `shouldContain` [("client_secret", toBS T.clientSecret)]
+            fItems `shouldContain` [("client_secret", encodeUtf8 T.clientSecret)]
 
         it "contains the expected path" $
             C.unpack (path req) `shouldBe` expectedPath

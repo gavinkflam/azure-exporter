@@ -9,7 +9,7 @@ module Data.Prometheus
     , sanitizeLabelValue
     ) where
 
-import qualified Data.Text.Lazy as T
+import qualified Data.Text as T
 
 -- | Sanitize metric and label name.
 --

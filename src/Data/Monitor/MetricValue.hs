@@ -13,7 +13,7 @@ module Data.Monitor.MetricValue
     , total
     ) where
 
-import Data.Text.Lazy (Text)
+import Data.Text (Text)
 import GHC.Generics
 import Prelude hiding (maximum, minimum)
 

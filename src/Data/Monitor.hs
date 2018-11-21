@@ -8,7 +8,7 @@ module Data.Monitor
     ) where
 
 import Data.Maybe (catMaybes)
-import Data.Text.Lazy (Text, intercalate, pack, unpack)
+import Data.Text (Text, intercalate, pack, unpack)
 
 import Control.Lens ((^.))
 import Data.Scientific (Scientific)

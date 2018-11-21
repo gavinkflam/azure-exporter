@@ -8,7 +8,7 @@ module UsageDump
 
 import Control.Monad.IO.Class (liftIO)
 import Data.List (sort)
-import Data.Text.Lazy (Text, pack, unpack)
+import Data.Text (Text, pack, unpack)
 
 import Control.Lens ((^.))
 import Network.HTTP.Client (Manager, newManager)

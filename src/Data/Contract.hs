@@ -8,7 +8,7 @@ module Data.Contract
     , billingApiVersion
     ) where
 
-import Data.Text.Lazy (Text)
+import Data.Text (Text)
 
 -- | The API version for Azure monitor.
 monitorApiVersion :: Text

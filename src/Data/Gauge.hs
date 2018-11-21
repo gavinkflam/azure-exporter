@@ -12,7 +12,7 @@ module Data.Gauge
     , time
     ) where
 
-import Data.Text.Lazy (Text)
+import Data.Text (Text)
 
 import Control.Lens (makeLenses, (^.))
 import Data.Scientific (Scientific)

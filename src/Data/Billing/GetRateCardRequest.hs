@@ -12,9 +12,8 @@ module Data.Billing.GetRateCardRequest
     ) where
 
 import Data.ByteString (ByteString)
-import Data.ByteString.Lazy (toStrict)
-import Data.Text.Lazy (Text, unpack)
-import Data.Text.Lazy.Encoding (encodeUtf8)
+import Data.Text (Text, unpack)
+import Data.Text.Encoding (encodeUtf8)
 
 import Control.Lens (makeLenses, (^.))
 import Network.HTTP.Client
@@ -48,8 +47,8 @@ url subscriptionId' =
 --   <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)#request>
 queryParams :: Params -> [(ByteString, Maybe ByteString)]
 queryParams p =
-    [ ("api-version", Just $ toStrict $ encodeUtf8 billingApiVersion)
-    , ("$filter",     Just $ toStrict $ encodeUtf8 $ filterQuery p)
+    [ ("api-version", Just $ encodeUtf8 billingApiVersion)
+    , ("$filter",     Just $ encodeUtf8 $ filterQuery p)
     ]
 
 -- | Construct $filter query from `Params`.

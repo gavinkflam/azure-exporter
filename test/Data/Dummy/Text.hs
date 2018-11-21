@@ -41,7 +41,8 @@ module Data.Dummy.Text
     ) where
 
 import Data.ByteString.Lazy (ByteString)
-import Data.Text.Lazy (Text, intercalate, pack)
+import Data.Text (Text, intercalate, pack)
+import Data.Text.Lazy (fromStrict)
 import Data.Text.Lazy.Encoding (decodeUtf8, encodeUtf8)
 
 -- | Dummy error code.
@@ -61,7 +62,7 @@ errorResponseJSON = encodeUtf8 $
 
 -- | Dummy `ErrorValue` in JSON `ByteString`.
 errorValueJSON :: ByteString
-errorValueJSON = encodeUtf8 $
+errorValueJSON = encodeUtf8 $ fromStrict $
     "{" <>
         "\"code\": \"" <> errorCode <> "\"," <>
         "\"message\": \"" <> errorMessage <> "\"" <>
@@ -69,7 +70,7 @@ errorValueJSON = encodeUtf8 $
 
 -- | Dummy `Data.OAuth2.ErrorResponse` in JSON ByteString.
 oAuth2ErrorResponseJSON :: ByteString
-oAuth2ErrorResponseJSON = encodeUtf8 $
+oAuth2ErrorResponseJSON = encodeUtf8 $ fromStrict $
     "{" <>
         "\"error\": \"interaction_required\"," <>
         "\"error_description\": \"" <>
@@ -92,7 +93,7 @@ oAuth2ErrorDescriptionLines =
 
 -- | Dummy `JsonValue` in JSON `ByteString`.
 jsonValueJSON :: ByteString
-jsonValueJSON = encodeUtf8 $
+jsonValueJSON = encodeUtf8 $ fromStrict $
     "{" <>
         "\"value\": " <> pack (show jsonValueValue) <>
     "}"

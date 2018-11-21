@@ -8,9 +8,8 @@ module Data.Billing.ListUsageAggregatesRequestSpec
     ) where
 
 import qualified Data.ByteString.Char8 as C
-import Data.ByteString.Lazy (toStrict)
-import Data.Text.Lazy (unpack)
-import Data.Text.Lazy.Encoding (encodeUtf8)
+import Data.Text (unpack)
+import Data.Text.Encoding (encodeUtf8)
 
 import Network.HTTP.Client (path, queryString, requestHeaders)
 import Network.HTTP.Types (Header, hAuthorization, parseSimpleQuery)
@@ -20,7 +19,6 @@ import Data.Billing.ListUsageAggregatesRequest
 import Data.Contract (billingApiVersion)
 import qualified Data.Dummy.Text as T
 import qualified Data.Dummy.Time as M
-import Util.Text (toBS)
 
 -- | Spec for `ListUsageAggregates`.
 spec :: Spec
@@ -33,16 +31,16 @@ spec = do
             requestHeaders req `shouldContain` [authHeader]
 
         it "contains api-version query item" $
-            qItems `shouldContain` [("api-version", toBS billingApiVersion)]
+            qItems `shouldContain` [("api-version", encodeUtf8 billingApiVersion)]
 
         it "contains aggregation granularity query item" $
             qItems `shouldContain` [("aggregationGranularity", "daily")]
 
         it "contains reported start time query item" $
-            qItems `shouldContain` [("reportedStartTime", toBS M.timestampFrom)]
+            qItems `shouldContain` [("reportedStartTime", encodeUtf8 M.timestampFrom)]
 
         it "contains reported end time query item" $
-            qItems `shouldContain` [("reportedEndTime", toBS M.timestampTo)]
+            qItems `shouldContain` [("reportedEndTime", encodeUtf8 M.timestampTo)]
 
         it "contains continuation token query item" $
             qItems `shouldContain` [("continuationToken", "something")]
@@ -73,5 +71,4 @@ expectedPath =
 
 -- | Dummy authorization header.
 authHeader :: Header
-authHeader =
-    (hAuthorization, toStrict $ encodeUtf8 ("Bearer " <> T.accessToken))
+authHeader = (hAuthorization, encodeUtf8 ("Bearer " <> T.accessToken))

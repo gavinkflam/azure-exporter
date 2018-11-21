@@ -12,7 +12,7 @@ module Data.ResourceMetadata
     , subscriptionId
     ) where
 
-import Data.Text.Lazy (Text)
+import Data.Text (Text)
 
 import Control.Lens (makeLenses)
 

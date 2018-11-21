@@ -13,7 +13,7 @@ module Data.Response.Aeson
 import Data.ByteString.Lazy (ByteString)
 import qualified Data.ByteString.Lazy.Char8 as BS
 import Data.Maybe (catMaybes, fromMaybe)
-import qualified Data.Text.Lazy as T
+import qualified Data.Text as T
 
 import Control.Lens ((^.))
 import qualified Data.Aeson as A

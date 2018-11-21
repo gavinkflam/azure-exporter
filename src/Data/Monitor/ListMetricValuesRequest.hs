@@ -12,9 +12,8 @@ module Data.Monitor.ListMetricValuesRequest
     ) where
 
 import Data.ByteString (ByteString)
-import Data.ByteString.Lazy (toStrict)
-import Data.Text.Lazy (Text, unpack)
-import Data.Text.Lazy.Encoding (encodeUtf8)
+import Data.Text (Text, unpack)
+import Data.Text.Encoding (encodeUtf8)
 
 import Control.Lens (makeLenses, (^.))
 import Network.HTTP.Client (Request, parseRequest_, setQueryString)
@@ -46,10 +45,10 @@ url resourceId' =
 -- <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#uri-parameters>
 queryParams :: Params -> [(ByteString, Maybe ByteString)]
 queryParams p =
-    [ ("api-version", Just $ toStrict $ encodeUtf8 monitorApiVersion)
-    , ("aggregation", Just $ toStrict $ encodeUtf8 (p ^. aggregation))
-    , ("metricnames", Just $ toStrict $ encodeUtf8 (p ^. metricNames))
-    , ("timespan",    Just $ toStrict $ encodeUtf8 (p ^. timespan))
+    [ ("api-version", Just $ encodeUtf8 monitorApiVersion)
+    , ("aggregation", Just $ encodeUtf8 (p ^. aggregation))
+    , ("metricnames", Just $ encodeUtf8 (p ^. metricNames))
+    , ("timespan",    Just $ encodeUtf8 (p ^. timespan))
     ]
 
 -- | Construct `Request` from access token and `Params`.

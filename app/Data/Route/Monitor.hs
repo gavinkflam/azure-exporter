@@ -7,7 +7,8 @@ module Data.Route.Monitor
     ) where
 
 import Control.Monad.IO.Class (liftIO)
-import Data.Text.Lazy (intercalate, pack)
+import Data.Text (intercalate, pack)
+import Data.Text.Lazy (fromStrict)
 import Data.Time.Clock (getCurrentTime)
 
 import Web.Scotty.Trans (param, text)
@@ -38,4 +39,4 @@ metrics = do
           , M._timespan    = pack $ timespanFrom now 150 90
           }
     metrics' <- raiseLeft =<< liftSTM (request $ M.request token params)
-    text $ intercalate "\n" $ map renderGauge $ gauges metrics'
+    text $ fromStrict $ intercalate "\n" $ map renderGauge $ gauges metrics'

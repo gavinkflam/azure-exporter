@@ -8,9 +8,8 @@ module Data.Billing.GetRateCardRequestSpec
     ) where
 
 import qualified Data.ByteString.Char8 as C
-import Data.ByteString.Lazy (toStrict)
-import Data.Text.Lazy (unpack)
-import Data.Text.Lazy.Encoding (encodeUtf8)
+import Data.Text (unpack)
+import Data.Text.Encoding (encodeUtf8)
 
 import Network.HTTP.Client (path, queryString, requestHeaders)
 import Network.HTTP.Types (Header, hAuthorization, parseSimpleQuery)
@@ -19,7 +18,6 @@ import Test.Hspec
 import Data.Billing.GetRateCardRequest
 import Data.Contract (billingApiVersion)
 import qualified Data.Dummy.Text as T
-import Util.Text (toBS)
 
 -- | Spec for `GetRateCard`.
 spec :: Spec
@@ -32,10 +30,10 @@ spec = do
             requestHeaders req `shouldContain` [authHeader]
 
         it "contains api-version query item" $
-            qItems `shouldContain` [("api-version", toBS billingApiVersion)]
+            qItems `shouldContain` [("api-version", encodeUtf8 billingApiVersion)]
 
         it "contains $filter query item" $
-            qItems `shouldContain` [("$filter", toBS T.filterQuery)]
+            qItems `shouldContain` [("$filter", encodeUtf8 T.filterQuery)]
 
         it "contains the expected path" $
             C.unpack (path req) `shouldBe` expectedPath
@@ -63,5 +61,4 @@ expectedPath =
 
 -- | Dummy authorization header.
 authHeader :: Header
-authHeader =
-    (hAuthorization, toStrict $ encodeUtf8 ("Bearer " <> T.accessToken))
+authHeader = (hAuthorization, encodeUtf8 ("Bearer " <> T.accessToken))

@@ -8,7 +8,7 @@ module Text.Gauge
     ) where
 
 import Data.Monoid (mconcat)
-import Data.Text.Lazy (Text, intercalate, pack)
+import Data.Text (Text, intercalate, pack)
 
 import Control.Lens ((^.))
 

@@ -8,7 +8,7 @@ module Data.Billing
     ) where
 
 import Data.Maybe (catMaybes, fromMaybe)
-import qualified Data.Text.Lazy as T
+import qualified Data.Text as T
 
 import Control.Lens ((^.))
 import qualified Data.HashMap.Strict as H

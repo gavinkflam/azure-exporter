@@ -7,13 +7,14 @@ module Text.HTTPSpec
       spec
     ) where
 
+import Data.Text.Encoding (encodeUtf8)
+
 import qualified Network.HTTP.Client as C
 import qualified Network.HTTP.Types.Header as H
 import Test.Hspec
 
 import qualified Data.Dummy.Text as T
 import Text.HTTP
-import Util.Text (toBS)
 
 -- | Spec for `Timespan`.
 spec :: Spec
@@ -43,4 +44,4 @@ dummyHeaders =
 
 -- | Dummy auth header constructed from `accessToken` dummy text.
 authHeader :: H.Header
-authHeader = (H.hAuthorization, toBS $ "Bearer " <> T.accessToken)
+authHeader = (H.hAuthorization, encodeUtf8 $ "Bearer " <> T.accessToken)

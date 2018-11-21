@@ -14,7 +14,7 @@ module Data.CSV
 
 import Data.Set (Set, fromList, union)
 import qualified Data.Set as Set
-import Data.Text.Lazy (Text)
+import Data.Text (Text)
 
 import Control.Lens (makeLenses, (^.))
 import Data.HashMap.Strict (HashMap, keys)

@@ -5,7 +5,7 @@ module Data.ResourceSpec
       spec
     ) where
 
-import Data.Text.Lazy (toLower)
+import Data.Text (toLower)
 
 import Control.Lens ((^.))
 import Test.Hspec

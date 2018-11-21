@@ -8,9 +8,8 @@ module Data.Monitor.ListMetricValuesRequestSpec
     ) where
 
 import qualified Data.ByteString.Char8 as C
-import Data.ByteString.Lazy (toStrict)
-import Data.Text.Lazy (unpack)
-import Data.Text.Lazy.Encoding (encodeUtf8)
+import Data.Text (unpack)
+import Data.Text.Encoding (encodeUtf8)
 
 import Network.HTTP.Client (path, queryString, requestHeaders)
 import Network.HTTP.Types (Header, hAuthorization, parseSimpleQuery)
@@ -19,7 +18,6 @@ import Test.Hspec
 import Data.Contract (monitorApiVersion)
 import qualified Data.Dummy.Text as T
 import Data.Monitor.ListMetricValuesRequest
-import Util.Text (toBS)
 
 -- | Spec for `ListMetricValues`.
 spec :: Spec
@@ -32,16 +30,16 @@ spec = do
             requestHeaders req `shouldContain` [authHeader]
 
         it "contains api-version query item" $
-            qItems `shouldContain` [("api-version", toBS monitorApiVersion)]
+            qItems `shouldContain` [("api-version", encodeUtf8 monitorApiVersion)]
 
         it "contains aggregation query item" $
-            qItems `shouldContain` [("aggregation", toBS T.aggregation)]
+            qItems `shouldContain` [("aggregation", encodeUtf8 T.aggregation)]
 
         it "contains metricnames query item" $
-            qItems `shouldContain` [("metricnames", toBS T.metricNames)]
+            qItems `shouldContain` [("metricnames", encodeUtf8 T.metricNames)]
 
         it "contains timespan query item" $
-            qItems `shouldContain` [("timespan", toBS T.timespan)]
+            qItems `shouldContain` [("timespan", encodeUtf8 T.timespan)]
 
         it "contains the expected path" $
             C.unpack (path req) `shouldBe` expectedPath
@@ -65,5 +63,4 @@ expectedPath = unpack $ T.resourceId <> "/providers/microsoft.insights/metrics"
 
 -- | Dummy authorization header.
 authHeader :: Header
-authHeader =
-    (hAuthorization, toStrict $ encodeUtf8 ("Bearer " <> T.accessToken))
+authHeader = (hAuthorization, encodeUtf8 ("Bearer " <> T.accessToken))

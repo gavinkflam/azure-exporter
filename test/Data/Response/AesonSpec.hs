@@ -9,7 +9,7 @@ module Data.Response.AesonSpec
 
 import Data.ByteString.Lazy (ByteString)
 import Data.Monoid (mempty)
-import Data.Text.Lazy (unpack)
+import Data.Text (unpack)
 
 import Network.HTTP.Client.Internal (Response(..), ResponseClose(..))
 import Network.HTTP.Types (Status, badRequest400, http11, ok200)
