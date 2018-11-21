@@ -15,7 +15,8 @@ import Data.ByteString (ByteString)
 import Data.ByteString.Lazy (toStrict)
 import Data.Text.Lazy (Text, unpack)
 import Data.Text.Lazy.Encoding (encodeUtf8)
-import Network.HTTP.Client (Request(..), parseRequest_, responseTimeoutMicro, setQueryString)
+import Network.HTTP.Client
+    (Request(..), parseRequest_, responseTimeoutMicro, setQueryString)
 
 import Control.Lens (makeLenses, (^.))
 

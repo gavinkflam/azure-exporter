@@ -7,9 +7,9 @@ module Text.CSV
       renderCSV
     ) where
 
-import Data.Text.Lazy (Text, intercalate, unlines)
 import Data.List (sort)
-import Data.Set (Set, (\\), fromList, toList)
+import Data.Set (Set, fromList, toList, (\\))
+import Data.Text.Lazy (Text, intercalate, unlines)
 import Prelude hiding (unlines)
 
 import Control.Lens ((^.))

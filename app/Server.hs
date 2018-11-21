@@ -13,7 +13,7 @@ import Web.Scotty.Trans (scottyT)
 
 import App (app)
 import Control.Monad.AppEnvSTM
-import Data.AppEnv (AppEnv (..))
+import Data.AppEnv (AppEnv(..))
 import Data.Config (getConfig, port)
 
 -- | Start the exporter HTTP server.

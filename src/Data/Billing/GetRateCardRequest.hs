@@ -17,7 +17,8 @@ import Data.Text.Lazy (Text, unpack)
 import Data.Text.Lazy.Encoding (encodeUtf8)
 
 import Control.Lens (makeLenses, (^.))
-import Network.HTTP.Client (Request(..), parseRequest_, responseTimeoutMicro, setQueryString)
+import Network.HTTP.Client
+    (Request(..), parseRequest_, responseTimeoutMicro, setQueryString)
 
 import Data.Contract (billingApiVersion)
 import Text.HTTP (addAuthHeader)

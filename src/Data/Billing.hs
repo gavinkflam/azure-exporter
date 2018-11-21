@@ -21,9 +21,9 @@ import qualified Data.Billing.Meter as M
 import qualified Data.Billing.ResourceData as R
 import qualified Data.Billing.UsageAggregate as U
 import qualified Data.Gauge as G
-import Data.Prometheus (metricName, sanitizeName, sanitizeLabelValue)
-import qualified Data.ResourceMetadata as D
+import Data.Prometheus (metricName, sanitizeLabelValue, sanitizeName)
 import Data.Resource (parseResourceId)
+import qualified Data.ResourceMetadata as D
 import Text.Scientific (showFixed)
 import Text.Time (formatTime)
 

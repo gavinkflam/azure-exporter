@@ -16,8 +16,8 @@ isJustOf _ Nothing  = False
 -- | Return `True` if the given value is a `Left` value of the given value,
 --   `False` otherwise.
 isLeftOf :: Eq a => a -> Either a b -> Bool
-isLeftOf x (Left v) = x == v
-isLeftOf _ (Right _)= False
+isLeftOf x (Left v)  = x == v
+isLeftOf _ (Right _) = False
 
 -- | Return `True` if the given value is a `Right` value of the given value,
 --   `False` otherwise.

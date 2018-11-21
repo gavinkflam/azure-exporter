@@ -15,7 +15,7 @@ import Data.Text.Lazy (Text)
 import Data.Time.Clock (NominalDiffTime, addUTCTime)
 import Data.Time.Clock.System (getSystemTime, systemToUTCTime)
 
-import Control.Lens ((^.), (?~))
+import Control.Lens ((?~), (^.))
 import Network.HTTP.Client (Manager)
 
 import Control.Monad.AppEnvSTM

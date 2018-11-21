@@ -12,7 +12,7 @@ import Data.ByteString.Lazy (toStrict)
 import Data.Text.Lazy (unpack)
 import Data.Text.Lazy.Encoding (encodeUtf8)
 
-import Network.HTTP.Client (requestHeaders, path, queryString)
+import Network.HTTP.Client (path, queryString, requestHeaders)
 import Network.HTTP.Types (Header, hAuthorization, parseSimpleQuery)
 import Test.Hspec
 

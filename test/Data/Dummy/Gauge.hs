@@ -13,9 +13,9 @@ import Data.Text.Lazy (Text, intercalate, pack, toLower)
 
 import Control.Lens ((^.))
 
-import qualified Data.Gauge as G
 import qualified Data.Dummy.Text as T
 import qualified Data.Dummy.Time as TI
+import qualified Data.Gauge as G
 import qualified Data.Monitor.ListMetricValuesResponse as R
 import qualified Data.Monitor.LocalizableString as LS
 import qualified Data.Monitor.Metric as M

@@ -16,7 +16,7 @@ import Data.Set (Set, fromList, union)
 import qualified Data.Set as Set
 import Data.Text.Lazy (Text)
 
-import Control.Lens ((^.), makeLenses)
+import Control.Lens (makeLenses, (^.))
 import Data.HashMap.Strict (HashMap, keys)
 
 -- | Data structure representing a CSV.

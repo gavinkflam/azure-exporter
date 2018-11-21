@@ -13,10 +13,10 @@ module Data.OAuth2.AcquireAccessTokenRequest
     , errorExtractor
     ) where
 
-import Data.Text.Lazy (Text, lines, stripEnd, unpack)
-import Data.Text.Lazy.Encoding (encodeUtf8)
 import qualified Data.ByteString as BS
 import Data.ByteString.Lazy (toStrict)
+import Data.Text.Lazy (Text, lines, stripEnd, unpack)
+import Data.Text.Lazy.Encoding (encodeUtf8)
 import Prelude hiding (lines)
 
 import Control.Lens (makeLenses, (^.))

@@ -6,7 +6,7 @@ module Text.Timespan
     , timespanFrom
     ) where
 
-import Data.Time.Clock (UTCTime, NominalDiffTime, addUTCTime)
+import Data.Time.Clock (NominalDiffTime, UTCTime, addUTCTime)
 import Data.Time.Format (defaultTimeLocale, formatTime)
 
 -- | Render timespan `String` from start `UTCTime` and end `UTCTime`.

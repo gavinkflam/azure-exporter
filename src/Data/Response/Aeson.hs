@@ -18,7 +18,7 @@ import qualified Data.Text.Lazy as T
 import Control.Lens ((^.))
 import qualified Data.Aeson as A
 import Network.HTTP.Client (Response, responseBody, responseStatus)
-import Network.HTTP.Types (ok200, created201)
+import Network.HTTP.Types (created201, ok200)
 
 import qualified Data.Error.ErrorResponse as E
 import qualified Data.Error.ErrorValue as V

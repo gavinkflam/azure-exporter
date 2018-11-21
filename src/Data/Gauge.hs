@@ -14,7 +14,7 @@ module Data.Gauge
 
 import Data.Text.Lazy (Text)
 
-import Control.Lens ((^.), makeLenses)
+import Control.Lens (makeLenses, (^.))
 import Data.Scientific (Scientific)
 import Data.Time.Clock (UTCTime)
 

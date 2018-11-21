@@ -7,8 +7,8 @@ module UsageDump
     ) where
 
 import Control.Monad.IO.Class (liftIO)
-import Data.Text.Lazy (Text, pack, unpack)
 import Data.List (sort)
+import Data.Text.Lazy (Text, pack, unpack)
 
 import Control.Lens ((^.))
 import Network.HTTP.Client (Manager, newManager)
@@ -18,11 +18,11 @@ import Auth (acquireToken)
 import Control.Monad.Either (dieLeft)
 import qualified Data.AccessToken as T
 import Data.Billing (gauges)
+import qualified Data.Billing.GetRateCardRequest as G
 import qualified Data.Billing.GetRateCardResponse as GR
+import qualified Data.Billing.ListUsageAggregatesRequest as A
 import qualified Data.Billing.ListUsageAggregatesResponse as AR
 import qualified Data.Billing.UsageAggregate as U
-import qualified Data.Billing.GetRateCardRequest as G
-import qualified Data.Billing.ListUsageAggregatesRequest as A
 import qualified Data.Config as C
 import Data.Response.Aeson (errorExtractor)
 import HTTP (requestIO)
