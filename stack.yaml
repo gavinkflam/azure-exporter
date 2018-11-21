@@ -1,4 +1,6 @@
 resolver: lts-12.18
+ghc-options:
+  "$everything": -Wall -Werror
 packages:
 - .
 extra-deps:
