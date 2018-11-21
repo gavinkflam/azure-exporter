@@ -1,16 +1,16 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Data.Dummy.Time
-  (
-  -- * Time
-    timeFrom
-  , timeTo
-  -- * Timestamp
-  , timestampFrom
-  , timestampTo
-  -- * Timespan
-  , dummyTimespan
-  ) where
+    (
+      -- * Time
+      timeFrom
+    , timeTo
+      -- * Timestamp
+    , timestampFrom
+    , timestampTo
+      -- * Timespan
+    , dummyTimespan
+    ) where
 
 import Data.Text.Lazy (Text, unpack)
 import Data.Time.Clock (UTCTime)

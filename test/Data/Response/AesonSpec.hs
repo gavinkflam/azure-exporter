@@ -1,12 +1,11 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- |
--- Test JSON decoding and error extraction mechanism.
+-- | Test JSON decoding and error extraction mechanism.
 module Data.Response.AesonSpec
-  (
-  -- * Spec
-    spec
-  ) where
+    (
+      -- * Spec
+      spec
+    ) where
 
 import Data.ByteString.Lazy (ByteString)
 import Data.Monoid (mempty)
@@ -24,33 +23,33 @@ import Expectations
 -- | Spec for `Parser`.
 spec :: Spec
 spec = do
-  let fullMessage = unpack $ T.errorCode <> ": " <> T.errorMessage
+    let fullMessage = unpack $ T.errorCode <> ": " <> T.errorMessage
 
-  describe "errorExtractor" $ do
-    it "extracts readable error message from ErrorResponse JSON ByteString" $
-      errorExtractor T.errorResponseJSON `shouldSatisfy` isJustOf fullMessage
+    describe "errorExtractor" $ do
+        it "extracts readable error message from ErrorResponse JSON ByteString" $
+            errorExtractor T.errorResponseJSON `shouldSatisfy` isJustOf fullMessage
 
-    it "extracts readable error message from ErrorValue JSON ByteString" $
-      errorExtractor T.errorValueJSON `shouldSatisfy` isJustOf fullMessage
+        it "extracts readable error message from ErrorValue JSON ByteString" $
+            errorExtractor T.errorValueJSON `shouldSatisfy` isJustOf fullMessage
 
-  let sEitherDecode b = eitherDecode $ resp ok200 b
-      fEitherDecode b = eitherDecode $ resp badRequest400 b
+    let sEitherDecode b = eitherDecode $ resp ok200 b
+        fEitherDecode b = eitherDecode $ resp badRequest400 b
 
-  describe "mapEitherDecode" $ do
-    it "extracts JsonValue from JsonValue JSON ByteString" $
-      sEitherDecode T.jsonValueJSON `shouldSatisfy` isRightOf expectedJsonValue
+    describe "mapEitherDecode" $ do
+        it "extracts JsonValue from JsonValue JSON ByteString" $
+            sEitherDecode T.jsonValueJSON `shouldSatisfy` isRightOf expectedJsonValue
 
-    it "returns the JSON deserialization error" $
-      sEitherDecode T.errorValueJSON `shouldSatisfy` isLeftOf T.jsonValueError
+        it "returns the JSON deserialization error" $
+            sEitherDecode T.errorValueJSON `shouldSatisfy` isLeftOf T.jsonValueError
 
-    it "extracts readable error message from ErrorResponse JSON ByteString" $
-      fEitherDecode T.errorResponseJSON `shouldSatisfy` isLeftOf fullMessage
+        it "extracts readable error message from ErrorResponse JSON ByteString" $
+            fEitherDecode T.errorResponseJSON `shouldSatisfy` isLeftOf fullMessage
 
-    it "extracts readable error message from ErrorValue JSON ByteString" $
-      fEitherDecode T.errorValueJSON `shouldSatisfy` isLeftOf fullMessage
+        it "extracts readable error message from ErrorValue JSON ByteString" $
+            fEitherDecode T.errorValueJSON `shouldSatisfy` isLeftOf fullMessage
 
-    it "returns the original content for invalid error structure" $
-      fEitherDecode "Kaboom!" `shouldSatisfy` isLeftOf "Kaboom!"
+        it "returns the original content for invalid error structure" $
+            fEitherDecode "Kaboom!" `shouldSatisfy` isLeftOf "Kaboom!"
 
 -- | Decoding with concrete type `Either String JsonValue`.
 eitherDecode :: Response ByteString -> Either String JsonValue
@@ -63,10 +62,10 @@ expectedJsonValue = JsonValue { _value = T.jsonValueValue }
 -- | Construct a response from a status code and `ByteString` body.
 resp :: Status -> ByteString -> Response ByteString
 resp s b = Response
-  { responseStatus = s
-  , responseVersion = http11
-  , responseHeaders = []
-  , responseBody = b
-  , responseCookieJar = mempty
-  , responseClose' = ResponseClose $ return ()
-  }
+    { responseStatus = s
+    , responseVersion = http11
+    , responseHeaders = []
+    , responseBody = b
+    , responseCookieJar = mempty
+    , responseClose' = ResponseClose $ return ()
+    }

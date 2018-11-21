@@ -1,10 +1,9 @@
--- |
--- Utility functions for `Text`, `String` and `ByteString`.
+-- | Utility functions for `Text`, `String` and `ByteString`.
 module Util.Text
-  (
-  -- * ByteString
-    toBS
-  ) where
+    (
+      -- * ByteString
+      toBS
+    ) where
 
 import Data.ByteString (ByteString)
 import Data.ByteString.Lazy (toStrict)
