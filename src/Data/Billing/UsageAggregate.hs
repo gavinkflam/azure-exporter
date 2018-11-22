@@ -26,7 +26,7 @@ import Data.Billing.AggregateProperty (AggregateProperty)
 data UsageAggregate = UsageAggregate
     { __id        :: {-# UNPACK #-} !Text
     , _name       :: {-# UNPACK #-} !Text
-    , _properties :: AggregateProperty
+    , _properties :: {-# UNPACK #-} !AggregateProperty
     , __type      :: {-# UNPACK #-} !Text
     } deriving (Generic, Show)
 
