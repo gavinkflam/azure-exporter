@@ -16,18 +16,11 @@ import Data.Text (Text)
 import Data.Text.Encoding (encodeUtf8)
 
 import Control.Lens (makeLenses, (^.))
-import Data.Csv
-    ( DefaultOrdered
-    , ToNamedRecord
-    , headerOrder
-    , namedRecord
-    , toNamedRecord
-    , (.=)
-    )
+import Data.Csv (ToNamedRecord , namedRecord , toNamedRecord , (.=))
 import Data.Scientific (Scientific)
 import Data.Time.Clock (UTCTime)
-import Data.Vector (fromList)
 
+import Data.Csv.HasHeaders (HasHeaders, headers)
 import Text.Scientific (showFixed)
 import Text.Time (formatTime)
 
@@ -59,9 +52,9 @@ instance ToNamedRecord Gauge where
 --
 --   'series', 'value' and 'timestamp' columns should go first.
 --   Label names were prefixed with 'label_' and come next in alphabetical order.
-instance DefaultOrdered Gauge where
-    headerOrder g =
-        fromList $ ["series", "value", "timestamp"] ++ map fName (g ^. labels)
+instance HasHeaders Gauge where
+    headers g =
+        ["series", "value", "timestamp"] ++ map fName (g ^. labels)
       where
         fName (k, _) = encodeUtf8 $ "label_" <> k
 

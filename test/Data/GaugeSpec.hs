@@ -8,9 +8,10 @@ module Data.GaugeSpec
 import Data.Text.Lazy (toStrict)
 import Data.Text.Lazy.Encoding (decodeUtf8)
 
-import Data.Csv.Incremental (encodeDefaultOrderedByName, encodeNamedRecord)
+import Data.Csv.Incremental (encodeByName, encodeNamedRecord)
 import Test.Hspec
 
+import Data.Csv.HasHeaders (uniqueHeaders)
 import qualified Data.Dummy.Gauge as G
 
 -- | Spec for `Gauge`.
@@ -21,5 +22,6 @@ spec =
             csv `shouldBe` G.gaugesCsv
           where
             gs  = [G.usageGauge, G.costGauge]
-            csv = toStrict $ decodeUtf8 $ encodeDefaultOrderedByName $ f gs
+            hs  = uniqueHeaders gs
+            csv = toStrict $ decodeUtf8 $ encodeByName hs $ f gs
             f   = foldr ((<>) . encodeNamedRecord) mempty
