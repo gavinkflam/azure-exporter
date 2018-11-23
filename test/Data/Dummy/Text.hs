@@ -36,14 +36,26 @@ module Data.Dummy.Text
     , resourceRegion
     , subscriptionId
     , subResourceId
+    , resourceId2
+    , resourceGroup2
+    , resourceName2
+    , resourceProvider2
+    , resourceType2
+    , resourceRegion2
       -- * Timespan
     , timespan
+      -- * Usage
+    , unit
+    , unit2
+    , unitCost
     ) where
 
 import Data.ByteString.Lazy (ByteString)
 import Data.Text (Text, intercalate, pack)
 import Data.Text.Lazy (fromStrict)
 import Data.Text.Lazy.Encoding (decodeUtf8, encodeUtf8)
+
+import Data.Scientific (Scientific)
 
 -- | Dummy error code.
 errorCode :: Text
@@ -196,6 +208,46 @@ subscriptionId = "312a4ad3-78e8-4b85-aa85-fdf7041f8155"
 subResourceId :: Text
 subResourceId = resourceId <> "/extensions/LinuxDiagnostic"
 
+-- | Dummy resource URI 2.
+resourceId2 :: Text
+resourceId2 =
+    "/subscriptions/" <> subscriptionId <>
+    "/resourceGroups/" <> resourceGroup2 <>
+    "/providers/" <> resourceProvider2 <>
+    "/virtualMachines/" <> resourceName2
+
+-- | Resource group name for `resourceId`.
+resourceGroup2 :: Text
+resourceGroup2 = "DummyGroup2"
+
+-- | Resource name for `resourceId`.
+resourceName2 :: Text
+resourceName2 = "DummyStorage"
+
+-- | Resource provider for `resourceId`.
+resourceProvider2 :: Text
+resourceProvider2 = "Microsoft.Storage"
+
+-- | Resource type for `resourceId`.
+resourceType2 :: Text
+resourceType2 = "storageAccounts"
+
+-- | Resource region for fictional dummy resource.
+resourceRegion2 :: Text
+resourceRegion2 = "canadaeast"
+
 -- | Dummy timespan text.
 timespan :: Text
 timespan = "2018-10-08T09:01:10Z/2018-10-08T09:02:10Z"
+
+-- | Dummy unit for gauge.
+unit :: Text
+unit = "1 Hour"
+
+-- | Dummy unit for gauge 2.
+unit2 :: Text
+unit2 = "1 GB/Month"
+
+-- | Dummy unit cost for gauge 2.
+unitCost :: Scientific
+unitCost = 0.21

@@ -1,0 +1,11 @@
+Data.Data tyconUQname :: String -> String
+Data.Data tyconModule :: String -> String
+Debug.Trace traceId :: String -> String
+System.Process.Internals translate :: String -> String
+Test.HUnit.Terminal terminalAppearance :: String -> String
+Codec.Binary.UTF8.String encodeString :: String -> String
+Codec.Binary.UTF8.String decodeString :: String -> String
+Codec.Binary.UTF8.String utf8Encode :: String -> String
+Distribution.SPDX.LicenseId licenseIdMigrationMessage :: String -> String
+Distribution.Simple.BuildPaths mkGenericStaticLibName :: String -> String
+-- plus more results not shown, pass --count=20 to see more

@@ -8,6 +8,8 @@ module Data.Dummy.Time
       -- * Timestamp
     , timestampFrom
     , timestampTo
+      -- * Unix Timestamp
+    , unixTimestampFrom
       -- * Timespan
     , dummyTimespan
     ) where
@@ -31,6 +33,10 @@ timestampFrom = "2018-06-26T08:00:00Z"
 -- | Timestamp for `timeTo` in ISO8601.
 timestampTo :: Text
 timestampTo = "2018-06-26T08:01:00Z"
+
+-- | Unix timestamp for 26-Jun-18 08:00:00 UTC.
+unixTimestampFrom :: Int
+unixTimestampFrom = 1530000000
 
 -- | Dummy timespan according to `timeFrom` and `timeTo`.
 dummyTimespan :: String
