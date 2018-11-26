@@ -17,11 +17,11 @@ import Data.Text (Text)
 import Data.Text.Encoding (encodeUtf8)
 
 import Control.Lens (makeLenses, (^.))
-import Data.Csv (ToNamedRecord , namedRecord , toNamedRecord , (.=))
+import Data.Csv (ToNamedRecord, namedRecord, toNamedRecord, (.=))
 import Data.Scientific (Scientific)
 import Data.Time.Clock (UTCTime)
 
-import Data.Csv.HasHeaders (HasHeaders, headers, comparison)
+import Data.Csv.HasHeaders (HasHeaders, comparison, headers)
 import Text.Scientific (showFixed)
 import Text.Time (formatTime)
 

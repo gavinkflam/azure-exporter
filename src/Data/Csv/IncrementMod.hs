@@ -24,7 +24,7 @@ encodeNamedRecords xs =
     headers   = uniqueHeaders xs
     headerRow = encodeRecord headers
     fBuild h  = foldr ((<>) . encodeRecord . toRecord h . toNamedRecord) mempty
-    
+
 -- | Convert `NamedRecord` to `Record`
 toRecord :: Header -> NamedRecord -> Record
 toRecord h r = V.map (fromMaybe "" . flip HM.lookup r) h
