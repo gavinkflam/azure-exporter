@@ -27,6 +27,4 @@ encodeNamedRecords xs =
     
 -- | Convert `NamedRecord` to `Record`
 toRecord :: Header -> NamedRecord -> Record
-toRecord hs r = V.map f hs
-  where
-    f n = fromMaybe "" $ HM.lookup n r
+toRecord h r = V.map (fromMaybe "" . flip HM.lookup r) h
