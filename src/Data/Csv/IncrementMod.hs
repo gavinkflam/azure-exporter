@@ -17,9 +17,7 @@ import qualified Data.Vector as V
 import Data.Csv.HasHeaders (HasHeaders, uniqueHeaders)
 
 -- | Encode named records with support for varying headers.
-encodeNamedRecords
-    :: (Foldable t, ToNamedRecord a, HasHeaders a)
-    => t a -> ByteString
+encodeNamedRecords :: (ToNamedRecord a, HasHeaders a) => [a] -> ByteString
 encodeNamedRecords xs =
     encode $ builder headers headerRow xs
   where
@@ -27,9 +25,7 @@ encodeNamedRecords xs =
     headerRow = encodeRecord headers
     
 -- | Builder to add `ToNamedRecord` as `Record`.
-builder
-    :: (Foldable t, ToNamedRecord a)
-    => Header -> Builder Record -> t a -> Builder Record
+builder :: ToNamedRecord a => Header -> Builder Record -> [a] -> Builder Record
 builder hs =
     foldr (flip (<>) . encodeRecord . toRecord hs . toNamedRecord)
 

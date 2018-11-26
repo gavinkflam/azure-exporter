@@ -1,3 +1,5 @@
+{-# LANGUAGE ScopedTypeVariables #-}
+
 module Data.Csv.HasHeaders
     (
       -- * Types
@@ -7,20 +9,26 @@ module Data.Csv.HasHeaders
     ) where
 
 import Data.ByteString (ByteString)
+import Data.List (sortBy)
 import Data.Set (Set, toList, union)
 import qualified Data.Set as Set
 
-import Data.Csv (Header)
+import Data.Csv (Header, Name)
 import Data.Vector (fromList)
 
 -- | Typeclass for data structure with dynamic headers.
 class HasHeaders a where
-    headers :: a -> [ByteString]
+    -- | Derive headers for each record.
+    headers :: a -> [Name]
+    -- | Traits type class which `a` value will always be undefined.
+    comparison :: a -> Name -> Name -> Ordering
 
--- | Derive unique `Header` for multiple `HasHeaders`.
-uniqueHeaders :: (Foldable t, HasHeaders a) => t a -> Header
-uniqueHeaders = fromList . toList . headerSet
+-- | Derive sorted unique headers for multiple `HasHeaders`.
+uniqueHeaders :: forall a. HasHeaders a => [a] -> Header
+uniqueHeaders = fromList . sortBy c . toList . headerSet
+  where
+    c = comparison (undefined :: a)
 
 -- | Derive header `Set` for multiple `HasHeaders`.
-headerSet :: (Foldable t, HasHeaders a) => t a -> Set ByteString
+headerSet :: HasHeaders a => [a] -> Set ByteString
 headerSet = foldr (union . Set.fromList . headers) Set.empty
