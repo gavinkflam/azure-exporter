@@ -17,10 +17,10 @@ import Data.Vector (fromList)
 class HasHeaders a where
     headers :: a -> [ByteString]
 
--- | Derive the unique `Header` Vector for foldable `HasHeaders`.
+-- | Derive unique `Header` for multiple `HasHeaders`.
 uniqueHeaders :: (Foldable t, HasHeaders a) => t a -> Header
-uniqueHeaders = fromList . toList . uniqueHeaders'
+uniqueHeaders = fromList . toList . headerSet
 
--- | Derive the unique set of headers for foldable `HasHeaders`.
-uniqueHeaders' :: (Foldable t, HasHeaders a) => t a -> Set ByteString
-uniqueHeaders' = foldr (union . Set.fromList . headers) Set.empty
+-- | Derive header `Set` for multiple `HasHeaders`.
+headerSet :: (Foldable t, HasHeaders a) => t a -> Set ByteString
+headerSet = foldr (union . Set.fromList . headers) Set.empty
