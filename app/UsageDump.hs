@@ -7,8 +7,10 @@ module UsageDump
     ) where
 
 import Control.Monad.IO.Class (liftIO)
+import Data.ByteString.Lazy (putStr)
 import Data.List (sort)
-import Data.Text (Text, pack, unpack)
+import Data.Text (Text, pack)
+import Prelude hiding (putStr)
 
 import Control.Lens ((^.))
 import Network.HTTP.Client (Manager, newManager)
@@ -24,10 +26,9 @@ import qualified Data.Billing.ListUsageAggregatesRequest as A
 import qualified Data.Billing.ListUsageAggregatesResponse as AR
 import qualified Data.Billing.UsageAggregate as U
 import qualified Data.Config as C
+import Data.Csv.IncrementMod (encodeNamedRecords)
 import Data.Response.Aeson (errorExtractor)
 import HTTP (requestIO)
-import Text.CSV (renderCSV)
-import Text.GaugeCSV (toCSV)
 
 -- | Dump usage data in CSV format.
 dumpUsage :: String -> String -> IO ()
@@ -53,7 +54,7 @@ dumpUsage startTime endTime = do
             }
     usages   <- fetchUsages manager token aParams
     rateCard <- fetchRateCard manager token gParams
-    putStr $ unpack $ renderCSV $ toCSV $ sort $ gauges rateCard usages
+    putStr $ encodeNamedRecords $ sort $ gauges rateCard usages
 
 -- | Fetch usage aggregates from Azure while recursively fetching with the
 --   continuation token if any.
