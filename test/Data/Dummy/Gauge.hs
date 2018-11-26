@@ -100,7 +100,7 @@ gaugeText = intercalate "\n"
 
 -- | Csv output for `usageGauge` and `costGauge`.
 gaugesCsv :: Text
-gaugesCsv = intercalate "\n"
+gaugesCsv = intercalate "\r\n"
     [ "series,value,timestamp,label_currency,label_resource_group" <>
         ",label_resource_id,label_resource_name,label_resource_provider" <>
         ",label_resource_region,label_resource_type,label_subscription_id" <>
@@ -119,6 +119,7 @@ gaugesCsv = intercalate "\n"
         "," <> toLower T.resourceRegion2 <> "," <> toLower T.resourceType2 <>
         "," <> T.subscriptionId <>
         "," <> T.unit2 <> "," <> pack (show T.unitCost)
+    , ""
     ]
 
 -- | The type for metrics.
