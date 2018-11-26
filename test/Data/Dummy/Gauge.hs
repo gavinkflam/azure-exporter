@@ -59,7 +59,7 @@ usageGauge = G.Gauge
         , ("resource_region",   toLower T.resourceRegion2)
         , ("resource_type",     toLower T.resourceType2)
         , ("subscription_id",   T.subscriptionId)
-        , ("unit",              T.unit)
+        , ("unit",              T.unit2)
         ]
     , G._value  = 22.3
     , G._time   = Just TI.timeFrom
@@ -110,12 +110,14 @@ gaugesCsv = intercalate "\n"
         "," <> toLower T.resourceGroup2 <> "," <> toLower T.resourceId2 <>
         "," <> toLower T.resourceName2 <> "," <> toLower T.resourceProvider2 <>
         "," <> toLower T.resourceRegion2 <> "," <> toLower T.resourceType2 <>
+        "," <> T.subscriptionId <>
         "," <> T.unit2 <> ","
-    , (usageGauge ^. G.name) <> "," <> pack (show (usageGauge ^. G.value)) <>
+    , (costGauge ^. G.name) <> "," <> pack (show (costGauge ^. G.value)) <>
         "," <> pack (show TI.unixTimestampFrom) <> "," <> T.currency <>
         "," <> toLower T.resourceGroup2 <> "," <> toLower T.resourceId2 <>
         "," <> toLower T.resourceName2 <> "," <> toLower T.resourceProvider2 <>
         "," <> toLower T.resourceRegion2 <> "," <> toLower T.resourceType2 <>
+        "," <> T.subscriptionId <>
         "," <> T.unit2 <> "," <> pack (show T.unitCost)
     ]
 
