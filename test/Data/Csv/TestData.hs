@@ -21,7 +21,8 @@ import qualified Data.HashMap.Strict as HM
 import qualified Data.Vector as V
 
 -- | Data structure with variable header for each record.
-newtype DynamicRecord = DynamicRecord (HashMap ByteString Int)
+newtype DynamicRecord =
+    DynamicRecord (HashMap ByteString Int) deriving (Eq, Show)
 
 -- | Header deriving and sorting for `DynamicRecord`.
 instance ToHeader DynamicRecord where
