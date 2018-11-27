@@ -73,6 +73,7 @@ tests:
     - aeson >= 1.4 && < 1.5
     - azure-exporter
     - bytestring
+    - cassava >= 0.5 && < 0.6
     - hspec >= 2.5 && < 2.6
     - http-client >= 0.5 && < 0.6
     - http-types >= 0.12 && < 0.13
@@ -81,3 +82,5 @@ tests:
     - scientific >= 0.3 && < 0.4
     - text
     - time >= 1.8 && < 1.9
+    - unordered-containers >= 0.2.9 && < 0.2.10
+    - vector >= 0.12 && < 0.13
