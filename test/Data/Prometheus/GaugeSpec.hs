@@ -5,20 +5,18 @@ module Data.Prometheus.GaugeSpec
       spec
     ) where
 
-import Data.Text.Lazy (toStrict)
-import Data.Text.Lazy.Encoding (decodeUtf8)
-
 import Data.Csv.IncrementMod (encodeNamedRecords)
+import Data.Csv.ToHeader (toHeader)
 import Test.Hspec
 
-import qualified Data.Dummy.Gauge as G
+import qualified Data.Prometheus.TestData as D
 
 -- | Spec for `Gauge`.
 spec :: Spec
-spec =
-    describe "encode as CSV" $
-        it "encode in CSV as expected" $
-            csv `shouldBe` G.gaugesCsv
-          where
-            gs  = [G.usageGauge, G.costGauge]
-            csv = toStrict $ decodeUtf8 $ encodeNamedRecords gs
+spec = do
+    describe "csv header" $
+        it "derive csv header from gauges" $
+            toHeader D.testGauges `shouldBe` D.expectedHeader
+    describe "csv text" $
+        it "derive csv text from gauges" $
+            encodeNamedRecords D.testGauges `shouldBe` D.expectedCsv
