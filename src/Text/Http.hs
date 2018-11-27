@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- | Utility functions related to the HTTP clientt.
-module Text.HTTP
+module Text.Http
     (
       -- * Request
       addAuthHeader

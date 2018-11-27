@@ -20,7 +20,7 @@ import Network.HTTP.Client
 import Control.Lens (makeLenses, (^.))
 
 import Data.Contract (billingApiVersion)
-import Text.HTTP (addAuthHeader)
+import Text.Http (addAuthHeader)
 
 -- | Parameters to construct `Request`.
 --

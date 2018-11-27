@@ -1,5 +1,5 @@
 -- | Test the encoding of `Gauge`s.
-module Data.GaugeSpec
+module Data.Prometheus.GaugeSpec
     (
       -- * Spec
       spec

@@ -12,7 +12,7 @@ import Data.Text (Text, intercalate, pack)
 
 import Control.Lens ((^.))
 
-import qualified Data.Gauge as G
+import qualified Data.Prometheus.Gauge as G
 
 -- | Render a `Gauge` in Prometheus exporter syntax.
 --

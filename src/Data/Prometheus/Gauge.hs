@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
 
-module Data.Gauge
+module Data.Prometheus.Gauge
     (
       -- * Types
       Gauge (..)

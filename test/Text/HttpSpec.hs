@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- | Test utility functions related to the HTTP Client .
-module Text.HTTPSpec
+module Text.HttpSpec
     (
       -- * Spec
       spec
@@ -14,7 +14,7 @@ import qualified Network.HTTP.Types.Header as H
 import Test.Hspec
 
 import qualified Data.Dummy.Text as T
-import Text.HTTP
+import Text.Http
 
 -- | Spec for `Timespan`.
 spec :: Spec
@@ -39,7 +39,7 @@ dummyRequest =
 dummyHeaders :: H.RequestHeaders
 dummyHeaders =
     [ (H.hContentType, "application/x-www-form-urlencoded")
-    , (H.hUserAgent, "Text.HTTPSpec")
+    , (H.hUserAgent, "Text.HttpSpec")
     ]
 
 -- | Dummy auth header constructed from `accessToken` dummy text.

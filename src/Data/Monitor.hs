@@ -14,12 +14,12 @@ import Control.Lens ((^.))
 import Data.Scientific (Scientific)
 import Text.Casing (quietSnake)
 
-import qualified Data.Gauge as G
 import qualified Data.Monitor.ListMetricValuesResponse as R
 import qualified Data.Monitor.LocalizableString as LS
 import qualified Data.Monitor.Metric as M
 import qualified Data.Monitor.MetricValue as V
 import qualified Data.Monitor.TimeSeriesElement as E
+import qualified Data.Prometheus.Gauge as G
 import Data.Resource (parseResourceId, resourceId)
 import qualified Data.ResourceMetadata as D
 

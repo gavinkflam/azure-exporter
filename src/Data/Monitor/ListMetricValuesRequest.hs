@@ -19,7 +19,7 @@ import Control.Lens (makeLenses, (^.))
 import Network.HTTP.Client (Request, parseRequest_, setQueryString)
 
 import Data.Contract (monitorApiVersion)
-import Text.HTTP (addAuthHeader)
+import Text.Http (addAuthHeader)
 
 -- | Parameters to construct `Request`.
 --
