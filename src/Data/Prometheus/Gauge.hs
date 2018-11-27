@@ -21,7 +21,7 @@ import Data.Csv (ToNamedRecord, namedRecord, toNamedRecord, (.=))
 import Data.Scientific (Scientific)
 import Data.Time.Clock (UTCTime)
 
-import Data.Csv.HasHeaders (HasHeaders, comparison, headers)
+import Data.Csv.ToHeader (ToHeader, comparison, header)
 import Text.Scientific (showFixed)
 import Text.Time (formatTime)
 
@@ -49,12 +49,12 @@ instance ToNamedRecord Gauge where
       where
         fLabel (k, v)  = encodeUtf8 ("label_" <> k) .= v
 
--- | Extract the CSV column headers from a `Gauge`.
+-- | Extract the CSV column header from a `Gauge`.
 --
 --   'series', 'value' and 'timestamp' columns should go first.
 --   Label names were prefixed with 'label_' and come next in alphabetical order.
-instance HasHeaders Gauge where
-    headers g =
+instance ToHeader Gauge where
+    header g =
         ["series", "value", "timestamp"] ++ map fName (g ^. labels)
       where
         fName (k, _) = encodeUtf8 $ "label_" <> k

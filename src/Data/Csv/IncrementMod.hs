@@ -14,14 +14,14 @@ import Data.Csv.Incremental (encode, encodeRecord)
 import qualified Data.HashMap.Strict as HM
 import qualified Data.Vector as V
 
-import Data.Csv.HasHeaders (HasHeaders, uniqueHeaders)
+import Data.Csv.ToHeader (ToHeader, toHeader)
 
 -- | Encode named records with support for varying headers.
-encodeNamedRecords :: (ToNamedRecord a, HasHeaders a) => [a] -> ByteString
+encodeNamedRecords :: (ToNamedRecord a, ToHeader a) => [a] -> ByteString
 encodeNamedRecords xs =
     encode $ headerRow <> fBuild headers xs
   where
-    headers   = uniqueHeaders xs
+    headers   = toHeader xs
     headerRow = encodeRecord headers
     fBuild h  = foldr ((<>) . encodeRecord . toRecord h . toNamedRecord) mempty
 
