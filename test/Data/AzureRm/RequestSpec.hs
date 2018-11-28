@@ -1,47 +1,50 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- | Test utility functions related to the HTTP Client .
+-- | Test authorization header adding mechanism for Azure RM API.
 module Data.AzureRm.RequestSpec
     (
       -- * Spec
       spec
     ) where
 
+import Data.Text (Text)
 import Data.Text.Encoding (encodeUtf8)
 
-import qualified Network.HTTP.Client as C
-import qualified Network.HTTP.Types.Header as H
+import Data.AzureRm.Request (addAuthHeader)
+import Network.HTTP.Client (Request, parseRequest_, requestHeaders)
+import Network.HTTP.Types.Header
+    (Header, RequestHeaders, hAuthorization, hContentType, hUserAgent)
 import Test.Hspec
 
-import Data.AzureRm.Request
-import qualified Data.Dummy.Text as T
-
--- | Spec for `Timespan`.
+-- | Spec for `Request`.
 spec :: Spec
 spec = do
-    let headers = C.requestHeaders $ addAuthHeader T.accessToken dummyRequest
+    let headers = requestHeaders $ addAuthHeader accessToken testRequest
 
     describe "addAuthHeader" $ do
-        it "contains the newly added auth header" $
-            headers `shouldContain` [authHeader]
-
-        it "contains the original request headers" $
-            headers `shouldContain` dummyHeaders
+        it "adds the expected authorization header" $
+            headers `shouldContain` [authorizationHeader]
+        it "preserves the original request headers" $
+            headers `shouldContain` testHeaders
 
 -- | Dummy request to test for auth header adding behaviour.
-dummyRequest :: C.Request
-dummyRequest =
-    req { C.requestHeaders = dummyHeaders }
+testRequest :: Request
+testRequest =
+    req { requestHeaders = testHeaders }
   where
-    req = C.parseRequest_ "https://example.com"
+    req = parseRequest_ "https://example.com"
 
--- | Dummy request headers to test for headers perserving behaviour.
-dummyHeaders :: H.RequestHeaders
-dummyHeaders =
-    [ (H.hContentType, "application/x-www-form-urlencoded")
-    , (H.hUserAgent, "Data.AzureRm.RequestSpec")
+-- | Request headers to test for headers preserving behaviour.
+testHeaders :: RequestHeaders
+testHeaders =
+    [ (hContentType, "application/x-www-form-urlencoded")
+    , (hUserAgent,   "azure-exporter")
     ]
 
--- | Dummy auth header constructed from `accessToken` dummy text.
-authHeader :: H.Header
-authHeader = (H.hAuthorization, encodeUtf8 $ "Bearer " <> T.accessToken)
+-- | Authorization header to test for access token adding behaviour.
+authorizationHeader :: Header
+authorizationHeader = (hAuthorization, "Bearer " <> encodeUtf8 accessToken)
+
+-- | Test access token for `addAuthHeader`.
+accessToken :: Text
+accessToken = "something-important"
