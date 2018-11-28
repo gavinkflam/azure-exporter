@@ -7,65 +7,52 @@ module Data.Response.AesonSpec
       spec
     ) where
 
-import Data.ByteString.Lazy (ByteString)
-import Data.Monoid (mempty)
-import Data.Text (unpack)
+import qualified Data.ByteString.Lazy as LBS
 
-import Network.HTTP.Client.Internal (Response(..), ResponseClose(..))
-import Network.HTTP.Types (Status, badRequest400, http11, ok200)
+import Data.Response.Aeson as R
 import Test.Hspec
 
-import qualified Data.Dummy.Text as T
-import Data.JsonValue
-import Data.Response.Aeson
+import Data.JsonValue (JsonValue)
+import qualified Data.Response.TestData as D
 import Expectations
+import Network.HTTP.Client.Internal (Response)
+import Network.HTTP.Types (badRequest400, ok200)
 
 -- | Spec for `Parser`.
 spec :: Spec
 spec = do
-    let fullMessage = unpack $ T.errorCode <> ": " <> T.errorMessage
-
     describe "errorExtractor" $ do
-        it "extracts readable error message from ErrorResponse JSON ByteString" $
-            errorExtractor T.errorResponseJSON `shouldSatisfy` isJustOf fullMessage
+        it "extracts readable error message from ErrorResponse JSON" $
+            errorExtractor D.errorResponseJson
+            `shouldSatisfy` isJustOf D.expectedFullErrorMessage
 
-        it "extracts readable error message from ErrorValue JSON ByteString" $
-            errorExtractor T.errorValueJSON `shouldSatisfy` isJustOf fullMessage
+        it "extracts readable error message from ErrorValue JSON" $
+            errorExtractor D.errorValueJson
+            `shouldSatisfy` isJustOf D.expectedFullErrorMessage
 
-    let sEitherDecode b = eitherDecode $ resp ok200 b
-        fEitherDecode b = eitherDecode $ resp badRequest400 b
+    let sDecode = eitherDecode . D.response ok200
+        fDecode = eitherDecode . D.response badRequest400
 
     describe "mapEitherDecode" $ do
-        it "extracts JsonValue from JsonValue JSON ByteString" $
-            sEitherDecode T.jsonValueJSON `shouldSatisfy` isRightOf expectedJsonValue
+        it "extracts the expected JsonValue from non-ErrorResponse JSON" $
+            sDecode D.nonErrorResponseJson
+            `shouldSatisfy` isRightOf D.expectedNonErrorResponseJsonValue
 
-        it "returns the JSON deserialization error" $
-            sEitherDecode T.errorValueJSON `shouldSatisfy` isLeftOf T.jsonValueError
+        it "returns the expected JSON deserialization error" $
+            sDecode D.errorValueJson
+            `shouldSatisfy` isLeftOf D.expectedJsonValueError
 
-        it "extracts readable error message from ErrorResponse JSON ByteString" $
-            fEitherDecode T.errorResponseJSON `shouldSatisfy` isLeftOf fullMessage
+        it "extracts readable error message from ErrorResponse JSON" $
+            fDecode D.errorResponseJson
+            `shouldSatisfy` isLeftOf D.expectedFullErrorMessage
 
-        it "extracts readable error message from ErrorValue JSON ByteString" $
-            fEitherDecode T.errorValueJSON `shouldSatisfy` isLeftOf fullMessage
+        it "extracts readable error message from ErrorValue JSON" $
+            fDecode D.errorValueJson
+            `shouldSatisfy` isLeftOf D.expectedFullErrorMessage
 
         it "returns the original content for invalid error structure" $
-            fEitherDecode "Kaboom!" `shouldSatisfy` isLeftOf "Kaboom!"
+            fDecode "Kaboom!" `shouldSatisfy` isLeftOf "Kaboom!"
 
 -- | Decoding with concrete type `Either String JsonValue`.
-eitherDecode :: Response ByteString -> Either String JsonValue
-eitherDecode = mapEitherDecode errorExtractor
-
--- | Expected deserialized `JsonValue` item from JSON `ByteString`.
-expectedJsonValue :: JsonValue
-expectedJsonValue = JsonValue { _value = T.jsonValueValue }
-
--- | Construct a response from a status code and `ByteString` body.
-resp :: Status -> ByteString -> Response ByteString
-resp s b = Response
-    { responseStatus = s
-    , responseVersion = http11
-    , responseHeaders = []
-    , responseBody = b
-    , responseCookieJar = mempty
-    , responseClose' = ResponseClose $ return ()
-    }
+eitherDecode :: Response LBS.ByteString -> Either String JsonValue
+eitherDecode = mapEitherDecode R.errorExtractor
