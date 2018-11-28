@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- | Test Prometheus sanitizing utility functions.
+-- | Test Prometheus text sanitizing.
 module Text.Prometheus.SanitizeSpec
     (
       -- * Spec
@@ -36,7 +36,7 @@ spec = do
 
 -- | Name to test for sanitization.
 testName :: Text
-testName = "A/quick_-_brown=_Fox___jumps__0oVer the*_lazy3dog.."
+testName = "_A/quick_-_brown=_Fox___jumps__0oVer the*_lazy3dog.."
 
 -- | Label value to test for sanitization.
 testLabelValue :: Text
@@ -46,7 +46,7 @@ testLabelValue = "life @#is-but__a\ndream\r\n"
 --
 --   Illegal characters should be removed.
 expectedName :: Text
-expectedName = "A_quick___brown__Fox___jumps__0oVer_the__lazy3dog__"
+expectedName = "A_quick___brown__Fox___jumps__0oVer_the__lazy3dog"
 
 -- | Expected metric name sanitized and standardized using `metricName`.
 --
@@ -56,7 +56,7 @@ expectedName = "A_quick___brown__Fox___jumps__0oVer_the__lazy3dog__"
 --
 -- #. Alphabetical characters should be downcased.
 expectedMetricName :: Text
-expectedMetricName = "a_quick_brown_fox_jumps_0over_the_lazy3dog_"
+expectedMetricName = "a_quick_brown_fox_jumps_0over_the_lazy3dog"
 
 -- | Expected label value sanitized using `sanitizeLabelValue`.
 expectedLabelValue :: Text
