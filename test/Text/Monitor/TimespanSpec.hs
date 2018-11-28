@@ -1,5 +1,5 @@
 -- | Test timespan `String` construction from `UTCTime`.
-module Text.TimespanSpec
+module Text.Monitor.TimespanSpec
     (
       -- * Spec
       spec
@@ -8,7 +8,7 @@ module Text.TimespanSpec
 import Test.Hspec
 
 import qualified Data.Dummy.Time as T
-import Text.Timespan
+import Text.Monitor.Timespan
 
 -- | Spec for `Timespan`.
 spec :: Spec

@@ -20,7 +20,7 @@ import Network.HTTP.Client
     (Request(..), parseRequest_, responseTimeoutMicro, setQueryString)
 
 import Data.AzureRm.Contract (billingApiVersion)
-import Text.Http (addAuthHeader)
+import Data.AzureRm.Request (addAuthHeader)
 
 -- | Parameters to construct `Request`.
 --

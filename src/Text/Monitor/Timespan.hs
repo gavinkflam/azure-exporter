@@ -1,5 +1,5 @@
 -- | Utility to format timespan `String` from `UTCTime`
-module Text.Timespan
+module Text.Monitor.Timespan
     (
     -- * Timespan
       timespan

@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- | Utility functions related to the HTTP clientt.
-module Text.Http
+module Data.AzureRm.Request
     (
       -- * Request
       addAuthHeader

@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- | Utility functions related to Prometheus.
-module Text.Prometheus
+module Text.Prometheus.Sanitize
     (
       -- * Data Model
       sanitizeName

@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- | Test utility functions related to the HTTP Client .
-module Text.HttpSpec
+module Data.AzureRm.RequestSpec
     (
       -- * Spec
       spec
@@ -13,8 +13,8 @@ import qualified Network.HTTP.Client as C
 import qualified Network.HTTP.Types.Header as H
 import Test.Hspec
 
+import Data.AzureRm.Request
 import qualified Data.Dummy.Text as T
-import Text.Http
 
 -- | Spec for `Timespan`.
 spec :: Spec
@@ -39,7 +39,7 @@ dummyRequest =
 dummyHeaders :: H.RequestHeaders
 dummyHeaders =
     [ (H.hContentType, "application/x-www-form-urlencoded")
-    , (H.hUserAgent, "Text.HttpSpec")
+    , (H.hUserAgent, "Data.AzureRm.RequestSpec")
     ]
 
 -- | Dummy auth header constructed from `accessToken` dummy text.

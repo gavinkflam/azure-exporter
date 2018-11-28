@@ -19,7 +19,7 @@ import Control.Lens (makeLenses, (^.))
 import Network.HTTP.Client (Request, parseRequest_, setQueryString)
 
 import Data.AzureRm.Contract (monitorApiVersion)
-import Text.Http (addAuthHeader)
+import Data.AzureRm.Request (addAuthHeader)
 
 -- | Parameters to construct `Request`.
 --

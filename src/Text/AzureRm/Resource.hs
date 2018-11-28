@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- | Utility functions related to Azure resources.
-module Text.AzureRm
+module Text.AzureRm.Resource
     (
       -- * Resource
       parseResourceId

@@ -20,7 +20,7 @@ import Data.Monitor (gauges)
 import qualified Data.Monitor.ListMetricValuesRequest as M
 import HTTP (request)
 import Text.Gauge (renderGauge)
-import Text.Timespan (timespanFrom)
+import Text.Monitor.Timespan (timespanFrom)
 import Types (AppAction)
 
 -- | Route for Azure Monitor metrics.

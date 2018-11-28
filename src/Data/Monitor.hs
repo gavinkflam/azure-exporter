@@ -21,7 +21,7 @@ import qualified Data.Monitor.Metric as M
 import qualified Data.Monitor.MetricValue as V
 import qualified Data.Monitor.TimeSeriesElement as E
 import qualified Data.Prometheus.Gauge as G
-import Text.AzureRm (parseResourceId, resourceId)
+import Text.AzureRm.Resource (parseResourceId, resourceId)
 
 -- | Extract information from `ListMetricValuesResponse` and construct the
 --   corresponding list of `Gauge`.
