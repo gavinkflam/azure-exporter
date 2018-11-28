@@ -76,7 +76,7 @@ testTimePosixSeconds = 1530000000
 testTime :: UTCTime
 testTime = posixSecondsToUTCTime testTimePosixSeconds
 
--- | testLabels for `usageGauge` and `costGauge`.
+-- | Test labels for `usageGauge` and `costGauge`.
 testLabels :: HashMap Text Text
 testLabels = HM.fromList
     [ ("currency",          "USD")
