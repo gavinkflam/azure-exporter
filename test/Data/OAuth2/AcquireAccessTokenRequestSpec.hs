@@ -7,21 +7,23 @@ module Data.OAuth2.AcquireAccessTokenRequestSpec
       spec
     ) where
 
+import Data.ByteString (ByteString)
+import Data.ByteString.Lazy (toStrict)
 import Data.Text (unpack)
 
-import Network.HTTP.Client (path, requestBody)
+import qualified Data.OAuth2.AcquireAccessTokenRequest as A
+import Network.HTTP.Client (Request, RequestBody(..), path, requestBody)
+import Network.HTTP.Types (parseSimpleQuery)
 import Test.Hspec
 
-import qualified Data.OAuth2.AcquireAccessTokenRequest as A
 import qualified Data.OAuth2.TestData as D
 import Expectations (isJustOf)
-import Util.HTTP (parseSimpleRequestBody)
 
 -- | Spec for `AcquireAccessToken`.
 spec :: Spec
 spec = do
     let rPath  = path D.acquireAccessTokenRequest
-        fItems = parseSimpleRequestBody $ requestBody D.acquireAccessTokenRequest
+        fItems = simpleRequestBody D.acquireAccessTokenRequest
 
     describe "request" $ do
         it "contains the expected grant type form item" $
@@ -48,3 +50,19 @@ spec = do
 
         it "returns nothing for invalid error structure" $
             nonErr `shouldBe` Nothing
+
+-- | Extract URL encoded request body into `SimpleQuery`.
+--
+--   Caution: This function is defined only for `RequestBodyLBS` and
+--   `RequestBodyBS` containing URL encoded content.
+simpleRequestBody :: Request -> [(ByteString, ByteString)]
+simpleRequestBody = parseSimpleQuery . toBS . requestBody
+
+-- | Extract `ByteString` from `RequestBody`.
+--
+--   Caution: This function is defined only for `RequestBodyLBS` and
+--   `RequestBodyBS`.
+toBS :: RequestBody -> ByteString
+toBS (RequestBodyLBS s) = toStrict s
+toBS (RequestBodyBS  s) = s
+toBS _                  = undefined :: ByteString
