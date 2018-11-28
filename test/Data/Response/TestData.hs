@@ -1,9 +1,11 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE DeriveGeneric, OverloadedStrings #-}
 
 module Data.Response.TestData
     (
+      -- * Types
+      JsonValue(..)
       -- * Test data
-      errorResponseJson
+    , errorResponseJson
     , errorValueJson
     , nonErrorResponseJson
     , response
@@ -17,12 +19,25 @@ import qualified Data.ByteString.Lazy as LBS
 import Data.Text (Text)
 import qualified Data.Text as T
 import Data.Text.Encoding (encodeUtf8)
+import GHC.Generics
 
+import Data.Aeson
+    (FromJSON(..), defaultOptions, fieldLabelModifier, genericParseJSON)
 import Data.HashMap.Strict (HashMap, (!))
 import qualified Data.HashMap.Strict as HM
-import Data.JsonValue (JsonValue(..))
 import Network.HTTP.Client.Internal (Response(..), ResponseClose(..))
 import Network.HTTP.Types (Status, http11)
+
+-- | Type to test for JSON deserialization mechanism.
+newtype JsonValue = JsonValue
+    { _value :: Int
+    } deriving (Eq, Generic, Show)
+
+instance FromJSON JsonValue where
+    parseJSON =
+        genericParseJSON options
+      where
+        options = defaultOptions { fieldLabelModifier = dropWhile (== '_') }
 
 -- | Test `ErrorResponse` JSON text.
 errorResponseJson :: LBS.ByteString

@@ -12,7 +12,6 @@ import qualified Data.ByteString.Lazy as LBS
 import Data.Response.Aeson as R
 import Test.Hspec
 
-import Data.JsonValue (JsonValue)
 import qualified Data.Response.TestData as D
 import Expectations
 import Network.HTTP.Client.Internal (Response)
@@ -54,5 +53,5 @@ spec = do
             fDecode "Kaboom!" `shouldSatisfy` isLeftOf "Kaboom!"
 
 -- | Decoding with concrete type `Either String JsonValue`.
-eitherDecode :: Response LBS.ByteString -> Either String JsonValue
+eitherDecode :: Response LBS.ByteString -> Either String D.JsonValue
 eitherDecode = mapEitherDecode R.errorExtractor
