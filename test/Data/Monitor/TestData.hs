@@ -16,10 +16,10 @@ import Data.Text (Text)
 import qualified Data.Text as T
 import Data.Text.Encoding (encodeUtf8)
 
-import qualified Data.Monitor.ListMetricValuesRequest as L
 import Data.Contract (monitorApiVersion)
 import Data.HashMap.Strict (HashMap, (!))
 import qualified Data.HashMap.Strict as HM
+import qualified Data.Monitor.ListMetricValuesRequest as L
 import Network.HTTP.Client (Request)
 import Network.HTTP.Types (Header, hAuthorization)
 

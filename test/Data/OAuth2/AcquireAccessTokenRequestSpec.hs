@@ -7,61 +7,44 @@ module Data.OAuth2.AcquireAccessTokenRequestSpec
       spec
     ) where
 
-import qualified Data.ByteString.Char8 as C
 import Data.Text (unpack)
-import Data.Text.Encoding (encodeUtf8)
 
 import Network.HTTP.Client (path, requestBody)
 import Test.Hspec
 
-import qualified Data.Dummy.Text as T
-import Data.OAuth2.AcquireAccessTokenRequest
-import Expectations
+import qualified Data.OAuth2.AcquireAccessTokenRequest as A
+import qualified Data.OAuth2.TestData as D
+import Expectations (isJustOf)
 import Util.HTTP (parseSimpleRequestBody)
 
 -- | Spec for `AcquireAccessToken`.
 spec :: Spec
 spec = do
-    let req    = request params
-        fItems = parseSimpleRequestBody $ requestBody req
+    let rPath  = path D.acquireAccessTokenRequest
+        fItems = parseSimpleRequestBody $ requestBody D.acquireAccessTokenRequest
 
     describe "request" $ do
-        it "contains grant_type form item" $
-            fItems `shouldContain` [("grant_type", "client_credentials")]
+        it "contains the expected grant type form item" $
+            fItems `shouldContain` [D.queryItem "grant_type"]
 
-        it "contains resource form item" $
-            fItems `shouldContain` [("resource", "https://management.azure.com/")]
+        it "contains the expected resource form item" $
+            fItems `shouldContain` [D.queryItem "resource"]
 
-        it "contains client_id form item" $
-            fItems `shouldContain` [("client_id", encodeUtf8 T.clientId)]
+        it "contains the expected client id form item" $
+            fItems `shouldContain` [D.queryItem "client_id"]
 
-        it "contains client_secret form item" $
-            fItems `shouldContain` [("client_secret", encodeUtf8 T.clientSecret)]
+        it "contains the expected client secret form item" $
+            fItems `shouldContain` [D.queryItem "client_secret"]
 
         it "contains the expected path" $
-            C.unpack (path req) `shouldBe` expectedPath
+            rPath `shouldBe` D.expectedAcquireAccessTokenPath
 
-    let err = errorExtractor T.oAuth2ErrorResponseJSON
+    let err    = A.errorExtractor D.errorResponseJson
+        nonErr = A.errorExtractor D.nonErrorResponseJson
 
     describe "errorExtractor" $ do
         it "extracts the first line of error descriptions" $
-            err `shouldSatisfy` isJustOf (unpack $ head T.oAuth2ErrorDescriptionLines)
+            err `shouldSatisfy` isJustOf (unpack $ head D.errorDescriptionLines)
 
         it "returns nothing for invalid error structure" $
-            errorExtractor T.jsonValueJSON `shouldBe` Nothing
-
--- | Dummy `Params` item.
-params :: Params
-params = Params
-    { _clientId     = T.clientId
-    , _clientSecret = T.clientSecret
-    , _tenantId     = T.tenantId
-    }
-
--- | The expected path should
---
--- #. Starts with the tenant ID
---
--- #. Follows by the API Endpoint
-expectedPath :: String
-expectedPath = unpack $ "/" <> T.tenantId <> "/oauth2/token"
+            nonErr `shouldBe` Nothing
