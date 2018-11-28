@@ -7,60 +7,34 @@ module Data.Monitor.ListMetricValuesRequestSpec
       spec
     ) where
 
-import qualified Data.ByteString.Char8 as C
-import Data.Text (unpack)
-import Data.Text.Encoding (encodeUtf8)
-
 import Network.HTTP.Client (path, queryString, requestHeaders)
-import Network.HTTP.Types (Header, hAuthorization, parseSimpleQuery)
+import Network.HTTP.Types (parseSimpleQuery)
 import Test.Hspec
 
-import Data.Contract (monitorApiVersion)
-import qualified Data.Dummy.Text as T
-import Data.Monitor.ListMetricValuesRequest
+import qualified Data.Monitor.TestData as D
 
 -- | Spec for `ListMetricValues`.
 spec :: Spec
 spec = do
-    let req    = request T.accessToken params
-        qItems = parseSimpleQuery $ queryString req
+    let headers = requestHeaders D.listMetricValuesRequest
+        rPath   = path D.listMetricValuesRequest
+        qItems  = parseSimpleQuery $ queryString D.listMetricValuesRequest
 
     describe "request" $ do
         it "contains authorization header" $
-            requestHeaders req `shouldContain` [authHeader]
+            headers `shouldContain` [D.expectedAuthHeader]
 
         it "contains api-version query item" $
-            qItems `shouldContain` [("api-version", encodeUtf8 monitorApiVersion)]
+            qItems `shouldContain` [D.expectedApiVersionItem]
 
         it "contains aggregation query item" $
-            qItems `shouldContain` [("aggregation", encodeUtf8 T.aggregation)]
+            qItems `shouldContain` [D.queryItem "aggregation"]
 
         it "contains metricnames query item" $
-            qItems `shouldContain` [("metricnames", encodeUtf8 T.metricNames)]
+            qItems `shouldContain` [D.queryItem "metricnames"]
 
         it "contains timespan query item" $
-            qItems `shouldContain` [("timespan", encodeUtf8 T.timespan)]
+            qItems `shouldContain` [D.queryItem "timespan"]
 
         it "contains the expected path" $
-            C.unpack (path req) `shouldBe` expectedPath
-
--- | Dummy `Params` item.
-params :: Params
-params = Params
-    { _aggregation = T.aggregation
-    , _metricNames = T.metricNames
-    , _resourceId  = T.resourceId
-    , _timespan    = T.timespan
-    }
-
--- | The expected path should
---
--- #. Starts with the resource ID
---
--- #. Follows by the API Endpoint
-expectedPath :: String
-expectedPath = unpack $ T.resourceId <> "/providers/microsoft.insights/metrics"
-
--- | Dummy authorization header.
-authHeader :: Header
-authHeader = (hAuthorization, encodeUtf8 ("Bearer " <> T.accessToken))
+            rPath `shouldBe` D.expectedListMetricValuesPath
