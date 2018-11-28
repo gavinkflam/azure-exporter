@@ -14,6 +14,7 @@ import Control.Lens ((^.))
 import qualified Data.HashMap.Strict as H
 import Data.Scientific (Scientific)
 
+import qualified Data.AzureRm.ResourceMetadata as D
 import qualified Data.Billing.AggregateProperty as P
 import qualified Data.Billing.GetRateCardResponse as R
 import qualified Data.Billing.InstanceData as I
@@ -21,8 +22,7 @@ import qualified Data.Billing.Meter as M
 import qualified Data.Billing.ResourceData as R
 import qualified Data.Billing.UsageAggregate as U
 import qualified Data.Prometheus.Gauge as G
-import Data.Resource (parseResourceId)
-import qualified Data.ResourceMetadata as D
+import Text.AzureRm (parseResourceId)
 import Text.Prometheus (metricName, sanitizeLabelValue, sanitizeName)
 import Text.Scientific (showFixed)
 import Text.Time (formatTime)

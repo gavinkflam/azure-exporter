@@ -1,5 +1,5 @@
 -- | Test utility functions related to Azure resources.
-module Data.ResourceSpec
+module Text.AzureRmSpec
     (
       -- * Spec
       spec
@@ -10,9 +10,9 @@ import Data.Text (toLower)
 import Control.Lens ((^.))
 import Test.Hspec
 
+import qualified Data.AzureRm.ResourceMetadata as M
 import qualified Data.Dummy.Text as T
-import Data.Resource
-import qualified Data.ResourceMetadata as M
+import Text.AzureRm
 
 -- | Spec for `Resource`.
 spec :: Spec

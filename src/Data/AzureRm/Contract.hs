@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- | The constants for Azure API.
-module Data.Contract
+module Data.AzureRm.Contract
     (
       -- * Versions
       monitorApiVersion

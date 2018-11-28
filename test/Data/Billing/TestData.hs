@@ -19,9 +19,9 @@ import Data.Text (Text)
 import qualified Data.Text as T
 import Data.Text.Encoding (encodeUtf8)
 
+import Data.AzureRm.Contract (billingApiVersion)
 import qualified Data.Billing.GetRateCardRequest as R
 import qualified Data.Billing.ListUsageAggregatesRequest as L
-import Data.Contract (billingApiVersion)
 import Data.HashMap.Strict (HashMap, (!))
 import qualified Data.HashMap.Strict as HM
 import Network.HTTP.Client (Request)

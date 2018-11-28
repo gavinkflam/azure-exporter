@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module Data.ResourceMetadata
+module Data.AzureRm.ResourceMetadata
     (
       -- * Types
       ResourceMetadata (..)

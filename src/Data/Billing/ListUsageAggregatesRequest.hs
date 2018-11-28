@@ -19,7 +19,7 @@ import Network.HTTP.Client
 
 import Control.Lens (makeLenses, (^.))
 
-import Data.Contract (billingApiVersion)
+import Data.AzureRm.Contract (billingApiVersion)
 import Text.Http (addAuthHeader)
 
 -- | Parameters to construct `Request`.

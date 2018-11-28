@@ -18,7 +18,7 @@ import Data.Text.Encoding (encodeUtf8)
 import Control.Lens (makeLenses, (^.))
 import Network.HTTP.Client (Request, parseRequest_, setQueryString)
 
-import Data.Contract (monitorApiVersion)
+import Data.AzureRm.Contract (monitorApiVersion)
 import Text.Http (addAuthHeader)
 
 -- | Parameters to construct `Request`.

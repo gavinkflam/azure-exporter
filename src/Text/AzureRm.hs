@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- | Utility functions related to Azure resources.
-module Data.Resource
+module Text.AzureRm
     (
       -- * Resource
       parseResourceId
@@ -10,7 +10,7 @@ module Data.Resource
 
 import Data.Text (Text, intercalate, splitOn, toLower)
 
-import qualified Data.ResourceMetadata as D
+import qualified Data.AzureRm.ResourceMetadata as D
 
 -- | Parse an Azure resource URI and breakdown into meaningful components.
 parseResourceId :: Text -> D.ResourceMetadata

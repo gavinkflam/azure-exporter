@@ -16,7 +16,7 @@ import Data.Text (Text)
 import qualified Data.Text as T
 import Data.Text.Encoding (encodeUtf8)
 
-import Data.Contract (monitorApiVersion)
+import Data.AzureRm.Contract (monitorApiVersion)
 import Data.HashMap.Strict (HashMap, (!))
 import qualified Data.HashMap.Strict as HM
 import qualified Data.Monitor.ListMetricValuesRequest as L
