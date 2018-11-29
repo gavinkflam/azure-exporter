@@ -4,9 +4,11 @@ module Data.Prometheus.TestData
     (
       -- * Test data
       testGauges
+    , simpleTestGauges
       -- * Result
     , expectedHeader
     , expectedCsv
+    , expectedSimpleTestGaugesExpositionText
     ) where
 
 import qualified Data.ByteString.Lazy as LBS
@@ -67,6 +69,54 @@ costGauge = G.Gauge
     , G._value  = 2.1185
     , G._time   = Just testTime
     }
+
+-- | Simple gauges to test for rendering.
+simpleTestGauges :: [G.Gauge]
+simpleTestGauges =
+    [ G.Gauge
+        { G._name   = "rpc_duration_seconds"
+        , G._help   = "RPC duration in seconds."
+        , G._labels =
+            [ ("quantile", "0.01")
+            ]
+        , G._value  = 3102
+        , G._time   = Nothing
+        }
+    , G.Gauge
+        { G._name   = "rpc_duration_seconds"
+        , G._help   = "RPC duration in seconds."
+        , G._labels =
+            [ ("quantile", "0.05")
+            ]
+        , G._value  = 3272
+        , G._time   = Nothing
+        }
+    , G.Gauge
+        { G._name   = "rpc_duration_seconds"
+        , G._help   = "RPC duration in seconds."
+        , G._labels =
+            [ ("quantile", "0.5")
+            ]
+        , G._value  = 4773
+        , G._time   = Nothing
+        }
+    , G.Gauge
+        { G._name   = "rpc_duration_seconds"
+        , G._help   = "RPC duration in seconds."
+        , G._labels =
+            [ ("quantile", "0.9")
+            ]
+        , G._value  = 9001
+        , G._time   = Nothing
+        }
+    , G.Gauge
+        { G._name   = "rpc_duration_seconds_sum"
+        , G._help   = "Sum of RPC duration in seconds."
+        , G._labels = []
+        , G._value  = read "1.7560473e7"
+        , G._time   = Nothing
+        }
+    ]
 
 -- | Posix seconds for `testTime`.
 testTimePosixSeconds :: POSIXTime
@@ -134,6 +184,30 @@ expectedCsv = LBS.intercalate "\r\n"
         , testLabels ! "unit_cost"
         ]
     , ""
+    ]
+
+-- | Expected exposition text for `simpleTestGauges`.
+expectedSimpleTestGaugesExpositionText :: LBS.ByteString
+expectedSimpleTestGaugesExpositionText = LBS.intercalate "\n"
+    [ "# HELP rpc_duration_seconds RPC duration in seconds."
+    , "# TYPE rpc_duration_seconds gauge"
+    , "rpc_duration_seconds{quantile=\"0.01\"} 3102.0"
+    , ""
+    , "# HELP rpc_duration_seconds RPC duration in seconds."
+    , "# TYPE rpc_duration_seconds gauge"
+    , "rpc_duration_seconds{quantile=\"0.05\"} 3272.0"
+    , ""
+    , "# HELP rpc_duration_seconds RPC duration in seconds."
+    , "# TYPE rpc_duration_seconds gauge"
+    , "rpc_duration_seconds{quantile=\"0.5\"} 4773.0"
+    , ""
+    , "# HELP rpc_duration_seconds RPC duration in seconds."
+    , "# TYPE rpc_duration_seconds gauge"
+    , "rpc_duration_seconds{quantile=\"0.9\"} 9001.0"
+    , ""
+    , "# HELP rpc_duration_seconds_sum Sum of RPC duration in seconds."
+    , "# TYPE rpc_duration_seconds_sum gauge"
+    , "rpc_duration_seconds_sum 1.7560473e7"
     ]
 
 -- | Convert `Text` to lazy `ByteString`.
