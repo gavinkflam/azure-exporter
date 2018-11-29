@@ -13,9 +13,9 @@ import Data.Response.Aeson as R
 import Test.Hspec
 
 import qualified Data.Response.TestData as D
-import Expectations
 import Network.HTTP.Client.Internal (Response)
 import Network.HTTP.Types (badRequest400, ok200)
+import Test.Expectations
 
 -- | Spec for `Parser`.
 spec :: Spec

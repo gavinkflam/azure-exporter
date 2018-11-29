@@ -1,5 +1,5 @@
 -- | Combinators for HUnit.
-module Expectations
+module Test.Expectations
     (
       -- * Predicates
       isJustOf

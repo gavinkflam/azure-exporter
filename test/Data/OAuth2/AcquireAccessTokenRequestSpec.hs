@@ -17,7 +17,7 @@ import Network.HTTP.Types (parseSimpleQuery)
 import Test.Hspec
 
 import qualified Data.OAuth2.TestData as D
-import Expectations (isJustOf)
+import Test.Expectations (isJustOf)
 
 -- | Spec for `AcquireAccessToken`.
 spec :: Spec
