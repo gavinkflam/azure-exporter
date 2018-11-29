@@ -10,11 +10,14 @@ module Data.Prometheus.Gauge
     , labels
     , value
     , time
+      -- * Output
+    , renderGauges
     ) where
 
-import Data.List (elemIndex)
+import Data.ByteString.Builder (Builder, byteString, string8)
+import Data.List (elemIndex, intersperse)
 import Data.Text (Text)
-import Data.Text.Encoding (encodeUtf8)
+import Data.Text.Encoding (encodeUtf8, encodeUtf8Builder)
 
 import Control.Lens (makeLenses, (^.))
 import Data.Csv (ToNamedRecord, namedRecord, toNamedRecord, (.=))
@@ -70,3 +73,65 @@ instance ToHeader Gauge where
 -- | Order `Gauge` by time.
 instance Ord Gauge where
     compare a b = compare (a ^. time) (b ^. time)
+
+-- | Output list of `Gauge` as metric exposition text.
+--
+-- @
+-- # HELP metric_name Help message.
+-- # TYPE metric_name gauge
+-- metric_name{name1="value1",name2="value2"} 0.42
+--
+-- # HELP metric_name_2 Help message.
+-- # TYPE metric_name_2 gauge
+-- metric_name_2{name1="value1",name2="value2"} 0.31
+-- @
+renderGauges :: [Gauge] -> Builder
+renderGauges gs = mconcat $ intersperse (byteString "\n\n") $ map renderGauge gs
+
+-- | Output `Gauge` as metric exposition text.
+--
+-- @
+-- # HELP metric_name Help message.
+-- # TYPE metric_name gauge
+-- metric_name{name1="value1",name2="value2"} 0.42
+-- @
+renderGauge :: Gauge -> Builder
+renderGauge g = mconcat
+    [ byteString "# HELP "
+    , encodeUtf8Builder (g ^. name)
+    , byteString " "
+    , encodeUtf8Builder (g ^. help)
+    , byteString "\n# TYPE "
+    , encodeUtf8Builder (g ^. name)
+    , byteString " gauge\n"
+    , encodeUtf8Builder (g ^. name)
+    , renderLabels (g ^. labels)
+    , byteString " "
+    , string8 $ show (g ^. value)
+    ]
+
+-- | Output labels as metric exposition text.
+--
+-- @
+-- {name1="value1",name2="value2"}
+-- @
+renderLabels :: [(Text, Text)] -> Builder
+renderLabels [] = mempty
+renderLabels ls = mconcat
+    [ "{"
+    , mconcat $ intersperse (byteString ",") $ map renderLabel ls
+    , "}"
+    ]
+
+-- | Output a label as metric exposition text.
+--
+-- @
+-- name="value"
+-- @
+renderLabel :: (Text, Text) -> Builder
+renderLabel (n, v) = mconcat
+    [ encodeUtf8Builder n
+    , byteString "=\""
+    , encodeUtf8Builder v
+    , byteString "\""
+    ]
