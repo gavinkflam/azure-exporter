@@ -1,4 +1,4 @@
--- | Utility to format `UTCTime` to `String`.
+-- | Format `UTCTime` as text.
 module Text.Time
     (
       -- * Time
@@ -8,6 +8,6 @@ module Text.Time
 import Data.Time.Clock (UTCTime)
 import qualified Data.Time.Format as F
 
--- | Format a `UTCTime` with the given format.
+-- | Format `UTCTime` with the given format using the default locale.
 formatTime :: String -> UTCTime -> String
 formatTime = F.formatTime F.defaultTimeLocale
