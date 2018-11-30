@@ -19,7 +19,6 @@ import Network.HTTP.Client.TLS (tlsManagerSettings)
 import Auth (acquireToken)
 import Control.Monad.Either (dieLeft)
 import qualified Data.AccessToken as T
-import Data.Billing (gauges)
 import qualified Data.Billing.GetRateCardRequest as G
 import qualified Data.Billing.GetRateCardResponse as GR
 import qualified Data.Billing.ListUsageAggregatesRequest as A
@@ -54,7 +53,7 @@ dumpUsage startTime endTime = do
             }
     usages   <- fetchUsages manager token aParams
     rateCard <- fetchRateCard manager token gParams
-    putStr $ encodeNamedRecords $ sort $ gauges rateCard usages
+    putStr $ encodeNamedRecords $ sort $ U.toGauges rateCard usages
 
 -- | Fetch usage aggregates from Azure while recursively fetching with the
 --   continuation token if any.
