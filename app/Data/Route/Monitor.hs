@@ -17,8 +17,9 @@ import Auth (getTokenOrRaise, refreshTokenIfExpired)
 import Control.Monad.AppEnvSTM (liftSTM)
 import Control.Monad.Either (raiseLeft)
 import qualified Data.Monitor.ListMetricValuesRequest as M
+import qualified Data.Monitor.ListMetricValuesResponse as Lr
 import Data.Prometheus.Gauge (renderGauges)
-import Data.Prometheus.ToGauge (multiToGauges)
+import Data.Prometheus.ToGauge (toGauges)
 import HTTP (request)
 import Text.Monitor.Timespan (timespanFrom)
 import Types (AppAction)
@@ -38,5 +39,7 @@ metrics = do
           , M._resourceId  = target
           , M._timespan    = pack $ timespanFrom now 150 90
           }
-    metrics' <- raiseLeft =<< liftSTM (request $ M.request token params)
-    raw $ toLazyByteString $ renderGauges $ multiToGauges metrics'
+    metrics'
+        <- raiseLeft =<< liftSTM (request $ M.request token params)
+        :: AppAction Lr.ListMetricValuesResponse
+    raw $ toLazyByteString $ renderGauges $ toGauges metrics'
