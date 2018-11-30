@@ -18,7 +18,6 @@ import qualified Data.Monitor.Metric as M
 import qualified Data.Monitor.MetricValue as Mv
 import qualified Data.Monitor.TimeSeriesElement as Ts
 import qualified Data.Prometheus.Gauge as G
-import Data.Prometheus.ToGauge (toGauges)
 import Test.Hspec
 
 -- | Spec for `ListMetricValuesResponse`.
@@ -26,7 +25,7 @@ spec :: Spec
 spec =
     describe "toGauges" $
         it "derive the expected gauges from response" $
-            toGauges testResponse `shouldBe` expectedGauges
+            Lr.toGauges testResponse `shouldBe` expectedGauges
 
 -- | Text response for `toGauges` test.
 testResponse :: Lr.ListMetricValuesResponse

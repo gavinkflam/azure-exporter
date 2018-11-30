@@ -11,6 +11,8 @@ module Data.Monitor.ListMetricValuesResponse
     , resourceregion
     , timespan
     , value
+      -- * Gauges
+    , toGauges
     ) where
 
 import Data.Maybe (catMaybes)
@@ -29,7 +31,6 @@ import qualified Data.Monitor.Metric as M
 import qualified Data.Monitor.MetricValue as V
 import qualified Data.Monitor.TimeSeriesElement as E
 import qualified Data.Prometheus.Gauge as G
-import Data.Prometheus.ToGauge (ToGauge, toGauges)
 import Text.AzureRm.Resource (parseResourceId, resourceId)
 
 -- | Response for list metrics API.
@@ -50,11 +51,11 @@ instance FromJSON ListMetricValuesResponse where
 makeLenses ''ListMetricValuesResponse
 
 -- | Construct list of `Gauge` from `ListMetricValuesResponse`.
-instance ToGauge ListMetricValuesResponse where
-    toGauges r =
-        concatMap fGauges (r ^. value)
-      where
-        fGauges = metricToGauges (r ^. resourceregion)
+toGauges :: ListMetricValuesResponse -> [G.Gauge]
+toGauges r =
+    concatMap fGauges (r ^. value)
+  where
+    fGauges = metricToGauges (r ^. resourceregion)
 
 -- | Construct list of `Gauge` from `Metric`.
 metricToGauges :: Text -> M.Metric -> [G.Gauge]
