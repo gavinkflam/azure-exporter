@@ -16,9 +16,9 @@ import Web.Scotty.Trans (param, raw)
 import Auth (getTokenOrRaise, refreshTokenIfExpired)
 import Control.Monad.AppEnvSTM (liftSTM)
 import Control.Monad.Either (raiseLeft)
-import Data.Monitor (gauges)
 import qualified Data.Monitor.ListMetricValuesRequest as M
 import Data.Prometheus.Gauge (renderGauges)
+import Data.Prometheus.ToGauge (multiToGauges)
 import HTTP (request)
 import Text.Monitor.Timespan (timespanFrom)
 import Types (AppAction)
@@ -39,4 +39,4 @@ metrics = do
           , M._timespan    = pack $ timespanFrom now 150 90
           }
     metrics' <- raiseLeft =<< liftSTM (request $ M.request token params)
-    raw $ toLazyByteString $ renderGauges $ gauges metrics'
+    raw $ toLazyByteString $ renderGauges $ multiToGauges metrics'
