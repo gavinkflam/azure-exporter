@@ -42,26 +42,26 @@ makeLenses ''Config
 -- | Construct configuration from environment variables.
 getConfig :: IO Config
 getConfig = do
-    clientId'       <- getEnv "CLIENT_ID"
-    clientSecret'   <- getEnv "CLIENT_SECRET"
+    clientId'       <- pack <$> getEnv "CLIENT_ID"
+    clientSecret'   <- pack <$> getEnv "CLIENT_SECRET"
     port'           <- read <$> getEnvWithDef "9492" "PORT"
-    subscriptionId' <- getEnv "SUBSCRIPTION_ID"
-    tenantId'       <- getEnv "TENANT_ID"
-    offerId'        <- getEnvWithDef "MS-AZR-0003p" "OFFER_ID"
-    currency'       <- getEnvWithDef "USD" "CURRENCY"
-    locale'         <- getEnvWithDef "en-US" "LOCALE"
-    regionInfo'     <- getEnvWithDef "US" "REGION_INFO"
+    subscriptionId' <- pack <$> getEnv "SUBSCRIPTION_ID"
+    tenantId'       <- pack <$> getEnv "TENANT_ID"
+    offerId'        <- pack <$> getEnvWithDef "MS-AZR-0003p" "OFFER_ID"
+    currency'       <- pack <$> getEnvWithDef "USD" "CURRENCY"
+    locale'         <- pack <$> getEnvWithDef "en-US" "LOCALE"
+    regionInfo'     <- pack <$> getEnvWithDef "US" "REGION_INFO"
 
     return Config
-        { _clientId       = pack clientId'
-        , _clientSecret   = pack clientSecret'
+        { _clientId       = clientId'
+        , _clientSecret   = clientSecret'
         , _port           = port'
-        , _subscriptionId = pack subscriptionId'
-        , _tenantId       = pack tenantId'
-        , _offerId        = pack offerId'
-        , _currency       = pack currency'
-        , _locale         = pack locale'
-        , _regionInfo     = pack regionInfo'
+        , _subscriptionId = subscriptionId'
+        , _tenantId       = tenantId'
+        , _offerId        = offerId'
+        , _currency       = currency'
+        , _locale         = locale'
+        , _regionInfo     = regionInfo'
         }
 
 -- | Get an environment variable with a fallback default.

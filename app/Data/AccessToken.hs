@@ -36,4 +36,4 @@ fromResponse r = AccessToken
 
 -- | Parse the UNIX timestamp in `Text` into `UTCTime`.
 parseTimestampText :: Text -> UTCTime
-parseTimestampText t = posixSecondsToUTCTime $ fromInteger $ read $ unpack t
+parseTimestampText = posixSecondsToUTCTime . fromInteger . read . unpack
