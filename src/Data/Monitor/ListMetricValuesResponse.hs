@@ -50,14 +50,14 @@ instance FromJSON ListMetricValuesResponse where
 
 makeLenses ''ListMetricValuesResponse
 
--- | Construct list of `Gauge` from `ListMetricValuesResponse`.
+-- | Construct gauges from `ListMetricValuesResponse`.
 toGauges :: ListMetricValuesResponse -> [G.Gauge]
 toGauges r =
     concatMap fGauges (r ^. value)
   where
     fGauges = metricToGauges (r ^. resourceregion)
 
--- | Construct list of `Gauge` from `Metric`.
+-- | Construct gauges from `Metric`.
 metricToGauges :: Text -> M.Metric -> [G.Gauge]
 metricToGauges resourceRegion metric =
     concatMap fGauges values
@@ -73,7 +73,7 @@ metricToGauges resourceRegion metric =
     fGauges    = metricValueToGauges namePrefix labels
     values     = concatMap (^. E._data) (metric ^. M.timeseries)
 
--- | Construct list of `Gauge` from `MetricValue`.
+-- | Construct gauges from `MetricValue`.
 metricValueToGauges :: Text -> [(Text, Text)] -> V.MetricValue -> [G.Gauge]
 metricValueToGauges namePrefix labels metricValue = catMaybes
     [ fGauge "average" (metricValue ^. V.average)
@@ -86,7 +86,7 @@ metricValueToGauges namePrefix labels metricValue = catMaybes
     fName  n = namePrefix <> "_" <> quietSnakeT n
     fGauge n = aggregationToGauges (fName n) labels
 
--- | Construct list of `Gauge` from a individual aggregation.
+-- | Construct gauges from a individual aggregation.
 aggregationToGauges
     :: Text -> [(Text, Text)] -> Maybe Scientific -> Maybe G.Gauge
 aggregationToGauges _ _ Nothing          = Nothing

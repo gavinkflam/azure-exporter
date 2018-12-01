@@ -25,7 +25,7 @@ import Network.HTTP.Client (Request, parseRequest_, urlEncodedBody)
 import Data.OAuth2.ErrorResponse (errorDescription)
 import Data.Response.Aeson (ErrorHandler)
 
--- | Parameters to construct `Request`.
+-- | Parameters to construct request.
 --
 --   <https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-oauth2-client-creds-grant-flow#first-case-access-token-request-with-a-shared-secret>
 data Params = Params
@@ -41,7 +41,7 @@ url :: Text -> String
 url tenantId' =
     "https://login.microsoftonline.com/" <> unpack tenantId' <> "/oauth2/token"
 
--- | Construct form parameters from `Params`.
+-- | Construct form parameters from params.
 --
 --   <https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-oauth2-client-creds-grant-flow#first-case-access-token-request-with-a-shared-secret>
 form :: Params -> [(ByteString, ByteString)]
@@ -52,7 +52,7 @@ form p =
     , ("client_secret", encodeUtf8 (p ^. clientSecret))
     ]
 
--- | Construct `Request` from `Params`.
+-- | Construct request from params.
 request :: Params -> Request
 request p =
     urlEncodedBody (form p) $ parseRequest_ $ "POST " <> url (p ^. tenantId)

@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- | Test the encoding of `Gauge`s.
+-- | Test deriving csv and exposition text for gauges.
 module Data.Prometheus.GaugeSpec
     (
       -- * Spec
@@ -32,21 +32,21 @@ import Test.Hspec
 spec :: Spec
 spec = do
     describe "toHeader" $
-        it "derive csv header from gauges" $
+        it "derives csv header from gauges" $
             toHeader testGauges `shouldBe` expectedHeader
     describe "encodeNamedRecords" $
-        it "derive csv text from gauges" $
+        it "derives csv text from gauges" $
             encodeNamedRecords testGauges `shouldBe` expectedCsv
     describe "renderGauges" $
-        it "derive exposition text from gauges" $
+        it "derives exposition text from gauges" $
             toLazyByteString (renderGauges simpleTestGauges)
             `shouldBe` expectedSimpleTestGaugesExpositionText
 
--- | Dummy `Gauge` list.
+-- | Dummy gauges.
 testGauges :: [G.Gauge]
 testGauges = [usageGauge, costGauge]
 
--- | Dummy `Gauge` for usage.
+-- | Dummy gauge for usage.
 usageGauge :: G.Gauge
 usageGauge = G.Gauge
     { G._name   = "azure_storage_grs_data_stored_1_gb_month_usage"
@@ -65,7 +65,7 @@ usageGauge = G.Gauge
     , G._time   = Just testTime
     }
 
--- | Dummy `Gauge` for cost.
+-- | Dummy gauge for cost.
 costGauge :: G.Gauge
 costGauge = G.Gauge
     { G._name   = "azure_storage_grs_data_stored_1_gb_month_cost"
@@ -86,7 +86,7 @@ costGauge = G.Gauge
     , G._time   = Just testTime
     }
 
--- | Simple gauges to test for rendering.
+-- | Simple gauges to test rendering.
 simpleTestGauges :: [G.Gauge]
 simpleTestGauges =
     [ G.Gauge

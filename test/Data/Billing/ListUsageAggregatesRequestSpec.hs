@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- | Test `Request` construction for the list usage aggregates API.
+-- | Test request construction for the list usage aggregates API.
 module Data.Billing.ListUsageAggregatesRequestSpec
     (
       -- * Spec
@@ -20,7 +20,7 @@ import Network.HTTP.Client (Request, path, queryString, requestHeaders)
 import Network.HTTP.Types (Header, hAuthorization, parseSimpleQuery)
 import Test.Hspec
 
--- | Spec for `ListUsageAggregates`.
+-- | Spec for `ListUsageAggregatesRequest`.
 spec :: Spec
 spec = do
     let headers = requestHeaders testRequest
@@ -76,7 +76,7 @@ expectedApiVersionItem = ("api-version", encodeUtf8 billingApiVersion)
 queryItem :: Text -> (ByteString, ByteString)
 queryItem n = (encodeUtf8 n, encodeUtf8 (testTexts ! n))
 
--- | The expected path for `listUsageAggregatesRequest`. It should:
+-- | The expected path. It should:
 --
 -- #. Starts with the subscription ID
 --

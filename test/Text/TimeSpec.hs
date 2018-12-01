@@ -18,9 +18,9 @@ spec = do
         f2 = Ti.formatTime "%FT%H:%M:%SZ"
 
     describe "formatTime" $ do
-        it "format time as ISO8601 date text" $
+        it "formats time as ISO8601 date text" $
             f1 testTime `shouldBe` expectedDateText
-        it "format time as ISO8601 date and time text" $
+        it "formats time as ISO8601 date and time text" $
             f2 testTime `shouldBe` expectedDateAndTimeText
 
 -- | Test time for text formatting (Tuesday, 26-Jun-18 08:00:00 UTC).

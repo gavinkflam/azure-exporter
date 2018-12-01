@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- | Test gauges deriving from `UsageAggregate`.
+-- | Test gauges deriving for `UsageAggregate`.
 module Data.Billing.UsageAggregateSpec
     (
       -- * Spec
@@ -28,7 +28,7 @@ import Test.Hspec
 spec :: Spec
 spec =
     describe "toGauges" $
-        it "derive the expected gauges from usage aggregates" $
+        it "derives the expected gauges from usage aggregates" $
             Ua.toGauges testRateCard testUsageAggregates
             `shouldBe` expectedGauges
 

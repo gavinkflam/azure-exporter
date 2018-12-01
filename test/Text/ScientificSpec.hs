@@ -13,9 +13,9 @@ import qualified Text.Scientific as Sc
 spec :: Spec
 spec =
     describe "showFixed" $ do
-        it "format short number as text" $
+        it "formats short number as text" $
             Sc.showFixed testShortNumber `shouldBe` expectedShortNumberText
-        it "format long number as text" $
+        it "formats long number as text" $
             Sc.showFixed testLongNumber `shouldBe` expectedLongNumberText
 
 -- | Short number in scientific notation to test for formatting.

@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- | Test `Request` construction for the list metric values API.
+-- | Test request construction for the list metric values API.
 module Data.Monitor.ListMetricValuesRequestSpec
     (
       -- * Spec
@@ -20,7 +20,7 @@ import Network.HTTP.Client (Request, path, queryString, requestHeaders)
 import Network.HTTP.Types (Header, hAuthorization, parseSimpleQuery)
 import Test.Hspec
 
--- | Spec for `ListMetricValues`.
+-- | Spec for `ListMetricValuesRequest`.
 spec :: Spec
 spec = do
     let headers = requestHeaders testRequest
@@ -84,7 +84,7 @@ expectedPath = encodeUtf8 $ T.concat
     , "/providers/microsoft.insights/metrics"
     ]
 
--- | Datastore for test data.
+-- | Texts for test data.
 testTexts :: HashMap Text Text
 testTexts = HM.fromList
     [ ("accessToken", "some-token")

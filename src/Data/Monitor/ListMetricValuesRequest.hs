@@ -21,7 +21,7 @@ import Network.HTTP.Client (Request, parseRequest_, setQueryString)
 import Data.AzureRm.Contract (monitorApiVersion)
 import Data.AzureRm.Request (addAuthHeader)
 
--- | Parameters to construct `Request`.
+-- | Parameters to construct request.
 --
 --   <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#uri-parameters>
 data Params = Params
@@ -40,7 +40,7 @@ url resourceId' =
     <> unpack resourceId'
     <> "/providers/microsoft.insights/metrics"
 
--- | Construct query string parameters from `Params`.
+-- | Construct query string parameters from params.
 --
 -- <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#uri-parameters>
 queryParams :: Params -> [(ByteString, Maybe ByteString)]
@@ -51,7 +51,7 @@ queryParams p =
     , ("timespan",    Just $ encodeUtf8 (p ^. timespan))
     ]
 
--- | Construct `Request` from access token and `Params`.
+-- | Construct request from access token and params.
 request :: Text -> Params -> Request
 request token p =
     setQueryString params $ addAuthHeader token req

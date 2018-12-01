@@ -22,7 +22,7 @@ import Network.HTTP.Client
 import Data.AzureRm.Contract (billingApiVersion)
 import Data.AzureRm.Request (addAuthHeader)
 
--- | Parameters to construct `Request`.
+-- | Parameters to construct request.
 --
 --   <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)#request>
 data Params = Params
@@ -42,7 +42,7 @@ url subscriptionId' =
     <> unpack subscriptionId'
     <> "/providers/Microsoft.Commerce/RateCard"
 
--- | Construct query string parameters from `Params`.
+-- | Construct query string parameters from params.
 --
 --   <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)#request>
 queryParams :: Params -> [(ByteString, Maybe ByteString)]
@@ -51,7 +51,7 @@ queryParams p =
     , ("$filter",     Just $ encodeUtf8 $ filterQuery p)
     ]
 
--- | Construct $filter query from `Params`.
+-- | Construct $filter query from params.
 filterQuery :: Params -> Text
 filterQuery p =
     "OfferDurableId eq '"
@@ -64,9 +64,9 @@ filterQuery p =
     <> p ^. regionInfo
     <> "'"
 
--- | Construct `Request` from access token and `Params`.
+-- | Construct request from access token and params.
 --
---   The `Request` has a modified response timeout of 180 seconds.
+--   The request has a modified response timeout of 180 seconds.
 request :: Text -> Params -> Request
 request token p =
     setQueryString params $ addAuthHeader token req'

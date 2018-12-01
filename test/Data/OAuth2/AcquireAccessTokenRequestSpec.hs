@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- | Test `Request` construction for the acquire access token API.
+-- | Test request construction for the acquire access token API.
 module Data.OAuth2.AcquireAccessTokenRequestSpec
     (
       -- * Spec
@@ -22,7 +22,7 @@ import Test.Hspec
 
 import Test.Expectations (isJustOf)
 
--- | Spec for `AcquireAccessToken`.
+-- | Spec for `AcquireAccessTokenRequest`.
 spec :: Spec
 spec = do
     let rPath  = path testRequest

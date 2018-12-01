@@ -18,7 +18,7 @@ import qualified Data.Vector as V
 spec :: Spec
 spec =
     describe "toHeader" $
-        it "derive unique and sorted header from variable header records" $
+        it "derives unique and sorted header from variable header records" $
             toHeader D.testRecords `shouldBe` expectedHeader
 
 -- | Expected header derived from `testRecords`.

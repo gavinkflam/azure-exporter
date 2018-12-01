@@ -1,4 +1,4 @@
--- | Format `UTCTime` as text.
+-- | Formatting time.
 module Text.Time
     (
       -- * Time

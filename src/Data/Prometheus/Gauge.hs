@@ -41,7 +41,7 @@ data Gauge = Gauge
 
 makeLenses ''Gauge
 
--- | Convert `Gauge` to a CSV record.
+-- | Convert gauge to a csv record.
 instance ToNamedRecord Gauge where
     toNamedRecord g = namedRecord $
         [ "series"    .= (g ^. name)
@@ -52,7 +52,7 @@ instance ToNamedRecord Gauge where
       where
         fLabel (k, v)  = encodeUtf8 ("label_" <> k) .= v
 
--- | Extract the CSV column header from a `Gauge`.
+-- | Extract the csv column header from a gauge.
 --
 --   'series', 'value' and 'timestamp' columns should go first.
 --   Label names were prefixed with 'label_' and come next in alphabetical order.
@@ -70,11 +70,11 @@ instance ToHeader Gauge where
       where
         ls = ["series", "value", "timestamp"]
 
--- | Order `Gauge` by time.
+-- | Order gauges by time.
 instance Ord Gauge where
     compare a b = compare (a ^. time) (b ^. time)
 
--- | Output list of `Gauge` as metric exposition text.
+-- | Output gauges as metric exposition text.
 --
 -- @
 -- # HELP metric_name Help message.
@@ -88,7 +88,7 @@ instance Ord Gauge where
 renderGauges :: [Gauge] -> Builder
 renderGauges gs = mconcat $ intersperse (byteString "\n\n") $ map renderGauge gs
 
--- | Output `Gauge` as metric exposition text.
+-- | Output a gauge as metric exposition text.
 --
 -- @
 -- # HELP metric_name Help message.

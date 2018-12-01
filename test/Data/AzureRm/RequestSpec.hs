@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- | Test authorization header adding mechanism for Azure RM API.
+-- | Test request utility for Azure RM API.
 module Data.AzureRm.RequestSpec
     (
       -- * Spec

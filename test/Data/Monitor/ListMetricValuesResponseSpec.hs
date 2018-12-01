@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- | Test gauges deriving from `ListMetricValuesResponse`.
+-- | Test gauges deriving for `ListMetricValuesResponse`.
 module Data.Monitor.ListMetricValuesResponseSpec
     (
       -- * Spec
@@ -24,7 +24,7 @@ import Test.Hspec
 spec :: Spec
 spec =
     describe "toGauges" $
-        it "derive the expected gauges from response" $
+        it "derives the expected gauges from response" $
             Lr.toGauges testResponse `shouldBe` expectedGauges
 
 -- | Text response for `toGauges` test.

@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- | Test `Request` construction for the get rate card API.
+-- | Test request construction for the get rate card API.
 module Data.Billing.GetRateCardRequestSpec
     (
       -- * Spec
@@ -20,7 +20,7 @@ import Network.HTTP.Client (Request, path, queryString, requestHeaders)
 import Network.HTTP.Types (Header, hAuthorization, parseSimpleQuery)
 import Test.Hspec
 
--- | Spec for `GetRateCard`.
+-- | Spec for `GetRateCardRequest`.
 spec :: Spec
 spec = do
     let headers = requestHeaders testRequest

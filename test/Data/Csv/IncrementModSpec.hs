@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- | Test deriving Csv from records with variable header for each record.
+-- | Test deriving csv from records with variable header for each record.
 module Data.Csv.IncrementModSpec
     (
       -- * Spec
@@ -18,7 +18,7 @@ import qualified Data.Csv.TestData as D
 spec :: Spec
 spec =
     describe "encodeNamedRecords" $
-        it "derive csv text from variable header records" $
+        it "derives csv text from variable header records" $
             encodeNamedRecords D.testRecords `shouldBe` expectedCsv
 
 -- | Expected csv text derived from `testRecords`.

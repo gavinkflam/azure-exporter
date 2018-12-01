@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- | The constants for Azure API.
+-- | Constants for Azure API.
 module Data.AzureRm.Contract
     (
       -- * Versions

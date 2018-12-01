@@ -52,7 +52,6 @@ instance FromJSON UsageAggregate where
 
 makeLenses ''UsageAggregate
 
-
 -- | Construct gauges from `GetRateCardResponse` and list of `UsageAggregate`.
 toGauges :: Gr.GetRateCardResponse -> [UsageAggregate] -> [G.Gauge]
 toGauges r =

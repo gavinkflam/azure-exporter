@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- | Utility functions related to the HTTP clientt.
+-- | Request utility for Azure RM API.
 module Data.AzureRm.Request
     (
       -- * Request
@@ -13,7 +13,7 @@ import Data.Text.Encoding (encodeUtf8)
 import Network.HTTP.Client (Request, requestHeaders)
 import Network.HTTP.Types.Header (hAuthorization)
 
--- | Add the Authorization header to the `Request`.
+-- | Add authorization header to request.
 addAuthHeader :: Text -> Request -> Request
 addAuthHeader token req = req
     { requestHeaders = headers ++ [(hAuthorization, authValue)]
