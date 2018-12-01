@@ -49,7 +49,7 @@ queryParams :: Params -> [(ByteString, Maybe ByteString)]
 queryParams p =
     maybeAdd params "continuationToken" maybeToken
   where
-    maybeToken = fmap encodeUtf8 (p ^. continuationToken)
+    maybeToken = encodeUtf8 <$> (p ^. continuationToken)
     param      = Just . encodeUtf8
     params     =
         [ ("api-version",            param billingApiVersion)

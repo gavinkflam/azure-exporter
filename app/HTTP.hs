@@ -41,5 +41,5 @@ requestIO manager handler request' = do
 --  `errorExtractor` will be applied as the error handler.
 request :: FromJSON a => Request -> STMResponse a
 request request' = do
-    manager <- fmap (^. E.httpManager) readAppEnv
+    manager <- (^. E.httpManager) <$> readAppEnv
     liftIO $ requestIO manager errorExtractor request'

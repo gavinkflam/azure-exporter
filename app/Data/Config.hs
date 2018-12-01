@@ -21,7 +21,6 @@ module Data.Config
 import Data.Maybe (fromMaybe)
 import Data.Text (Text, pack)
 import System.Environment (getEnv, lookupEnv)
-import Text.Read (readMaybe)
 
 import Control.Lens (makeLenses)
 
@@ -45,13 +44,13 @@ getConfig :: IO Config
 getConfig = do
     clientId'       <- getEnv "CLIENT_ID"
     clientSecret'   <- getEnv "CLIENT_SECRET"
-    port'           <- readEnv 9492 "PORT"
+    port'           <- read <$> getEnvWithDef "9492" "PORT"
     subscriptionId' <- getEnv "SUBSCRIPTION_ID"
     tenantId'       <- getEnv "TENANT_ID"
-    offerId'        <- getEnv' "MS-AZR-0003p" "OFFER_ID"
-    currency'       <- getEnv' "USD" "CURRENCY"
-    locale'         <- getEnv' "en-US" "LOCALE"
-    regionInfo'     <- getEnv' "US" "REGION_INFO"
+    offerId'        <- getEnvWithDef "MS-AZR-0003p" "OFFER_ID"
+    currency'       <- getEnvWithDef "USD" "CURRENCY"
+    locale'         <- getEnvWithDef "en-US" "LOCALE"
+    regionInfo'     <- getEnvWithDef "US" "REGION_INFO"
 
     return Config
         { _clientId       = pack clientId'
@@ -65,12 +64,6 @@ getConfig = do
         , _regionInfo     = pack regionInfo'
         }
 
--- | Get an environment variable with a fallback.
-getEnv' :: String -> String -> IO String
-getEnv' def k = fromMaybe def <$> lookupEnv k
-
--- | Get and parse an environment variable with a fallback.
-readEnv :: Read a => a -> String -> IO a
-readEnv def k = do
-    v <- lookupEnv k
-    return $ fromMaybe def $ readMaybe =<< v
+-- | Get an environment variable with a fallback default.
+getEnvWithDef :: String -> String -> IO String
+getEnvWithDef def k = fromMaybe def <$> lookupEnv k

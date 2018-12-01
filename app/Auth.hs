@@ -44,7 +44,7 @@ acquireToken conf manager = do
 -- | Get the auth token from the shared `AppEnv`, raise if not found.
 getTokenOrRaise :: AppAction Text
 getTokenOrRaise = do
-    mToken <- liftSTM $ fmap (^. E.accessToken) readAppEnv
+    mToken <- liftSTM $ (^. E.accessToken) <$> readAppEnv
     token  <- raiseIfNothing "Authorization token not found" mToken
     return $ token ^. T.accessToken
 
@@ -53,15 +53,15 @@ getTokenOrRaise = do
 --   Do nothing if the token is still valid.
 refreshTokenIfExpired :: AppAction ()
 refreshTokenIfExpired = do
-    mToken  <- liftSTM $ fmap (^. E.accessToken) readAppEnv
+    mToken  <- liftSTM $ (^. E.accessToken) <$> readAppEnv
     expired <- liftIO $ maybe (return True) (tokenExpired 10) mToken
     when expired refreshToken
 
 -- | Refresh the auth token in the shared `AppEnv`.
 refreshToken :: AppAction ()
 refreshToken = do
-    conf    <- liftSTM $ fmap (^. E.config) readAppEnv
-    manager <- liftSTM $ fmap (^. E.httpManager) readAppEnv
+    conf    <- liftSTM $ (^. E.config) <$> readAppEnv
+    manager <- liftSTM $ (^. E.httpManager) <$> readAppEnv
     resp    <- raiseLeft =<< liftIO (acquireToken conf manager)
     liftSTM $ modifyAppEnv (E.accessToken ?~ T.fromResponse resp)
 
