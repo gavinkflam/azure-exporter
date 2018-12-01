@@ -7,37 +7,94 @@ module Data.Billing.ListUsageAggregatesRequestSpec
       spec
     ) where
 
-import Network.HTTP.Client (path, queryString, requestHeaders)
-import Network.HTTP.Types (parseSimpleQuery)
-import Test.Hspec
+import Data.ByteString (ByteString)
+import Data.Text (Text)
+import qualified Data.Text as T
+import Data.Text.Encoding (encodeUtf8)
 
-import qualified Data.Billing.TestData as D
+import Data.AzureRm.Contract (billingApiVersion)
+import qualified Data.Billing.ListUsageAggregatesRequest as L
+import Data.HashMap.Strict (HashMap, (!))
+import qualified Data.HashMap.Strict as HM
+import Network.HTTP.Client (Request, path, queryString, requestHeaders)
+import Network.HTTP.Types (Header, hAuthorization, parseSimpleQuery)
+import Test.Hspec
 
 -- | Spec for `ListUsageAggregates`.
 spec :: Spec
 spec = do
-    let headers = requestHeaders D.listUsageAggregatesRequest
-        rPath   = path D.listUsageAggregatesRequest
-        qItems  = parseSimpleQuery $ queryString D.listUsageAggregatesRequest
+    let headers = requestHeaders testRequest
+        rPath   = path testRequest
+        qItems  = parseSimpleQuery $ queryString testRequest
 
     describe "request" $ do
         it "contains the expected authorization header" $
-            headers `shouldContain` [D.expectedAuthHeader]
+            headers `shouldContain` [expectedAuthHeader]
 
         it "contains the expected api-version query item" $
-            qItems `shouldContain` [D.expectedApiVersionItem]
+            qItems `shouldContain` [expectedApiVersionItem]
 
         it "contains the expected aggregation granularity query item" $
-            qItems `shouldContain` [D.queryItem "aggregationGranularity"]
+            qItems `shouldContain` [queryItem "aggregationGranularity"]
 
         it "contains the expected reported start time query item" $
-            qItems `shouldContain` [D.queryItem "reportedStartTime"]
+            qItems `shouldContain` [queryItem "reportedStartTime"]
 
         it "contains the expected reported end time query item" $
-            qItems `shouldContain` [D.queryItem "reportedEndTime"]
+            qItems `shouldContain` [queryItem "reportedEndTime"]
 
         it "contains the expected continuation token query item" $
-            qItems `shouldContain` [D.queryItem "continuationToken"]
+            qItems `shouldContain` [queryItem "continuationToken"]
 
         it "contains the expected path" $
-            rPath `shouldBe` D.expectedListUsageAggregatesPath
+            rPath `shouldBe` expectedPath
+
+-- | Test request.
+testRequest :: Request
+testRequest = L.request (testTexts ! "accessToken") testParams
+
+-- | Test params.
+testParams :: L.Params
+testParams = L.Params
+    { L._subscriptionId         = testTexts ! "subscriptionId"
+    , L._aggregationGranularity = testTexts ! "aggregationGranularity"
+    , L._reportedStartTime      = testTexts ! "reportedStartTime"
+    , L._reportedEndTime        = testTexts ! "reportedEndTime"
+    , L._continuationToken      = Just $ testTexts ! "continuationToken"
+    }
+
+-- | The expected authorization header.
+expectedAuthHeader :: Header
+expectedAuthHeader =
+    (hAuthorization, "Bearer " <> encodeUtf8 (testTexts ! "accessToken"))
+
+-- | The expected API version query item.
+expectedApiVersionItem :: (ByteString, ByteString)
+expectedApiVersionItem = ("api-version", encodeUtf8 billingApiVersion)
+
+-- | Derive the query item from `testTexts` key.
+queryItem :: Text -> (ByteString, ByteString)
+queryItem n = (encodeUtf8 n, encodeUtf8 (testTexts ! n))
+
+-- | The expected path for `listUsageAggregatesRequest`. It should:
+--
+-- #. Starts with the subscription ID
+--
+-- #. Follows by the API Endpoint
+expectedPath :: ByteString
+expectedPath = encodeUtf8 $ T.concat
+    [ "/subscriptions/"
+    , testTexts ! "subscriptionId"
+    , "/providers/Microsoft.Commerce/UsageAggregates"
+    ]
+
+-- | Texts for test data.
+testTexts :: HashMap Text Text
+testTexts = HM.fromList
+    [ ("accessToken",            "some-token")
+    , ("aggregationGranularity", "daily")
+    , ("continuationToken",      "something")
+    , ("reportedStartTime",      "2018-06-26T08:00:00Z")
+    , ("reportedEndTime",        "2018-06-26T08:01:00Z")
+    , ("subscriptionId",         "312a4ad3-78e8-4b85-aa85-fdf7041f8155")
+    ]
