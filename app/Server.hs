@@ -14,8 +14,8 @@ import Web.Scotty.Trans (scottyT)
 import App (app)
 import Control.Monad.AppEnvSTM
 import qualified Control.Monad.System.EnvM as Em
+import Data.App.AppEnv (AppEnv(..))
 import Data.App.Config (getConfig, port)
-import Data.AppEnv (AppEnv(..))
 
 -- | Start the exporter HTTP server.
 runServer :: IO ()

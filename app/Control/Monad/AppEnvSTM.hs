@@ -19,7 +19,7 @@ module Control.Monad.AppEnvSTM
 import Control.Concurrent.STM (TVar, atomically, modifyTVar', readTVarIO)
 import Control.Monad.Reader
 
-import Data.AppEnv (AppEnv)
+import Data.App.AppEnv (AppEnv)
 
 -- | Reader monad providing the `AppEnv` STM variable.
 newtype AppEnvSTM a = AppEnvSTM

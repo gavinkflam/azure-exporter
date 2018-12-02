@@ -19,7 +19,7 @@ import Network.HTTP.Client.TLS (tlsManagerSettings)
 import Auth (acquireToken)
 import Control.Monad.Either (dieLeft)
 import qualified Control.Monad.System.EnvM as Em
-import qualified Data.AccessToken as T
+import qualified Data.App.AccessToken as T
 import qualified Data.App.Config as C
 import qualified Data.Billing.GetRateCardRequest as G
 import qualified Data.Billing.GetRateCardResponse as GR

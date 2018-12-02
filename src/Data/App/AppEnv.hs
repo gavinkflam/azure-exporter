@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module Data.AppEnv
+module Data.App.AppEnv
     (
       -- * Types
       AppEnv (..)
@@ -13,7 +13,7 @@ module Data.AppEnv
 import Control.Lens (makeLenses)
 import Network.HTTP.Client (Manager)
 
-import Data.AccessToken (AccessToken)
+import Data.App.AccessToken (AccessToken)
 import Data.App.Config (Config)
 
 -- | The shared application state for actions to persist cachable information.

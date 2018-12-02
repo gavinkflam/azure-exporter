@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module Data.AccessToken
+module Data.App.AccessToken
     (
       -- * Types
       AccessToken (..)

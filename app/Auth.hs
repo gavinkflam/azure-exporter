@@ -21,9 +21,9 @@ import Network.HTTP.Client (Manager)
 import Control.Monad.AppEnvSTM
 import Control.Monad.Either (raiseLeft)
 import Control.Monad.Maybe (raiseIfNothing)
-import qualified Data.AccessToken as T
+import qualified Data.App.AccessToken as T
+import qualified Data.App.AppEnv as E
 import qualified Data.App.Config as C
-import qualified Data.AppEnv as E
 import Data.OAuth2.AcquireAccessTokenRequest as AT
 import qualified Data.OAuth2.AcquireAccessTokenResponse as R
 import HTTP (IOResponse, requestIO)

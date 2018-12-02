@@ -15,7 +15,7 @@ import Data.Aeson (FromJSON)
 import Network.HTTP.Client (Manager, Request, httpLbs)
 
 import Control.Monad.AppEnvSTM
-import qualified Data.AppEnv as E
+import qualified Data.App.AppEnv as E
 import Data.Response.Aeson (ErrorHandler, errorExtractor, mapEitherDecode)
 
 -- | Response comprising either `String` error messages or `FromJSON` response
