@@ -42,7 +42,7 @@ data Config = Config
 makeLenses ''Config
 
 -- | Construct configuration from environment variables.
-getConfig :: EnvM Config
+getConfig :: EnvM m => m Config
 getConfig = do
     clientId'       <- T.pack <$> getEnv "CLIENT_ID"
     clientSecret'   <- T.pack <$> getEnv "CLIENT_SECRET"
@@ -67,5 +67,5 @@ getConfig = do
         }
 
 -- | Get an environment variable with a fallback default.
-getEnvDefault :: String -> String -> EnvM String
+getEnvDefault :: EnvM m => String -> String -> m String
 getEnvDefault def k = fromMaybe def <$> lookupEnv k

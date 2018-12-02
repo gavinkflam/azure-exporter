@@ -13,14 +13,13 @@ import Web.Scotty.Trans (scottyT)
 
 import App (app)
 import Control.Monad.AppEnvSTM
-import qualified Control.Monad.System.EnvM as Em
 import Data.App.AppEnv (AppEnv(..))
 import Data.App.Config (getConfig, port)
 
 -- | Start the exporter HTTP server.
 runServer :: IO ()
 runServer = do
-    config  <- Em.runIntoIO getConfig
+    config  <- getConfig
     manager <- newManager tlsManagerSettings
     appEnv  <- newTVarIO AppEnv
         { _accessToken = Nothing

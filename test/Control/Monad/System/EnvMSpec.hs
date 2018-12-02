@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- | Test environment variable reading contained as free monad.
+-- | Test environment variables reading monad.
 module Control.Monad.System.EnvMSpec
     (
       -- * Spec
@@ -23,7 +23,7 @@ spec =
             runPure testVars testSeq `shouldBe` expectedText
 
 -- | Test sequence to derive a text from environment variables.
-testSeq :: EnvM String
+testSeq :: EnvM m => m String
 testSeq = do
     verb    <- getEnv "VERB"
     subject <- fromMaybe "nobody" <$> lookupEnv "SUBJECT"
