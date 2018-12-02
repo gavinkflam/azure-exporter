@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
--- | Test environment variable reading contained as free monad.
+-- | Test reading configuration from environment variables.
 module Data.App.ConfigSpec
     (
       -- * Spec
@@ -17,7 +17,7 @@ import Test.Hspec
 import Control.Monad.System.EnvM (runPure)
 import qualified Data.App.Config as Cf
 
--- | Spec for `EnvM`.
+-- | Spec for `Config`.
 spec :: Spec
 spec =
     describe "getConfig" $ do
