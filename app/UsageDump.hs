@@ -37,7 +37,7 @@ dumpUsage startTime endTime = do
     manager  <- newManager tlsManagerSettings
     tokenRes <- dieLeft =<< liftIO (acquireToken config manager)
 
-    let token   = T.fromResponse tokenRes ^. T.accessToken
+    let token   = T.fromResponse tokenRes ^. T.token
         aParams = A.Params
             { A._subscriptionId         = config ^. C.subscriptionId
             , A._aggregationGranularity = "daily"

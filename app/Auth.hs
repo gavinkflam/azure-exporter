@@ -46,7 +46,7 @@ getTokenOrRaise :: AppAction Text
 getTokenOrRaise = do
     mToken <- liftSTM $ (^. E.accessToken) <$> readAppEnv
     token  <- raiseIfNothing "Authorization token not found" mToken
-    return $ token ^. T.accessToken
+    return $ token ^. T.token
 
 -- | Refresh the auth token in the shared `AppEnv` if the token has expired.
 --

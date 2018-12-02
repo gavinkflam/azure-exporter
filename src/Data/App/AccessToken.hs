@@ -5,7 +5,7 @@ module Data.App.AccessToken
       -- * Types
       AccessToken (..)
       -- * Lenses
-    , accessToken
+    , token
     , expiresOn
       -- * Utilities
     , fromResponse
@@ -21,8 +21,8 @@ import qualified Data.OAuth2.AcquireAccessTokenResponse as R
 
 -- | Type representing an Azure OAuth2 access token.
 data AccessToken = AccessToken
-    { _accessToken :: {-# UNPACK #-} !Text
-    , _expiresOn   :: {-# UNPACK #-} !UTCTime
+    { _token     :: {-# UNPACK #-} !Text
+    , _expiresOn :: {-# UNPACK #-} !UTCTime
     } deriving Show
 
 makeLenses ''AccessToken
@@ -30,8 +30,8 @@ makeLenses ''AccessToken
 -- | Extract and construct the `AccessToken` from `AcquireAccessTokenResponse`.
 fromResponse :: R.AcquireAccessTokenResponse -> AccessToken
 fromResponse r = AccessToken
-    { _accessToken = r ^. R.accessToken
-    , _expiresOn   = parseTimestampText (r ^. R.expiresOn)
+    { _token     = r ^. R.accessToken
+    , _expiresOn = parseTimestampText (r ^. R.expiresOn)
     }
 
 -- | Parse the UNIX timestamp in `Text` into `UTCTime`.
