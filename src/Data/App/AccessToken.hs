@@ -23,17 +23,17 @@ import qualified Data.OAuth2.AcquireAccessTokenResponse as R
 data AccessToken = AccessToken
     { _token     :: {-# UNPACK #-} !Text
     , _expiresOn :: {-# UNPACK #-} !UTCTime
-    } deriving Show
+    } deriving (Eq, Show)
 
 makeLenses ''AccessToken
 
--- | Extract and construct the `AccessToken` from `AcquireAccessTokenResponse`.
+-- | Derive `AccessToken` from `AcquireAccessTokenResponse`.
 fromResponse :: R.AcquireAccessTokenResponse -> AccessToken
 fromResponse r = AccessToken
     { _token     = r ^. R.accessToken
     , _expiresOn = parseTimestampText (r ^. R.expiresOn)
     }
 
--- | Parse the UNIX timestamp in `Text` into `UTCTime`.
+-- | Parse the UNIX timestamp text into `UTCTime`.
 parseTimestampText :: Text -> UTCTime
 parseTimestampText = posixSecondsToUTCTime . fromInteger . read . unpack
