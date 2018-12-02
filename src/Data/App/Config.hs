@@ -3,7 +3,7 @@
 module Data.App.Config
     (
       -- * Types
-      Config
+      Config(..)
       -- * Lenses
     , clientId
     , clientSecret
@@ -37,7 +37,7 @@ data Config = Config
     , _currency       :: {-# UNPACK #-} !Text
     , _locale         :: {-# UNPACK #-} !Text
     , _regionInfo     :: {-# UNPACK #-} !Text
-    } deriving Show
+    } deriving (Eq, Show)
 
 makeLenses ''Config
 

@@ -16,7 +16,7 @@ module Control.Monad.System.EnvM
 import qualified System.Environment as Ev
 
 import Control.Monad.Free (Free(..), liftF)
-import Data.HashMap.Strict (HashMap, (!))
+import Data.HashMap.Strict (HashMap)
 import qualified Data.HashMap.Strict as HM
 
 -- | Environment variable reading operations represented as functors.
@@ -45,5 +45,8 @@ runIntoIO (Free (LookupEnv k f)) = Ev.lookupEnv k >>= runIntoIO . f
 -- | Run `EnvM` sequence with mocked map.
 runPure :: HashMap String String -> EnvM a -> a
 runPure _ (Pure x)               = x
-runPure m (Free (GetEnv k f))    = runPure m $ f $ m ! k
+runPure m (Free (GetEnv k f))    =
+    case HM.lookup k m of
+        Nothing -> error $ k <> ": getEnv: does not exist"
+        Just v  -> runPure m $ f v
 runPure m (Free (LookupEnv k f)) = runPure m $ f $ HM.lookup k m
