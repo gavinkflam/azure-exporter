@@ -9,6 +9,7 @@ module Data.App.ConfigSpec
 
 import qualified Data.Text as T
 
+import Control.Exception (evaluate)
 import Data.HashMap.Strict (HashMap, (!))
 import qualified Data.HashMap.Strict as HM
 import Test.Hspec
@@ -22,8 +23,25 @@ spec =
     describe "getConfig" $ do
         it "gets the expected config" $
             runPure testVars1 Cf.getConfig `shouldBe` expectedConfig1
-        it "gets the expected config with fallback" $
+        it "gets the expected config with missing optional variables" $
             runPure testVars2 Cf.getConfig `shouldBe` expectedConfig2
+        it "throws error without client_id variable" $
+            testGetConfigWithoutVar "CLIENT_ID"
+        it "throws error without client_secret variable" $
+            testGetConfigWithoutVar "CLIENT_SECRET"
+        it "throws error without subscription_id variable" $
+            testGetConfigWithoutVar "SUBSCRIPTION_ID"
+        it "throws error without tenant_id variable" $
+            testGetConfigWithoutVar "TENANT_ID"
+
+-- | Test `getConfig` without the variable of key `k` if it throws the
+--   expected error.
+testGetConfigWithoutVar :: String -> Expectation
+testGetConfigWithoutVar k =
+    evaluate (runPure var Cf.getConfig) `shouldThrow` err
+  where
+    var = HM.delete k testVars1
+    err = errorCall $ k <> ": getEnv: does not exist"
 
 -- | Mock environment variables.
 testVars1 :: HashMap String String
