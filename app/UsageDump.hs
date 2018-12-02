@@ -18,13 +18,14 @@ import Network.HTTP.Client.TLS (tlsManagerSettings)
 
 import Auth (acquireToken)
 import Control.Monad.Either (dieLeft)
+import qualified Control.Monad.System.EnvM as Em
 import qualified Data.AccessToken as T
+import qualified Data.App.Config as C
 import qualified Data.Billing.GetRateCardRequest as G
 import qualified Data.Billing.GetRateCardResponse as GR
 import qualified Data.Billing.ListUsageAggregatesRequest as A
 import qualified Data.Billing.ListUsageAggregatesResponse as AR
 import qualified Data.Billing.UsageAggregate as U
-import qualified Data.Config as C
 import Data.Csv.IncrementMod (encodeNamedRecords)
 import Data.Response.Aeson (errorExtractor)
 import HTTP (requestIO)
@@ -32,7 +33,7 @@ import HTTP (requestIO)
 -- | Dump usage data in CSV format.
 dumpUsage :: String -> String -> IO ()
 dumpUsage startTime endTime = do
-    config   <- C.getConfig
+    config   <- Em.runIntoIO C.getConfig
     manager  <- newManager tlsManagerSettings
     tokenRes <- dieLeft =<< liftIO (acquireToken config manager)
 

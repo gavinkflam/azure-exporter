@@ -1,6 +1,6 @@
 {-# LANGUAGE TemplateHaskell #-}
 
-module Data.Config
+module Data.App.Config
     (
       -- * Types
       Config
@@ -19,10 +19,12 @@ module Data.Config
     ) where
 
 import Data.Maybe (fromMaybe)
-import Data.Text (Text, pack)
-import System.Environment (getEnv, lookupEnv)
+import Data.Text (Text)
+import qualified Data.Text as T
 
 import Control.Lens (makeLenses)
+
+import Control.Monad.System.EnvM (EnvM, getEnv, lookupEnv)
 
 -- | Configurations for the application.
 data Config = Config
@@ -40,17 +42,17 @@ data Config = Config
 makeLenses ''Config
 
 -- | Construct configuration from environment variables.
-getConfig :: IO Config
+getConfig :: EnvM Config
 getConfig = do
-    clientId'       <- pack <$> getEnv "CLIENT_ID"
-    clientSecret'   <- pack <$> getEnv "CLIENT_SECRET"
-    port'           <- read <$> getEnvWithDef "9492" "PORT"
-    subscriptionId' <- pack <$> getEnv "SUBSCRIPTION_ID"
-    tenantId'       <- pack <$> getEnv "TENANT_ID"
-    offerId'        <- pack <$> getEnvWithDef "MS-AZR-0003p" "OFFER_ID"
-    currency'       <- pack <$> getEnvWithDef "USD" "CURRENCY"
-    locale'         <- pack <$> getEnvWithDef "en-US" "LOCALE"
-    regionInfo'     <- pack <$> getEnvWithDef "US" "REGION_INFO"
+    clientId'       <- T.pack <$> getEnv "CLIENT_ID"
+    clientSecret'   <- T.pack <$> getEnv "CLIENT_SECRET"
+    port'           <- read <$> getEnvDefault "9492" "PORT"
+    subscriptionId' <- T.pack <$> getEnv "SUBSCRIPTION_ID"
+    tenantId'       <- T.pack <$> getEnv "TENANT_ID"
+    offerId'        <- T.pack <$> getEnvDefault "MS-AZR-0003p" "OFFER_ID"
+    currency'       <- T.pack <$> getEnvDefault "USD" "CURRENCY"
+    locale'         <- T.pack <$> getEnvDefault "en-US" "LOCALE"
+    regionInfo'     <- T.pack <$> getEnvDefault "US" "REGION_INFO"
 
     return Config
         { _clientId       = clientId'
@@ -65,5 +67,5 @@ getConfig = do
         }
 
 -- | Get an environment variable with a fallback default.
-getEnvWithDef :: String -> String -> IO String
-getEnvWithDef def k = fromMaybe def <$> lookupEnv k
+getEnvDefault :: String -> String -> EnvM String
+getEnvDefault def k = fromMaybe def <$> lookupEnv k

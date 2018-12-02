@@ -14,7 +14,7 @@ import Control.Lens (makeLenses)
 import Network.HTTP.Client (Manager)
 
 import Data.AccessToken (AccessToken)
-import Data.Config (Config)
+import Data.App.Config (Config)
 
 -- | The shared application state for actions to persist cachable information.
 data AppEnv = AppEnv
