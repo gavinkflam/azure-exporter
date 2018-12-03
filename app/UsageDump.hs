@@ -7,71 +7,54 @@ module UsageDump
     ) where
 
 import Control.Monad.IO.Class (liftIO)
-import Data.ByteString.Lazy (putStr)
-import Data.List (sort)
-import Data.Text (Text, pack)
-import Prelude hiding (putStr)
+import Control.Monad.Reader (ask)
+import qualified Data.ByteString.Lazy as LBS
+import Data.Text (Text)
+import qualified Data.Text as T
 
-import Control.Lens ((^.))
-import Network.HTTP.Client (Manager, newManager)
-import Network.HTTP.Client.TLS (tlsManagerSettings)
+import Control.Lens ((<&>), (^.))
 
-import Auth (acquireToken)
-import Control.Monad.Either (dieLeft)
-import Control.Monad.Network.HttpM (httpJson)
-import qualified Data.App.AccessToken as T
-import qualified Data.App.Config as C
+import App.Billing.Cost (fetchUsageAndCostGauges)
+import Control.Monad.App.AppM (AppM)
+import Control.Monad.Fail.Trans (failNothing)
+import qualified Data.App.AccessToken as Ak
+import qualified Data.App.AppEnv as En
+import qualified Data.App.Config as Cf
 import qualified Data.Billing.GetRateCardRequest as G
-import qualified Data.Billing.GetRateCardResponse as GR
 import qualified Data.Billing.ListUsageAggregatesRequest as A
-import qualified Data.Billing.ListUsageAggregatesResponse as AR
-import qualified Data.Billing.UsageAggregate as U
 import Data.Csv.IncrementMod (encodeNamedRecords)
-import Data.Response.Aeson (errorExtractor)
 
 -- | Dump usage data in CSV format.
-dumpUsage :: String -> String -> IO ()
+dumpUsage :: String -> String -> AppM ()
 dumpUsage startTime endTime = do
-    config   <- C.getConfig
-    manager  <- newManager tlsManagerSettings
-    tokenRes <- dieLeft =<< liftIO (acquireToken config manager)
+    env   <- ask
+    token <- failNothing "token not found" $
+        (env ^. En.accessToken) <&> (^. Ak.token)
 
-    let token   = T.fromResponse tokenRes ^. T.token
-        aParams = A.Params
-            { A._subscriptionId         = config ^. C.subscriptionId
-            , A._aggregationGranularity = "daily"
-            , A._reportedStartTime      = pack startTime
-            , A._reportedEndTime        = pack endTime
-            , A._continuationToken      = Nothing
-            }
-        gParams = G.Params
-            { G._subscriptionId = config ^. C.subscriptionId
-            , G._offerId        = config ^. C.offerId
-            , G._currency       = config ^. C.currency
-            , G._locale         = config ^. C.locale
-            , G._regionInfo     = config ^. C.regionInfo
-            }
-    usages   <- fetchUsages manager token aParams
-    rateCard <- fetchRateCard manager token gParams
-    putStr $ encodeNamedRecords $ sort $ U.toGauges rateCard usages
+    let config  = env ^. En.config
+        manager = env ^. En.httpManager
+        aParams = usagesParams config (T.pack startTime) (T.pack endTime)
+        gParams = rateCardParams config
 
--- | Fetch usage aggregates from Azure while recursively fetching with the
---   continuation token if any.
-fetchUsages :: Manager -> Text -> A.Params -> IO [U.UsageAggregate]
-fetchUsages manager token params = do
-    let req = A.request token params
-    res <- dieLeft =<< liftIO (httpJson errorExtractor manager req)
+    gauges <- liftIO $ fetchUsageAndCostGauges manager token aParams gParams
+    liftIO $ LBS.putStr $ encodeNamedRecords gauges
 
-    case res ^. AR.nextLink of
-        Nothing -> return (res ^. AR.value)
-        Just _  ->
-            (++ (res ^. AR.value)) <$> fetchUsages manager token nParams
-          where
-            nParams = params
-                { A._continuationToken = AR.continuationToken res }
+-- | Construct params for `UsageAggregateRequest`.
+usagesParams :: Cf.Config -> Text -> Text -> A.Params
+usagesParams config startTime endTime = A.Params
+    { A._subscriptionId         = config ^. Cf.subscriptionId
+    , A._aggregationGranularity = "daily"
+    , A._reportedStartTime      = startTime
+    , A._reportedEndTime        = endTime
+    , A._continuationToken      = Nothing
+    }
 
--- | Fetch rate card from Azure.
-fetchRateCard :: Manager -> Text -> G.Params -> IO GR.GetRateCardResponse
-fetchRateCard manager token params = do
-    let req = G.request token params
-    dieLeft =<< liftIO (httpJson errorExtractor manager req)
+-- | Construct params for `GetRateCardRequest`.
+rateCardParams :: Cf.Config -> G.Params
+rateCardParams config = G.Params
+    { G._subscriptionId = config ^. Cf.subscriptionId
+    , G._offerId        = config ^. Cf.offerId
+    , G._currency       = config ^. Cf.currency
+    , G._locale         = config ^. Cf.locale
+    , G._regionInfo     = config ^. Cf.regionInfo
+    }
