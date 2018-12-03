@@ -18,6 +18,7 @@ import Network.HTTP.Client.TLS (tlsManagerSettings)
 
 import Auth (acquireToken)
 import Control.Monad.Either (dieLeft)
+import Control.Monad.Network.HttpM (httpJson)
 import qualified Data.App.AccessToken as T
 import qualified Data.App.Config as C
 import qualified Data.Billing.GetRateCardRequest as G
@@ -27,7 +28,6 @@ import qualified Data.Billing.ListUsageAggregatesResponse as AR
 import qualified Data.Billing.UsageAggregate as U
 import Data.Csv.IncrementMod (encodeNamedRecords)
 import Data.Response.Aeson (errorExtractor)
-import HTTP (requestIO)
 
 -- | Dump usage data in CSV format.
 dumpUsage :: String -> String -> IO ()
@@ -60,7 +60,7 @@ dumpUsage startTime endTime = do
 fetchUsages :: Manager -> Text -> A.Params -> IO [U.UsageAggregate]
 fetchUsages manager token params = do
     let req = A.request token params
-    res <- dieLeft =<< liftIO (requestIO manager errorExtractor req)
+    res <- dieLeft =<< liftIO (httpJson errorExtractor manager req)
 
     case res ^. AR.nextLink of
         Nothing -> return (res ^. AR.value)
@@ -74,4 +74,4 @@ fetchUsages manager token params = do
 fetchRateCard :: Manager -> Text -> G.Params -> IO GR.GetRateCardResponse
 fetchRateCard manager token params = do
     let req = G.request token params
-    dieLeft =<< liftIO (requestIO manager errorExtractor req)
+    dieLeft =<< liftIO (httpJson errorExtractor manager req)

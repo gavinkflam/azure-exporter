@@ -11,15 +11,18 @@ import Data.ByteString.Builder (toLazyByteString)
 import Data.Text (pack)
 import Data.Time.Clock (getCurrentTime)
 
+import Control.Lens ((^.))
 import Web.Scotty.Trans (param, raw)
 
 import Auth (getTokenOrRaise, refreshTokenIfExpired)
-import Control.Monad.AppEnvSTM (liftSTM)
+import Control.Monad.AppEnvSTM (liftSTM, readAppEnv)
 import Control.Monad.Either (raiseLeft)
+import Control.Monad.Network.HttpM (httpJson)
+import qualified Data.App.AppEnv as E
 import qualified Data.Monitor.ListMetricValuesRequest as M
 import qualified Data.Monitor.ListMetricValuesResponse as Lr
+import Data.OAuth2.AcquireAccessTokenRequest as AT
 import Data.Prometheus.Gauge (renderGauges)
-import HTTP (request)
 import Text.Monitor.Timespan (timespanFrom)
 import Types (AppAction)
 
@@ -38,5 +41,7 @@ metrics = do
           , M._resourceId  = target
           , M._timespan    = pack $ timespanFrom now 150 90
           }
-    metrics' <- raiseLeft =<< liftSTM (request $ M.request token params)
+        req    = M.request token params
+    manager  <- liftSTM $ (^. E.httpManager) <$> readAppEnv
+    metrics' <- raiseLeft =<< liftIO (httpJson AT.errorExtractor manager req)
     raw $ toLazyByteString $ renderGauges $ Lr.toGauges metrics'

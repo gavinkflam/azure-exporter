@@ -21,25 +21,27 @@ import Network.HTTP.Client (Manager)
 import Control.Monad.AppEnvSTM
 import Control.Monad.Either (raiseLeft)
 import Control.Monad.Maybe (raiseIfNothing)
+import Control.Monad.Network.HttpM (HttpM, httpJson)
 import qualified Data.App.AccessToken as T
 import qualified Data.App.AppEnv as E
 import qualified Data.App.Config as C
 import Data.OAuth2.AcquireAccessTokenRequest as AT
 import qualified Data.OAuth2.AcquireAccessTokenResponse as R
-import HTTP (IOResponse, requestIO)
 import Types (AppAction)
 
 -- | Acquire a token from Azure with credentials in `Config`.
 --
 --   A HTTP `Manager` will be required.
-acquireToken :: C.Config -> Manager -> IOResponse R.AcquireAccessTokenResponse
+acquireToken
+    :: HttpM m
+    => C.Config -> Manager -> m (Either String R.AcquireAccessTokenResponse)
 acquireToken conf manager = do
     let params = AT.Params
           { AT._clientId     = conf ^. C.clientId
           , AT._clientSecret = conf ^. C.clientSecret
           , AT._tenantId     = conf ^. C.tenantId
           }
-    requestIO manager AT.errorExtractor $ AT.request params
+    httpJson AT.errorExtractor manager $ AT.request params
 
 -- | Get the auth token from the shared `AppEnv`, raise if not found.
 getTokenOrRaise :: AppAction Text
