@@ -14,7 +14,7 @@ import qualified Data.Text as T
 
 import Control.Lens ((<&>), (^.))
 
-import App.Billing.Cost (fetchUsageAndCostGauges)
+import App.Http.Billing (fetchUsageAndCostGauges)
 import Control.Monad.App.AppM (AppM)
 import Control.Monad.Fail.Trans (failNothing)
 import qualified Data.App.AccessToken as Ak

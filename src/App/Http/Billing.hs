@@ -1,4 +1,4 @@
-module App.Billing.Cost
+module App.Http.Billing
     (
       -- * Request
       fetchUsageAndCostGauges
