@@ -49,6 +49,5 @@ runPure res (Free (HttpLbs _ _ f)) = runPure res $ f res
 httpJson
     :: (FromJSON a, HttpM m)
     => ErrorHandler -> Manager -> Request -> m (Either String a)
-httpJson handler manager request = do
-    res <- httpLbs request manager
-    return $ mapEitherDecode handler res
+httpJson handler manager request =
+    mapEitherDecode handler <$> httpLbs request manager
