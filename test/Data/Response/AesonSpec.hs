@@ -81,12 +81,12 @@ nonErrorResponseJson = "{\"value\": 42}"
 -- | Construct a response from status code and body.
 response :: Status -> LBS.ByteString -> Response LBS.ByteString
 response s b = Response
-    { responseStatus = s
-    , responseVersion = http11
-    , responseHeaders = []
-    , responseBody = b
+    { responseStatus    = s
+    , responseVersion   = http11
+    , responseHeaders   = []
+    , responseBody      = b
     , responseCookieJar = mempty
-    , responseClose' = ResponseClose $ return ()
+    , responseClose'    = ResponseClose $ return ()
     }
 
 -- | Expected error message derived from `errorValueJson`.
