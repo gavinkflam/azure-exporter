@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- | Test HTTP request monad.
-module Control.Monad.Network.HttpMSpec
+module Control.Monad.Network.MonadHttpSpec
     (
       -- * Spec
       spec
@@ -14,9 +14,9 @@ import Network.HTTP.Types.Status (ok200)
 import Network.HTTP.Types.Version (http11)
 import Test.Hspec
 
-import Control.Monad.Network.HttpM (HttpM, httpLbs, runPure)
+import Control.Monad.Network.MonadHttp (MonadHttp, httpLbs, runPure)
 
--- | Spec for `HttpM`.
+-- | Spec for `MonadHttp`.
 spec :: Spec
 spec =
     describe "runPure" $
@@ -24,7 +24,7 @@ spec =
             runPure testResponse testSeq `shouldBe` testResponseBody
 
 -- | Test sequence to derive a text from environment variables.
-testSeq :: HttpM m => m LBS.ByteString
+testSeq :: MonadHttp m => m LBS.ByteString
 testSeq = responseBody <$> httpLbs undefined undefined
 
 -- | Test response JSON text.

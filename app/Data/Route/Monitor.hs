@@ -17,7 +17,7 @@ import Web.Scotty.Trans (param, raw)
 import Auth (getTokenOrRaise, refreshTokenIfExpired)
 import Control.Monad.AppEnvSTM (liftSTM, readAppEnv)
 import Control.Monad.Either (raiseLeft)
-import Control.Monad.Network.HttpM (httpJson)
+import Control.Monad.Network.MonadHttp (httpJson)
 import qualified Data.App.AppEnv as E
 import qualified Data.Monitor.ListMetricValuesRequest as M
 import qualified Data.Monitor.ListMetricValuesResponse as Lr

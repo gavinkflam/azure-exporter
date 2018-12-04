@@ -14,7 +14,7 @@ import Data.HashMap.Strict (HashMap, (!))
 import qualified Data.HashMap.Strict as HM
 import Test.Hspec
 
-import Control.Monad.System.EnvM (runPure)
+import Control.Monad.System.MonadEnv (runPure)
 import qualified Data.App.Config as Cf
 
 -- | Spec for `Config`.

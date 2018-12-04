@@ -24,7 +24,7 @@ import qualified Data.Text as T
 
 import Control.Lens (makeLenses)
 
-import Control.Monad.System.EnvM (EnvM, getEnv, lookupEnv)
+import Control.Monad.System.MonadEnv (MonadEnv, getEnv, lookupEnv)
 
 -- | Configurations for the application.
 data Config = Config
@@ -42,7 +42,7 @@ data Config = Config
 makeLenses ''Config
 
 -- | Construct configuration from environment variables.
-getConfig :: EnvM m => m Config
+getConfig :: MonadEnv m => m Config
 getConfig = do
     clientId'       <- T.pack <$> getEnv "CLIENT_ID"
     clientSecret'   <- T.pack <$> getEnv "CLIENT_SECRET"
@@ -67,5 +67,5 @@ getConfig = do
         }
 
 -- | Get an environment variable with a fallback default.
-getEnvDefault :: EnvM m => String -> String -> m String
+getEnvDefault :: MonadEnv m => String -> String -> m String
 getEnvDefault def k = fromMaybe def <$> lookupEnv k

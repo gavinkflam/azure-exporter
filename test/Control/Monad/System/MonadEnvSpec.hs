@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 -- | Test environment variables reading monad.
-module Control.Monad.System.EnvMSpec
+module Control.Monad.System.MonadEnvSpec
     (
       -- * Spec
       spec
@@ -13,9 +13,9 @@ import Data.HashMap.Strict (HashMap)
 import qualified Data.HashMap.Strict as HM
 import Test.Hspec
 
-import Control.Monad.System.EnvM (EnvM, getEnv, lookupEnv, runPure)
+import Control.Monad.System.MonadEnv (MonadEnv, getEnv, lookupEnv, runPure)
 
--- | Spec for `EnvM`.
+-- | Spec for `MonadEnv`.
 spec :: Spec
 spec =
     describe "runPure" $
@@ -23,7 +23,7 @@ spec =
             runPure testVars testSeq `shouldBe` expectedText
 
 -- | Test sequence to derive a text from environment variables.
-testSeq :: EnvM m => m String
+testSeq :: MonadEnv m => m String
 testSeq = do
     verb    <- getEnv "VERB"
     subject <- fromMaybe "nobody" <$> lookupEnv "SUBJECT"

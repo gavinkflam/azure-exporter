@@ -12,7 +12,7 @@ import Control.Lens ((^.))
 import Network.HTTP.Client (Manager)
 
 import Control.Monad.Fail.Trans (failLeft)
-import Control.Monad.Network.HttpM (HttpM, httpJson)
+import Control.Monad.Network.MonadHttp (MonadHttp, httpJson)
 import qualified Data.Billing.GetRateCardRequest as G
 import qualified Data.Billing.GetRateCardResponse as GR
 import qualified Data.Billing.ListUsageAggregatesRequest as A
@@ -23,7 +23,7 @@ import Data.Response.Aeson (errorExtractor)
 
 -- | Fetch usage aggregates and rete card from Azure, then derive the gauges.
 fetchUsageAndCostGauges
-    :: (HttpM m, MonadFail m)
+    :: (MonadHttp m, MonadFail m)
     => Manager -> Text -> A.Params -> G.Params -> m [Gauge]
 fetchUsageAndCostGauges manager token aParams gParams = do
     usages   <- fetchUsageAggregates manager token aParams
@@ -34,7 +34,7 @@ fetchUsageAndCostGauges manager token aParams gParams = do
 --
 --   If there is any continuation token, we will keep fetching until done.
 fetchUsageAggregates
-    :: (HttpM m, MonadFail m)
+    :: (MonadHttp m, MonadFail m)
     => Manager -> Text -> A.Params -> m [U.UsageAggregate]
 fetchUsageAggregates manager token params = do
     res <- failLeft =<< httpJson errorExtractor manager (A.request token params)
@@ -47,7 +47,7 @@ fetchUsageAggregates manager token params = do
 
 -- | Fetch rate card from Azure.
 fetchRateCard
-    :: (HttpM m, MonadFail m)
+    :: (MonadHttp m, MonadFail m)
     => Manager -> Text -> G.Params -> m GR.GetRateCardResponse
 fetchRateCard manager token params =
     failLeft =<< httpJson errorExtractor manager (G.request token params)

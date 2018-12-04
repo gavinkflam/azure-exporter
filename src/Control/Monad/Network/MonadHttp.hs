@@ -1,10 +1,10 @@
 {-# LANGUAGE DeriveFunctor, FlexibleInstances, TypeSynonymInstances #-}
 
 -- | HTTP request monad.
-module Control.Monad.Network.HttpM
+module Control.Monad.Network.MonadHttp
     (
       -- * Monad
-      HttpM (..)
+      MonadHttp (..)
       -- * Free Monad Interpreter
     , runPure
       -- * Json
@@ -21,33 +21,33 @@ import qualified Network.HTTP.Client as Ht
 import Data.Response.Aeson (ErrorHandler, mapEitherDecode)
 
 -- | HTTP request monad.
-class Monad m => HttpM m where
+class Monad m => MonadHttp m where
     httpLbs :: Request -> Manager -> m (Response LBS.ByteString)
 
--- | Implement `HttpM` as `IO`.
-instance HttpM IO where
+-- | Implement `MonadHttp` as `IO`.
+instance MonadHttp IO where
     httpLbs = Ht.httpLbs
 
 -- | HTTP request operations represented as functors.
-data FreeHttpMF x
+data FreeHttpF x
     = HttpLbs Request Manager (Response LBS.ByteString -> x)
     deriving Functor
 
 -- | HTTP request oprations contained as free monad.
-type FreeHttpM = Free FreeHttpMF
+type FreeHttp = Free FreeHttpF
 
--- | Translate `HttpM` to `FreeHttpM` free monad.
-instance HttpM FreeHttpM where
+-- | Translate `MonadHttp` to `FreeHttp` free monad.
+instance MonadHttp FreeHttp where
     httpLbs r m = liftF (HttpLbs r m id)
 
--- | Run `FreeHttpM` sequence with mocked response.
-runPure :: Response LBS.ByteString -> FreeHttpM a -> a
+-- | Run `FreeHttp` sequence with mocked response.
+runPure :: Response LBS.ByteString -> FreeHttp a -> a
 runPure _ (Pure x)                 = x
 runPure res (Free (HttpLbs _ _ f)) = runPure res $ f res
 
 -- | Run HTTP request and parse the response into error or `FromJson` data.
 httpJson
-    :: (FromJSON a, HttpM m)
+    :: (FromJSON a, MonadHttp m)
     => ErrorHandler -> Manager -> Request -> m (Either String a)
 httpJson handler manager request =
     mapEitherDecode handler <$> httpLbs request manager

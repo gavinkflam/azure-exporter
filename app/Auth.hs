@@ -21,7 +21,7 @@ import Network.HTTP.Client (Manager)
 import Control.Monad.AppEnvSTM
 import Control.Monad.Either (raiseLeft)
 import Control.Monad.Maybe (raiseIfNothing)
-import Control.Monad.Network.HttpM (HttpM, httpJson)
+import Control.Monad.Network.MonadHttp (MonadHttp, httpJson)
 import qualified Data.App.AccessToken as T
 import qualified Data.App.AppEnv as E
 import qualified Data.App.Config as C
@@ -33,7 +33,7 @@ import Types (AppAction)
 --
 --   A HTTP `Manager` will be required.
 acquireToken
-    :: HttpM m
+    :: MonadHttp m
     => C.Config -> Manager -> m (Either String R.AcquireAccessTokenResponse)
 acquireToken conf manager = do
     let params = AT.Params
