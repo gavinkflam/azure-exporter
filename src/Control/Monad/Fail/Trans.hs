@@ -1,3 +1,4 @@
+-- | Error capturing and value extraction with `MonadFail`.
 module Control.Monad.Fail.Trans
     (
       -- * Either
