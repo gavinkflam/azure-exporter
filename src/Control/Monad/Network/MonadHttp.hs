@@ -44,12 +44,13 @@ instance MonadHttp FreeHttp where
     httpLbs r m = liftF (HttpLbs r m id)
 
 -- | Run `FreeHttp` sequence with mocked response.
-runPure :: HashMap String (Response LBS.ByteString) -> FreeHttp a -> a
+runPure :: HashMap String [Response LBS.ByteString] -> FreeHttp a -> a
 runPure _ (Pure x)                 = x
 runPure m (Free (HttpLbs req _ f)) =
     case HM.lookup path m of
-        Just res -> runPure m $ f res
-        Nothing  -> error $ "no responses matched for path " <> path
+        Just (r:rs) -> runPure (HM.insert path rs m) $ f r
+        Just []     -> error $ "no responses left for path " <> path
+        Nothing     -> error $ "no responses matched for path " <> path
   where
     protocol = if Ht.secure req then "https://" else "http://"
     path     = protocol <> C.unpack (Ht.host req <> Ht.path req)
