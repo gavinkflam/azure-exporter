@@ -11,6 +11,7 @@ module Control.Monad.Network.MonadHttp
     , httpJson
     ) where
 
+import Control.Monad.IO.Class (liftIO)
 import qualified Data.ByteString.Char8 as C
 import qualified Data.ByteString.Lazy as LBS
 
@@ -21,15 +22,20 @@ import qualified Data.HashMap.Strict as HM
 import Network.HTTP.Client (Manager, Request, Response)
 import qualified Network.HTTP.Client as Ht
 
+import Control.Monad.App.AppM (AppM)
 import Data.Response.Aeson (ErrorHandler, mapEitherDecode)
 
 -- | HTTP request monad.
 class Monad m => MonadHttp m where
     httpLbs :: Request -> Manager -> m (Response LBS.ByteString)
 
--- | Implement `MonadHttp` as `IO`.
+-- | Implement `MonadHttp` for `IO`.
 instance MonadHttp IO where
     httpLbs = Ht.httpLbs
+
+-- | Implement `MonadHttp` for `AppM`.
+instance MonadHttp AppM where
+    httpLbs r m = liftIO $ Ht.httpLbs r m
 
 -- | HTTP request operations represented as functors.
 data FreeHttpF x

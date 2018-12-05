@@ -2,19 +2,23 @@ module Main where
 
 import Control.Monad.IO.Class (liftIO)
 import Control.Monad.Reader (runReaderT)
+import Data.Tuple.Curry (uncurryN)
 import System.Environment (getArgs)
 import System.Exit (die)
 
 import Network.HTTP.Client (newManager)
 import Network.HTTP.Client.TLS (tlsManagerSettings)
 
+import App.Action.Gauge (dumpGauges)
+import qualified App.Arg.Billing as Arb
+import qualified App.Http.Billing as Htb
 import Auth (acquireToken)
+import Control.Monad.App.AppM (AppM)
 import Control.Monad.Either (dieLeft)
 import qualified Data.App.AccessToken as Ak
 import qualified Data.App.AppEnv as En
 import qualified Data.App.Config as Cf
 import Server (runServer)
-import UsageDump (dumpUsage)
 
 -- | Entry point for Azure exporter executable.
 main :: IO ()
@@ -24,8 +28,14 @@ main = do
 
     case args of
         ["server"]             -> runServer
-        ["dump-usage", t1, t2] -> runReaderT (dumpUsage t1 t2) appEnv
+        ["dump-usage", t1, t2] -> runReaderT (dumpBillingGauges t1 t2) appEnv
         _                      -> die $ argsError args
+
+-- | Dump usage and cost gauges to stdout.
+dumpBillingGauges :: String -> String -> AppM ()
+dumpBillingGauges startTime endTime = do
+    args <- Arb.assembleArgs startTime endTime
+    dumpGauges =<< uncurryN Htb.fetchGauges args
 
 -- | Construct `AppEnv` from environment variables and making HTTP request.
 constructAppEnv :: IO En.AppEnv

@@ -1,7 +1,7 @@
 module App.Http.Billing
     (
       -- * Request
-      fetchUsageAndCostGauges
+      fetchGauges
     ) where
 
 import Control.Monad.Fail (MonadFail)
@@ -22,10 +22,10 @@ import Data.Prometheus.Gauge (Gauge)
 import Data.Response.Aeson (errorExtractor)
 
 -- | Fetch usage aggregates and rete card from Azure, then derive the gauges.
-fetchUsageAndCostGauges
+fetchGauges
     :: (MonadHttp m, MonadFail m)
     => Manager -> Text -> A.Params -> G.Params -> m [Gauge]
-fetchUsageAndCostGauges manager token aParams gParams = do
+fetchGauges manager token aParams gParams = do
     usages   <- fetchUsageAggregates manager token aParams
     rateCard <- fetchRateCard manager token gParams
     return $ sort $ U.toGauges rateCard usages

@@ -1,32 +1,31 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE FlexibleContexts, OverloadedStrings #-}
 
-module UsageDump
+module App.Arg.Billing
     (
       -- * Usage
-      dumpUsage
+      assembleArgs
     ) where
 
-import Control.Monad.IO.Class (liftIO)
-import Control.Monad.Reader (ask)
-import qualified Data.ByteString.Lazy as LBS
+import Control.Monad.Fail (MonadFail)
+import Control.Monad.Reader (MonadReader, ask)
 import Data.Text (Text)
 import qualified Data.Text as T
 
 import Control.Lens ((<&>), (^.))
+import Network.HTTP.Client (Manager)
 
-import App.Http.Billing (fetchUsageAndCostGauges)
-import Control.Monad.App.AppM (AppM)
 import Control.Monad.Fail.Trans (failNothing)
 import qualified Data.App.AccessToken as Ak
 import qualified Data.App.AppEnv as En
 import qualified Data.App.Config as Cf
 import qualified Data.Billing.GetRateCardRequest as G
 import qualified Data.Billing.ListUsageAggregatesRequest as A
-import Data.Csv.IncrementMod (encodeNamedRecords)
 
--- | Dump usage data in CSV format.
-dumpUsage :: String -> String -> AppM ()
-dumpUsage startTime endTime = do
+-- | Assemble the arguments for fetching billing gauges.
+assembleArgs
+    :: (MonadFail m, MonadReader En.AppEnv m)
+    => String -> String -> m (Manager, Text, A.Params, G.Params)
+assembleArgs startTime endTime = do
     env   <- ask
     token <- failNothing "token not found" $
         (env ^. En.accessToken) <&> (^. Ak.token)
@@ -36,8 +35,7 @@ dumpUsage startTime endTime = do
         aParams = usagesParams config (T.pack startTime) (T.pack endTime)
         gParams = rateCardParams config
 
-    gauges <- liftIO $ fetchUsageAndCostGauges manager token aParams gParams
-    liftIO $ LBS.putStr $ encodeNamedRecords gauges
+    return (manager, token, aParams, gParams)
 
 -- | Construct params for `UsageAggregateRequest`.
 usagesParams :: Cf.Config -> Text -> Text -> A.Params
