@@ -11,10 +11,13 @@ module Control.Monad.Network.MonadHttp
     , httpJson
     ) where
 
+import qualified Data.ByteString.Char8 as C
 import qualified Data.ByteString.Lazy as LBS
 
 import Control.Monad.Free (Free(..), liftF)
 import Data.Aeson (FromJSON)
+import Data.HashMap.Strict (HashMap)
+import qualified Data.HashMap.Strict as HM
 import Network.HTTP.Client (Manager, Request, Response)
 import qualified Network.HTTP.Client as Ht
 
@@ -41,9 +44,15 @@ instance MonadHttp FreeHttp where
     httpLbs r m = liftF (HttpLbs r m id)
 
 -- | Run `FreeHttp` sequence with mocked response.
-runPure :: Response LBS.ByteString -> FreeHttp a -> a
+runPure :: HashMap String (Response LBS.ByteString) -> FreeHttp a -> a
 runPure _ (Pure x)                 = x
-runPure res (Free (HttpLbs _ _ f)) = runPure res $ f res
+runPure m (Free (HttpLbs req _ f)) =
+    case HM.lookup path m of
+        Just res -> runPure m $ f res
+        Nothing  -> error $ "no responses matched for path " <> path
+  where
+    protocol = if Ht.secure req then "https://" else "http://"
+    path     = protocol <> C.unpack (Ht.host req <> Ht.path req)
 
 -- | Run HTTP request and parse the response into error or `FromJson` data.
 httpJson
