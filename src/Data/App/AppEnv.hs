@@ -10,6 +10,7 @@ module Data.App.AppEnv
     , httpManager
     ) where
 
+import Control.Concurrent.STM.TVar (TVar)
 import Control.Lens (makeLenses)
 import Network.HTTP.Client (Manager)
 
@@ -18,7 +19,7 @@ import Data.App.Config (Config)
 
 -- | The shared application state for actions to persist cachable information.
 data AppEnv = AppEnv
-    { _accessToken :: Maybe AccessToken
+    { _accessToken :: {-# UNPACK #-} !(TVar AccessToken)
     , _config      :: {-# UNPACK #-} !Config
     , _httpManager :: {-# UNPACK #-} !Manager
     }

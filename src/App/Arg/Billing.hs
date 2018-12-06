@@ -6,15 +6,14 @@ module App.Arg.Billing
       assembleArgs
     ) where
 
-import Control.Monad.Fail (MonadFail)
 import Control.Monad.Reader (MonadReader, ask)
 import Data.Text (Text)
 import qualified Data.Text as T
 
-import Control.Lens ((<&>), (^.))
+import Control.Lens ((^.))
 import Network.HTTP.Client (Manager)
 
-import Control.Monad.Fail.Trans (failNothing)
+import Control.Monad.STM.Class (MonadTVarReader(..))
 import qualified Data.App.AccessToken as Ak
 import qualified Data.App.AppEnv as En
 import qualified Data.App.Config as Cf
@@ -23,19 +22,18 @@ import qualified Data.Billing.ListUsageAggregatesRequest as A
 
 -- | Assemble the arguments for fetching billing gauges.
 assembleArgs
-    :: (MonadFail m, MonadReader En.AppEnv m)
+    :: (MonadReader En.AppEnv m, MonadTVarReader m)
     => String -> String -> m (Manager, Text, A.Params, G.Params)
 assembleArgs startTime endTime = do
     env   <- ask
-    token <- failNothing "token not found" $
-        (env ^. En.accessToken) <&> (^. Ak.token)
+    token <- readTVar (env ^. En.accessToken)
 
     let config  = env ^. En.config
         manager = env ^. En.httpManager
         aParams = usagesParams config (T.pack startTime) (T.pack endTime)
         gParams = rateCardParams config
 
-    return (manager, token, aParams, gParams)
+    return (manager, token ^. Ak.token, aParams, gParams)
 
 -- | Construct params for `UsageAggregateRequest`.
 usagesParams :: Cf.Config -> Text -> Text -> A.Params
