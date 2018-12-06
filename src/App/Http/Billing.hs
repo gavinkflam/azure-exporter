@@ -23,7 +23,7 @@ import Data.Response.Aeson (errorExtractor)
 
 -- | Fetch usage aggregates and rete card from Azure, then derive the gauges.
 fetchGauges
-    :: (MonadHttp m, MonadFail m)
+    :: (MonadFail m, MonadHttp m)
     => Manager -> Text -> A.Params -> G.Params -> m [Gauge]
 fetchGauges manager token aParams gParams = do
     usages   <- fetchUsageAggregates manager token aParams
@@ -34,7 +34,7 @@ fetchGauges manager token aParams gParams = do
 --
 --   If there is any continuation token, we will keep fetching until done.
 fetchUsageAggregates
-    :: (MonadHttp m, MonadFail m)
+    :: (MonadFail m, MonadHttp m)
     => Manager -> Text -> A.Params -> m [U.UsageAggregate]
 fetchUsageAggregates manager token params = do
     res <- failLeft =<< httpJson errorExtractor manager (A.request token params)
@@ -47,7 +47,7 @@ fetchUsageAggregates manager token params = do
 
 -- | Fetch rate card from Azure.
 fetchRateCard
-    :: (MonadHttp m, MonadFail m)
+    :: (MonadFail m, MonadHttp m)
     => Manager -> Text -> G.Params -> m GR.GetRateCardResponse
 fetchRateCard manager token params =
     failLeft =<< httpJson errorExtractor manager (G.request token params)

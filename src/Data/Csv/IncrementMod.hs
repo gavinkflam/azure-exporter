@@ -17,7 +17,7 @@ import qualified Data.Vector as V
 import Data.Csv.ToHeader (ToHeader, toHeader)
 
 -- | Encode named records with support for varying headers.
-encodeNamedRecords :: (ToNamedRecord a, ToHeader a) => [a] -> ByteString
+encodeNamedRecords :: (ToHeader a, ToNamedRecord a) => [a] -> ByteString
 encodeNamedRecords xs =
     encode $ headerRow <> fBuild headers xs
   where

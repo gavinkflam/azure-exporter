@@ -31,11 +31,10 @@ main = do
         ["dump-usage", t1, t2] -> runReaderT (dumpBillingGauges t1 t2) appEnv
         _                      -> die $ argsError args
 
--- | Dump usage and cost gauges to stdout.
+-- | Dump billing gauges to stdout.
 dumpBillingGauges :: String -> String -> AppM ()
-dumpBillingGauges startTime endTime = do
-    args <- Arb.assembleArgs startTime endTime
-    dumpGauges =<< uncurryN Htb.fetchGauges args
+dumpBillingGauges t1 t2 =
+    dumpGauges =<< uncurryN Htb.fetchGauges =<< Arb.assembleArgs t1 t2
 
 -- | Construct `AppEnv` from environment variables and making HTTP request.
 constructAppEnv :: IO En.AppEnv

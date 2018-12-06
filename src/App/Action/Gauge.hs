@@ -10,6 +10,6 @@ import qualified Data.ByteString.Lazy as LBS
 import Data.Csv.IncrementMod (encodeNamedRecords)
 import Data.Prometheus.Gauge (Gauge)
 
--- | Dump usage data in CSV format.
+-- | Dump gauges in CSV format.
 dumpGauges :: MonadIO m => [Gauge] -> m ()
 dumpGauges = liftIO . LBS.putStr . encodeNamedRecords
