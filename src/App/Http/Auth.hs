@@ -1,4 +1,4 @@
-module App.Action.Auth
+module App.Http.Auth
     (
       refreshTokenIfExpired
     , refreshToken

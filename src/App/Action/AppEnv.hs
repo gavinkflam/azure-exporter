@@ -6,7 +6,7 @@ module App.Action.AppEnv
 
 import Control.Concurrent.STM.TVar (newTVarIO)
 
-import App.Action.Auth (refreshToken)
+import App.Http.Auth (refreshToken)
 import qualified Data.App.AppEnv as En
 import qualified Data.App.Config as Cf
 import Network.HTTP.Client (newManager)

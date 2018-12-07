@@ -1,7 +1,7 @@
 {-# LANGUAGE FlexibleInstances, MultiParamTypeClasses, TypeSynonymInstances #-}
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
-module Types
+module Control.Monad.App.AppAction
     (
       -- * Types
       AppAction
@@ -11,6 +11,7 @@ import qualified Control.Concurrent.STM.TVar as Tv
 import Control.Monad.IO.Class (liftIO)
 import Control.Monad.Reader (MonadReader)
 import qualified Control.Monad.Reader as Rd
+import Control.Monad.STM (atomically)
 import qualified Data.Text.Lazy as LT
 import qualified Data.Time.Clock.System as Cl
 
@@ -19,7 +20,7 @@ import Web.Scotty.Trans (ActionT)
 
 import Control.Monad.App.AppM (AppM)
 import Control.Monad.Network.MonadHttp (MonadHttp(..))
-import Control.Monad.STM.Class (MonadTVarReader(..))
+import Control.Monad.STM.Class (MonadTVarReader(..), MonadTVarWriter(..))
 import Control.Monad.System.MonadTime (MonadTime(..))
 import Data.App.AppEnv (AppEnv)
 
@@ -39,6 +40,10 @@ instance (MonadReader AppEnv) AppAction where
 -- | Implement `MonadTVarReader` for `AppAction`.
 instance MonadTVarReader AppAction where
     readTVar = liftIO . Tv.readTVarIO
+
+-- | Implement `MonadTVarWriter` for `AppAction`.
+instance MonadTVarWriter AppAction where
+    writeTVar var new = liftIO $ atomically $ Tv.writeTVar var new
 
 -- | Implement `MonadTime` for `AppAction`.
 instance MonadTime AppAction where
