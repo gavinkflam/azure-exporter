@@ -33,7 +33,7 @@ instance MonadHttp AppAction where
 
 -- | Implement `MonadReader` for `AppAction`.
 instance (MonadReader AppEnv) AppAction where
-    ask    = Rd.ask
+    ask    = Rd.lift Rd.ask
     local  = Rd.local
     reader = Rd.reader
 
