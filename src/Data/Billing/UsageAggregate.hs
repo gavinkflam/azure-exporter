@@ -71,20 +71,20 @@ usageAggregateToGauges currency meters usage = catMaybes
     namePrefix = gaugeNamePrefix usage
     baseLabels = baseGaugeLabels usage
     quantity   = usage ^. (properties . Ap.quantity)
-    endTime    = usage ^. (properties . Ap.usageEndTime)
+    startTime  = usage ^. (properties . Ap.usageStartTime)
     usageGauge = G.Gauge
         { G._name   = namePrefix <> "_usage"
         , G._help   = namePrefix <> "_usage"
         , G._labels = baseLabels
         , G._value  = quantity
-        , G._time   = Just endTime
+        , G._time   = Just startTime
         }
     costGauge m = G.Gauge
         { G._name   = namePrefix <> "_cost"
         , G._help   = namePrefix <> "_cost"
         , G._labels = baseLabels ++ costGaugeLabels currency m
         , G._value  = quantity * resolveUnitCost m
-        , G._time   = Just endTime
+        , G._time   = Just startTime
         }
 
 -- | Derive gauge name prefix from `UsageAggregate`.
