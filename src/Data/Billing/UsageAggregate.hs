@@ -116,7 +116,7 @@ baseGaugeLabels u =
     ++ maybe [] instanceDataLabels (p ^. Ap.instanceData)
   where
     p    = u ^. properties
-    time = p ^. Ap.usageEndTime
+    time = p ^. Ap.usageStartTime
 
 -- | Resolve the unit cost from `Meter`.
 --
