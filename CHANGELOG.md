@@ -9,6 +9,10 @@
 * TODO: Organize imports and dependencies.
 * TODO: Review and optimize implementations.
 
+## 0.4.2 (10 Dec 2018)
+
+* Updated tests for billing gauge time and time labels changes.
+
 ## 0.4.1 (10 Dec 2018)
 
 * Changed billing gauge time labels to derive from usage start time.
