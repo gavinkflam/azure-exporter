@@ -9,6 +9,10 @@
 * TODO: Organize imports and dependencies.
 * TODO: Review and optimize implementations.
 
+## 0.4.3 (10 Dec 2018)
+
+* Fixed binary copying for Docker image build.
+
 ## 0.4.2 (10 Dec 2018)
 
 * Updated tests for billing gauge time and time labels changes.

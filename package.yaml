@@ -1,5 +1,5 @@
 name:                azure-exporter
-version:             0.4.2
+version:             0.4.3
 git:                 "https://gitlab.com/gavinkflam/azure-exporter.git"
 license:             MIT
 author:              "Gavin Lam"
