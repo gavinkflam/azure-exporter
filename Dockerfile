@@ -33,7 +33,7 @@ RUN \
 
 # Copy compiled binary from builder
 COPY --from=builder \
-  /opt/azure-exporter/.stack-work/install/x86_64-linux/lts-12.10/8.4.3/bin \
+  /opt/azure-exporter/.stack-work/install/x86_64-linux/lts-12.18/8.4.4/bin \
   /opt/azure-exporter
 
 WORKDIR /opt/azure-exporter
