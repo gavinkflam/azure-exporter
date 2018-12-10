@@ -132,14 +132,14 @@ expectedGauges =
         , G._help   = (testTexts ! "g1NamePrefix") <> "_usage"
         , G._labels = g1Labels
         , G._value  = read $ T.unpack $ testTexts ! "up1Quantity"
-        , G._time   = Just up1EndTime
+        , G._time   = Just up1StartTime
         }
     , G.Gauge
         { G._name   = (testTexts ! "g1NamePrefix") <> "_cost"
         , G._help   = (testTexts ! "g1NamePrefix") <> "_cost"
         , G._labels = g1CostLabels
         , G._value  = read $ T.unpack $ testTexts ! "g1Cost"
-        , G._time   = Just up1EndTime
+        , G._time   = Just up1StartTime
         }
     ]
 
@@ -236,7 +236,7 @@ testTexts = HM.fromList
     , ("g1Year",               "2018")
     , ("g1Month",              "06")
     , ("g1YearMonth",          "2018-06")
-    , ("g1Date",               "2018-06-10")
+    , ("g1Date",               "2018-06-09")
     ]
   where
     ua1Name            = "Daily_BRSDT_20180601_0000"
