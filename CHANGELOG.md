@@ -1,15 +1,26 @@
 # Change Log and Release Notes
 
-## 0.4.0 (Planned)
+## 0.5.0 (Planned)
 
-* TODO: Add more tests.
 * TODO: Add man page.
 * TODO: Add usage exporter.
 * TODO: Dedup tag labels with the same name after sanitization.
 * TODO: Calculate accurate costs with regard to usage quantities.
-* TODO: Unify exporter and usage dump architecture.
-* TODO: Organize imports and coding style.
+* TODO: Organize imports and dependencies.
 * TODO: Review and optimize implementations.
+
+## 0.4.0 (10 Dec 2018)
+
+* Unified exporter and gauges dump with ReaderT stack.
+* Introduced mtl-style typeclasses to organize effects.
+* Organized imports and standardized coding style.
+* Reviewed and revamped various modules.
+* Added and improved tests for various modules.
+* Changed billing gauge time to usage start time.
+
+## 0.3.1 (16 Nov 2018)
+
+* Increased request timeout for getting rate card
 
 ## 0.3.0 (14 Nov 2018)
 
