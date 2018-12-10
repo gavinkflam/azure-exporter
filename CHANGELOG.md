@@ -9,6 +9,10 @@
 * TODO: Organize imports and dependencies.
 * TODO: Review and optimize implementations.
 
+## 0.4.1 (10 Dec 2018)
+
+* Changed billing gauge time labels to derive from usage start time.
+
 ## 0.4.0 (10 Dec 2018)
 
 * Unified exporter and gauges dump with ReaderT stack.
