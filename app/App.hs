@@ -13,9 +13,11 @@ import Network.Wai.Middleware.RequestLogger (logStdout)
 import Web.Scotty.Trans (ScottyT, get, middleware)
 
 import qualified Data.Route.Monitor as M
+import qualified Data.Route.Ping as V
 
 -- | Scotty application for the exporter HTTP server.
 app :: ScottyT Text AppM ()
 app = do
     middleware logStdout
-    get "/monitor/metrics" M.metrics  -- Monitor
+    get "/monitor/metrics" M.metrics
+    get "/ping" V.ping
