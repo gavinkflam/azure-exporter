@@ -15,16 +15,14 @@ module Data.Prometheus.Gauge
     ) where
 
 import Data.ByteString.Builder (Builder, byteString, string8)
-import Data.List (elemIndex, intersperse)
+import Data.List (intersperse)
 import Data.Text (Text)
-import Data.Text.Encoding (encodeUtf8, encodeUtf8Builder)
+import Data.Text.Encoding (encodeUtf8Builder)
 
 import Control.Lens (makeLenses, (^.))
-import Data.Csv (ToNamedRecord, namedRecord, toNamedRecord, (.=))
 import Data.Scientific (Scientific)
 import Data.Time.Clock (UTCTime)
 
-import Data.Csv.ToHeader (ToHeader, comparison, header)
 import Text.Scientific (showFixed)
 import Text.Time (formatTime)
 
@@ -40,35 +38,6 @@ data Gauge = Gauge
     } deriving (Eq, Show)
 
 makeLenses ''Gauge
-
--- | Convert gauge to a csv record.
-instance ToNamedRecord Gauge where
-    toNamedRecord g = namedRecord $
-        [ "series"    .= (g ^. name)
-        , "value"     .= showFixed (g ^. value)
-        , "timestamp" .= fmap (formatTime "%s") (g ^. time)
-        ]
-        ++ map fLabel (g ^. labels)
-      where
-        fLabel (k, v)  = encodeUtf8 ("label_" <> k) .= v
-
--- | Extract the csv column header from a gauge.
---
---   'series', 'value' and 'timestamp' columns should go first.
---   Label names were prefixed with 'label_' and come next in alphabetical order.
-instance ToHeader Gauge where
-    header g =
-        ["series", "value", "timestamp"] ++ map fName (g ^. labels)
-      where
-        fName (k, _) = encodeUtf8 $ "label_" <> k
-    comparison _ x y =
-        case (elemIndex x ls, elemIndex y ls) of
-          (Just ix, Just iy) -> if ix < iy then LT else GT
-          (Just _ , Nothing) -> LT
-          (Nothing, Just _)  -> GT
-          _                  -> compare x y
-      where
-        ls = ["series", "value", "timestamp"]
 
 -- | Order gauges by time.
 instance Ord Gauge where
