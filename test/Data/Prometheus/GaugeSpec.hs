@@ -96,7 +96,7 @@ simpleTestGauges =
             [ ("quantile", "0.01")
             ]
         , G._value  = 3102
-        , G._time   = Nothing
+        , G._time   = Just testTime
         }
     , G.Gauge
         { G._name   = "rpc_duration_seconds"
@@ -105,7 +105,7 @@ simpleTestGauges =
             [ ("quantile", "0.05")
             ]
         , G._value  = 3272
-        , G._time   = Nothing
+        , G._time   = Just testTime
         }
     , G.Gauge
         { G._name   = "rpc_duration_seconds"
@@ -114,7 +114,7 @@ simpleTestGauges =
             [ ("quantile", "0.5")
             ]
         , G._value  = 4773
-        , G._time   = Nothing
+        , G._time   = Just testTime
         }
     , G.Gauge
         { G._name   = "rpc_duration_seconds"
@@ -123,14 +123,14 @@ simpleTestGauges =
             [ ("quantile", "0.9")
             ]
         , G._value  = 9001
-        , G._time   = Nothing
+        , G._time   = Just testTime
         }
     , G.Gauge
         { G._name   = "rpc_duration_seconds_sum"
         , G._help   = "Sum of RPC duration in seconds."
         , G._labels = []
         , G._value  = read "1.7560473e7"
-        , G._time   = Nothing
+        , G._time   = Just testTime
         }
     ]
 
@@ -207,23 +207,23 @@ expectedSimpleTestGaugesExpositionText :: LBS.ByteString
 expectedSimpleTestGaugesExpositionText = LBS.intercalate "\n"
     [ "# HELP rpc_duration_seconds RPC duration in seconds."
     , "# TYPE rpc_duration_seconds gauge"
-    , "rpc_duration_seconds{quantile=\"0.01\"} 3102.0"
+    , "rpc_duration_seconds{quantile=\"0.01\"} 3102.0 1530000000"
     , ""
     , "# HELP rpc_duration_seconds RPC duration in seconds."
     , "# TYPE rpc_duration_seconds gauge"
-    , "rpc_duration_seconds{quantile=\"0.05\"} 3272.0"
+    , "rpc_duration_seconds{quantile=\"0.05\"} 3272.0 1530000000"
     , ""
     , "# HELP rpc_duration_seconds RPC duration in seconds."
     , "# TYPE rpc_duration_seconds gauge"
-    , "rpc_duration_seconds{quantile=\"0.5\"} 4773.0"
+    , "rpc_duration_seconds{quantile=\"0.5\"} 4773.0 1530000000"
     , ""
     , "# HELP rpc_duration_seconds RPC duration in seconds."
     , "# TYPE rpc_duration_seconds gauge"
-    , "rpc_duration_seconds{quantile=\"0.9\"} 9001.0"
+    , "rpc_duration_seconds{quantile=\"0.9\"} 9001.0 1530000000"
     , ""
     , "# HELP rpc_duration_seconds_sum Sum of RPC duration in seconds."
     , "# TYPE rpc_duration_seconds_sum gauge"
-    , "rpc_duration_seconds_sum 1.7560473e7"
+    , "rpc_duration_seconds_sum 17560473.0 1530000000"
     ]
 
 -- | Convert `Text` to lazy `ByteString`.
