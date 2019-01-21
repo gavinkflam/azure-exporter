@@ -107,7 +107,8 @@ renderGauge g = mconcat
     , encodeUtf8Builder (g ^. name)
     , renderLabels (g ^. labels)
     , byteString " "
-    , string8 $ show (g ^. value)
+    , string8 $ showFixed (g ^. value)
+    , maybe "" (string8 . formatTime " %s") (g ^. time)
     ]
 
 -- | Output labels as metric exposition text.
