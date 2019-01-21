@@ -1,9 +1,13 @@
 # Change Log and Release Notes
 
-## 0.5.0 (Planned)
+## 1.0.0 (Planned)
 
-* TODO: Add man page.
-* TODO: Add usage exporter.
+* Added ping endpoint to test service status.
+* Removed CSV and usage dumping modules.
+* Added route for fetching billing metrics.
+* TODO: Remove lens.
+* TODO: Reduce TTFB for fetching billing metrics.
+* TODO: Add instructions for starting application.
 * TODO: Dedup tag labels with the same name after sanitization.
 * TODO: Calculate accurate costs with regard to usage quantities.
 * TODO: Organize imports and dependencies.
