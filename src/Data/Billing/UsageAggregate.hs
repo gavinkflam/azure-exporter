@@ -154,4 +154,4 @@ resourceInfoLabels n m =
 
 -- | Construct a meters lookup map indexed by meter ID for efficient searching.
 indexMeters :: [M.Meter] -> HashMap Text M.Meter
-indexMeters = H.fromList . map (\m -> (M.meterId m, m))
+indexMeters ms = H.fromList $ zip (map M.meterId ms) ms
