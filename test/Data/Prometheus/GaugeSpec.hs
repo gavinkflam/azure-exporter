@@ -29,47 +29,47 @@ spec =
 simpleTestGauges :: [G.Gauge]
 simpleTestGauges =
     [ G.Gauge
-        { G._name   = "rpc_duration_seconds"
-        , G._help   = "RPC duration in seconds."
-        , G._labels =
+        { G.name   = "rpc_duration_seconds"
+        , G.help   = "RPC duration in seconds."
+        , G.labels =
             [ ("quantile", "0.01")
             ]
-        , G._value  = 3102
-        , G._time   = Just testTime
+        , G.value  = 3102
+        , G.time   = Just testTime
         }
     , G.Gauge
-        { G._name   = "rpc_duration_seconds"
-        , G._help   = "RPC duration in seconds."
-        , G._labels =
+        { G.name   = "rpc_duration_seconds"
+        , G.help   = "RPC duration in seconds."
+        , G.labels =
             [ ("quantile", "0.05")
             ]
-        , G._value  = 3272
-        , G._time   = Just testTime
+        , G.value  = 3272
+        , G.time   = Just testTime
         }
     , G.Gauge
-        { G._name   = "rpc_duration_seconds"
-        , G._help   = "RPC duration in seconds."
-        , G._labels =
+        { G.name   = "rpc_duration_seconds"
+        , G.help   = "RPC duration in seconds."
+        , G.labels =
             [ ("quantile", "0.5")
             ]
-        , G._value  = 4773
-        , G._time   = Just testTime
+        , G.value  = 4773
+        , G.time   = Just testTime
         }
     , G.Gauge
-        { G._name   = "rpc_duration_seconds"
-        , G._help   = "RPC duration in seconds."
-        , G._labels =
+        { G.name   = "rpc_duration_seconds"
+        , G.help   = "RPC duration in seconds."
+        , G.labels =
             [ ("quantile", "0.9")
             ]
-        , G._value  = 9001
-        , G._time   = Just testTime
+        , G.value  = 9001
+        , G.time   = Just testTime
         }
     , G.Gauge
-        { G._name   = "rpc_duration_seconds_sum"
-        , G._help   = "Sum of RPC duration in seconds."
-        , G._labels = []
-        , G._value  = read "1.7560473e7"
-        , G._time   = Just testTime
+        { G.name   = "rpc_duration_seconds_sum"
+        , G.help   = "Sum of RPC duration in seconds."
+        , G.labels = []
+        , G.value  = read "1.7560473e7"
+        , G.time   = Just testTime
         }
     ]
 

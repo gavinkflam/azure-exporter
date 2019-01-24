@@ -69,29 +69,29 @@ testVars2 = HM.fromList
 -- | Expected config for `testVars1`.
 expectedConfig1 :: Cf.Config
 expectedConfig1 = Cf.Config
-    { Cf._clientId       = T.pack $ testTexts ! "CLIENT_ID"
-    , Cf._clientSecret   = T.pack $testTexts ! "CLIENT_SECRET"
-    , Cf._port           = read $ testTexts ! "PORT"
-    , Cf._subscriptionId = T.pack $ testTexts ! "SUBSCRIPTION_ID"
-    , Cf._tenantId       = T.pack $ testTexts ! "TENANT_ID"
-    , Cf._offerId        = T.pack $ testTexts ! "OFFER_ID"
-    , Cf._currency       = T.pack $ testTexts ! "CURRENCY"
-    , Cf._locale         = T.pack $ testTexts ! "LOCALE"
-    , Cf._regionInfo     = T.pack $ testTexts ! "REGION_INFO"
+    { Cf.clientId       = T.pack $ testTexts ! "CLIENT_ID"
+    , Cf.clientSecret   = T.pack $testTexts ! "CLIENT_SECRET"
+    , Cf.port           = read $ testTexts ! "PORT"
+    , Cf.subscriptionId = T.pack $ testTexts ! "SUBSCRIPTION_ID"
+    , Cf.tenantId       = T.pack $ testTexts ! "TENANT_ID"
+    , Cf.offerId        = T.pack $ testTexts ! "OFFER_ID"
+    , Cf.currency       = T.pack $ testTexts ! "CURRENCY"
+    , Cf.locale         = T.pack $ testTexts ! "LOCALE"
+    , Cf.regionInfo     = T.pack $ testTexts ! "REGION_INFO"
     }
 
 -- | Expected config for `testVars2`.
 expectedConfig2 :: Cf.Config
 expectedConfig2 = Cf.Config
-    { Cf._clientId       = T.pack $ testTexts ! "CLIENT_ID"
-    , Cf._clientSecret   = T.pack $testTexts ! "CLIENT_SECRET"
-    , Cf._port           = 9492
-    , Cf._subscriptionId = T.pack $ testTexts ! "SUBSCRIPTION_ID"
-    , Cf._tenantId       = T.pack $ testTexts ! "TENANT_ID"
-    , Cf._offerId        = "MS-AZR-0003p"
-    , Cf._currency       = "USD"
-    , Cf._locale         = "en-US"
-    , Cf._regionInfo     = "US"
+    { Cf.clientId       = T.pack $ testTexts ! "CLIENT_ID"
+    , Cf.clientSecret   = T.pack $testTexts ! "CLIENT_SECRET"
+    , Cf.port           = 9492
+    , Cf.subscriptionId = T.pack $ testTexts ! "SUBSCRIPTION_ID"
+    , Cf.tenantId       = T.pack $ testTexts ! "TENANT_ID"
+    , Cf.offerId        = "MS-AZR-0003p"
+    , Cf.currency       = "USD"
+    , Cf.locale         = "en-US"
+    , Cf.regionInfo     = "US"
     }
 
 -- | Texts for test data.

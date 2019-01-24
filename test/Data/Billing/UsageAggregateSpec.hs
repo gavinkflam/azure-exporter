@@ -35,23 +35,23 @@ spec =
 -- | Test rate card for `toGauges` test.
 testRateCard :: Gr.GetRateCardResponse
 testRateCard = Gr.GetRateCardResponse
-    { Gr._meters        = testMeters
-    , Gr._currency      = testTexts ! "currency"
-    , Gr._locale        = testTexts ! "locale"
-    , Gr._isTaxIncluded = False
+    { Gr.meters        = testMeters
+    , Gr.currency      = testTexts ! "currency"
+    , Gr.locale        = testTexts ! "locale"
+    , Gr.isTaxIncluded = False
     }
 
 -- | Test meters for `toGauges` test.
 testMeters :: [M.Meter]
 testMeters =
     [ M.Meter
-        { M._meterId          = testTexts ! "m1Id"
-        , M._meterName        = testTexts ! "m1Name"
-        , M._meterCategory    = testTexts ! "m1Category"
-        , M._meterSubCategory = testTexts ! "m1SubCategory"
-        , M._meterRegion      = testTexts ! "m1Region"
-        , M._meterRates       = m1Rates
-        , M._unit             = testTexts ! "m1Unit"
+        { M.meterId          = testTexts ! "m1Id"
+        , M.meterName        = testTexts ! "m1Name"
+        , M.meterCategory    = testTexts ! "m1Category"
+        , M.meterSubCategory = testTexts ! "m1SubCategory"
+        , M.meterRegion      = testTexts ! "m1Region"
+        , M.meterRates       = m1Rates
+        , M.unit             = testTexts ! "m1Unit"
         }
     ]
 
@@ -65,27 +65,27 @@ m1Rates = HM.fromList
 testUsageAggregates :: [Ua.UsageAggregate]
 testUsageAggregates =
     [ Ua.UsageAggregate
-        { Ua.__id        = testTexts ! "ua1Id"
-        , Ua._name       = testTexts ! "ua1Name"
-        , Ua._properties = ua1Properties
-        , Ua.__type      = testTexts ! "ua1Type"
+        { Ua._id        = testTexts ! "ua1Id"
+        , Ua.name       = testTexts ! "ua1Name"
+        , Ua.properties = ua1Properties
+        , Ua._type      = testTexts ! "ua1Type"
         }
     ]
 
 -- | Test usage properties for `toGauges` test.
 ua1Properties :: Ap.AggregateProperty
 ua1Properties = Ap.AggregateProperty
-    { Ap._meterId          = testTexts ! "m1Id"
-    , Ap._meterCategory    = Just $ testTexts ! "m1Category"
-    , Ap._meterSubCategory = Just $ testTexts ! "m1SubCategory"
-    , Ap._meterName        = Just $ testTexts ! "m1Name"
-    , Ap._meterRegion      = Just $ testTexts ! "m1Region"
-    , Ap._subscriptionId   = testTexts ! "subscriptionId"
-    , Ap._unit             = Just $ testTexts ! "m1Unit"
-    , Ap._usageStartTime   = up1StartTime
-    , Ap._usageEndTime     = up1EndTime
-    , Ap._instanceData     = Just up1InstanceData
-    , Ap._quantity         = read $ T.unpack $ testTexts ! "up1Quantity"
+    { Ap.meterId          = testTexts ! "m1Id"
+    , Ap.meterCategory    = Just $ testTexts ! "m1Category"
+    , Ap.meterSubCategory = Just $ testTexts ! "m1SubCategory"
+    , Ap.meterName        = Just $ testTexts ! "m1Name"
+    , Ap.meterRegion      = Just $ testTexts ! "m1Region"
+    , Ap.subscriptionId   = testTexts ! "subscriptionId"
+    , Ap.unit             = Just $ testTexts ! "m1Unit"
+    , Ap.usageStartTime   = up1StartTime
+    , Ap.usageEndTime     = up1EndTime
+    , Ap.instanceData     = Just up1InstanceData
+    , Ap.quantity         = read $ T.unpack $ testTexts ! "up1Quantity"
     }
 
 -- | Test time for `toGagues` test (Tuesday, 26-Jun-18 08:00:00 UTC).
@@ -99,11 +99,11 @@ up1EndTime = parseUTCTime $ testTexts ! "up1EndTime"
 -- | Test instance data for `toGauges` test.
 up1InstanceData :: Id.InstanceData
 up1InstanceData = Id.InstanceData
-    { Id._resourceData       = Rd.ResourceData
-        { Rd._resourceUri    = testTexts ! "idt1ResourceUri"
-        , Rd._location       = testTexts ! "idt1Location"
-        , Rd._tags           = Just u1Tags
-        , Rd._additionalInfo = Just u1AdditionalInfo
+    { Id.resourceData       = Rd.ResourceData
+        { Rd.resourceUri    = testTexts ! "idt1ResourceUri"
+        , Rd.location       = testTexts ! "idt1Location"
+        , Rd.tags           = Just u1Tags
+        , Rd.additionalInfo = Just u1AdditionalInfo
         }
     }
 
@@ -128,18 +128,18 @@ u1AdditionalInfo = HM.fromList
 expectedGauges :: [G.Gauge]
 expectedGauges =
     [ G.Gauge
-        { G._name   = (testTexts ! "g1NamePrefix") <> "_usage"
-        , G._help   = (testTexts ! "g1NamePrefix") <> "_usage"
-        , G._labels = g1Labels
-        , G._value  = read $ T.unpack $ testTexts ! "up1Quantity"
-        , G._time   = Just up1StartTime
+        { G.name   = (testTexts ! "g1NamePrefix") <> "_usage"
+        , G.help   = (testTexts ! "g1NamePrefix") <> "_usage"
+        , G.labels = g1Labels
+        , G.value  = read $ T.unpack $ testTexts ! "up1Quantity"
+        , G.time   = Just up1StartTime
         }
     , G.Gauge
-        { G._name   = (testTexts ! "g1NamePrefix") <> "_cost"
-        , G._help   = (testTexts ! "g1NamePrefix") <> "_cost"
-        , G._labels = g1CostLabels
-        , G._value  = read $ T.unpack $ testTexts ! "g1Cost"
-        , G._time   = Just up1StartTime
+        { G.name   = (testTexts ! "g1NamePrefix") <> "_cost"
+        , G.help   = (testTexts ! "g1NamePrefix") <> "_cost"
+        , G.labels = g1CostLabels
+        , G.value  = read $ T.unpack $ testTexts ! "g1Cost"
+        , G.time   = Just up1StartTime
         }
     ]
 

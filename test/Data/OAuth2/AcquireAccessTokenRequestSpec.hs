@@ -77,9 +77,9 @@ testRequest = A.request testParams
 -- | Test params.
 testParams :: A.Params
 testParams = A.Params
-    { A._clientId     = testTexts ! "client_id"
-    , A._clientSecret = testTexts ! "client_secret"
-    , A._tenantId     = testTexts ! "tenant_id"
+    { A.clientId     = testTexts ! "client_id"
+    , A.clientSecret = testTexts ! "client_secret"
+    , A.tenantId     = testTexts ! "tenant_id"
     }
 
 -- | Derive the query item from `testTexts` key.

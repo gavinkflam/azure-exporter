@@ -12,7 +12,6 @@ import qualified Data.Text as T
 import Data.Time.Clock (UTCTime)
 import Data.Time.Clock.System (systemToUTCTime)
 
-import Control.Lens ((^.))
 import Network.HTTP.Client (Manager)
 
 import Control.Monad.STM.Class (MonadTVarReader(..))
@@ -28,20 +27,20 @@ assembleArgs
     => Text -> Text -> Text -> m (Manager, Text, Lm.Params)
 assembleArgs target metricNames aggregation = do
     env   <- ask
-    token <- readTVar (env ^. En.accessToken)
+    token <- readTVar $ En.accessToken env
     now   <- getSystemTime
 
     return
-        ( env ^. En.httpManager
-        , token ^. Ak.token
+        ( En.httpManager env
+        , Ak.token token
         , metricParams target metricNames aggregation $ systemToUTCTime now
         )
 
 -- | Construct params for `ListMetricValuesRequest`.
 metricParams :: Text -> Text -> Text -> UTCTime -> Lm.Params
 metricParams target metricNames aggregation now = Lm.Params
-    { Lm._aggregation = aggregation
-    , Lm._metricNames = metricNames
-    , Lm._resourceId  = target
-    , Lm._timespan    = T.pack $ timespanFrom now 150 90
+    { Lm.aggregation = aggregation
+    , Lm.metricNames = metricNames
+    , Lm.resourceId  = target
+    , Lm.timespan    = T.pack $ timespanFrom now 150 90
     }

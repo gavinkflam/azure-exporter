@@ -1,21 +1,14 @@
-{-# LANGUAGE DeriveGeneric, TemplateHaskell #-}
+{-# LANGUAGE DeriveGeneric #-}
 
 module Data.Monitor.Metric
     (
     -- * Types
       Metric (..)
-    -- * Lenses
-    , _id
-    , _type
-    , name
-    , unit
-    , timeseries
     ) where
 
 import Data.Text (Text)
 import GHC.Generics
 
-import Control.Lens (makeLenses)
 import Data.Aeson
 
 import Data.Aeson.Options (aesonOptions)
@@ -26,14 +19,12 @@ import Data.Monitor.TimeSeriesElement (TimeSeriesElement)
 --
 --   <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#metric>
 data Metric = Metric
-    { __id        :: {-# UNPACK #-} !Text
-    , __type      :: {-# UNPACK #-} !Text
-    , _name       :: {-# UNPACK #-} !LocalizableString
-    , _unit       :: {-# UNPACK #-} !Text
-    , _timeseries :: [TimeSeriesElement]
+    { _id        :: {-# UNPACK #-} !Text
+    , _type      :: {-# UNPACK #-} !Text
+    , name       :: {-# UNPACK #-} !LocalizableString
+    , unit       :: {-# UNPACK #-} !Text
+    , timeseries :: [TimeSeriesElement]
     } deriving (Generic, Show)
 
 instance FromJSON Metric where
     parseJSON = genericParseJSON aesonOptions
-
-makeLenses ''Metric

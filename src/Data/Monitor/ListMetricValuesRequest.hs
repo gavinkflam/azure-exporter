@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 -- | Lists the metric values for a resource.
 --
@@ -15,7 +15,6 @@ import Data.ByteString (ByteString)
 import Data.Text (Text, unpack)
 import Data.Text.Encoding (encodeUtf8)
 
-import Control.Lens (makeLenses, (^.))
 import Network.HTTP.Client (Request, parseRequest_, setQueryString)
 
 import Data.AzureRm.Contract (monitorApiVersion)
@@ -25,13 +24,11 @@ import Data.AzureRm.Request (addAuthHeader)
 --
 --   <https://docs.microsoft.com/en-us/rest/api/monitor/metrics/list#uri-parameters>
 data Params = Params
-    { _aggregation :: {-# UNPACK #-} !Text
-    , _metricNames :: {-# UNPACK #-} !Text
-    , _resourceId  :: {-# UNPACK #-} !Text
-    , _timespan    :: {-# UNPACK #-} !Text
+    { aggregation :: {-# UNPACK #-} !Text
+    , metricNames :: {-# UNPACK #-} !Text
+    , resourceId  :: {-# UNPACK #-} !Text
+    , timespan    :: {-# UNPACK #-} !Text
     } deriving Show
-
-makeLenses ''Params
 
 -- | Construct URL from resource URI.
 url :: Text -> String
@@ -46,9 +43,9 @@ url resourceId' =
 queryParams :: Params -> [(ByteString, Maybe ByteString)]
 queryParams p =
     [ ("api-version", Just $ encodeUtf8 monitorApiVersion)
-    , ("aggregation", Just $ encodeUtf8 (p ^. aggregation))
-    , ("metricnames", Just $ encodeUtf8 (p ^. metricNames))
-    , ("timespan",    Just $ encodeUtf8 (p ^. timespan))
+    , ("aggregation", Just $ encodeUtf8 $ aggregation p)
+    , ("metricnames", Just $ encodeUtf8 $ metricNames p)
+    , ("timespan",    Just $ encodeUtf8 $ timespan p)
     ]
 
 -- | Construct request from access token and params.
@@ -57,4 +54,4 @@ request token p =
     setQueryString params $ addAuthHeader token req
   where
     params = queryParams p
-    req    = parseRequest_ $ url (p ^. resourceId)
+    req    = parseRequest_ $ url $ resourceId p

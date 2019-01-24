@@ -1,23 +1,14 @@
-{-# LANGUAGE DeriveGeneric, TemplateHaskell #-}
+{-# LANGUAGE DeriveGeneric #-}
 
 module Data.OAuth2.AcquireAccessTokenResponse
     (
       -- * Types
       AcquireAccessTokenResponse (..)
-      -- * Lenses
-    , accessToken
-    , expiresIn
-    , expiresOn
-    , extExpiresIn
-    , notBefore
-    , resource
-    , tokenType
     ) where
 
 import Data.Text (Text)
 import GHC.Generics
 
-import Control.Lens (makeLenses)
 import Data.Aeson
 
 import Data.Aeson.Options (oAuth2AesonOptions)
@@ -26,16 +17,14 @@ import Data.Aeson.Options (oAuth2AesonOptions)
 --
 --   <https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-oauth2-client-creds-grant-flow#service-to-service-access-token-response>
 data AcquireAccessTokenResponse = AcquireAccessTokenResponse
-    { _accessToken  :: {-# UNPACK #-} !Text
-    , _expiresIn    :: {-# UNPACK #-} !Text
-    , _expiresOn    :: {-# UNPACK #-} !Text
-    , _extExpiresIn :: {-# UNPACK #-} !Text
-    , _notBefore    :: {-# UNPACK #-} !Text
-    , _resource     :: {-# UNPACK #-} !Text
-    , _tokenType    :: {-# UNPACK #-} !Text
+    { accessToken  :: {-# UNPACK #-} !Text
+    , expiresIn    :: {-# UNPACK #-} !Text
+    , expiresOn    :: {-# UNPACK #-} !Text
+    , extExpiresIn :: {-# UNPACK #-} !Text
+    , notBefore    :: {-# UNPACK #-} !Text
+    , resource     :: {-# UNPACK #-} !Text
+    , tokenType    :: {-# UNPACK #-} !Text
     } deriving (Generic, Show)
 
 instance FromJSON AcquireAccessTokenResponse where
     parseJSON = genericParseJSON oAuth2AesonOptions
-
-makeLenses ''AcquireAccessTokenResponse

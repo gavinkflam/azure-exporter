@@ -1,26 +1,13 @@
-{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Data.Billing.AggregateProperty
     (
       -- * Types
       AggregateProperty (..)
-      -- * Lenses
-    , meterId
-    , meterCategory
-    , meterSubCategory
-    , meterName
-    , meterRegion
-    , subscriptionId
-    , unit
-    , usageStartTime
-    , usageEndTime
-    , instanceData
-    , quantity
     ) where
 
 import Data.Text (Text)
 
-import Control.Lens (makeLenses)
 import Data.Aeson
 import Data.Scientific (Scientific)
 import Data.Time.Clock (UTCTime)
@@ -31,17 +18,17 @@ import Data.Billing.InstanceData (InstanceData)
 --
 --   <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)#json-element-definitions>
 data AggregateProperty = AggregateProperty
-    { _meterId          :: {-# UNPACK #-} !Text
-    , _meterCategory    :: Maybe Text
-    , _meterSubCategory :: Maybe Text
-    , _meterName        :: Maybe Text
-    , _meterRegion      :: Maybe Text
-    , _subscriptionId   :: {-# UNPACK #-} !Text
-    , _unit             :: Maybe Text
-    , _usageStartTime   :: {-# UNPACK #-} !UTCTime
-    , _usageEndTime     :: {-# UNPACK #-} !UTCTime
-    , _instanceData     :: Maybe InstanceData
-    , _quantity         :: {-# UNPACK #-} !Scientific
+    { meterId          :: {-# UNPACK #-} !Text
+    , meterCategory    :: Maybe Text
+    , meterSubCategory :: Maybe Text
+    , meterName        :: Maybe Text
+    , meterRegion      :: Maybe Text
+    , subscriptionId   :: {-# UNPACK #-} !Text
+    , unit             :: Maybe Text
+    , usageStartTime   :: {-# UNPACK #-} !UTCTime
+    , usageEndTime     :: {-# UNPACK #-} !UTCTime
+    , instanceData     :: Maybe InstanceData
+    , quantity         :: {-# UNPACK #-} !Scientific
     } deriving (Show)
 
 instance FromJSON AggregateProperty where
@@ -59,5 +46,3 @@ instance FromJSON AggregateProperty where
             <*> (v .:? "instanceData"
                 >>= traverse (withEmbeddedJSON "InstanceData" parseJSON))
             <*>  v .:  "quantity"
-
-makeLenses ''AggregateProperty

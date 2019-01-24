@@ -15,7 +15,6 @@ import qualified Data.ByteString.Lazy.Char8 as BS
 import Data.Maybe (catMaybes, fromMaybe)
 import qualified Data.Text as T
 
-import Control.Lens ((^.))
 import qualified Data.Aeson as A
 import Network.HTTP.Client (Response, responseBody, responseStatus)
 import Network.HTTP.Types (created201, ok200)
@@ -39,11 +38,11 @@ errorExtractor bs =
 
 -- | Extract readable error message from `ErrorResponse`.
 errorResponseExtractor :: E.ErrorResponse -> String
-errorResponseExtractor e = errorValueExtractor (e ^. E._error)
+errorResponseExtractor = errorValueExtractor . E._error
 
 -- | Extract readable error message from `ErrorValue`.
 errorValueExtractor :: V.ErrorValue -> String
-errorValueExtractor v = T.unpack $ (v ^. V.code) <> ": " <> (v ^. V.message)
+errorValueExtractor v = T.unpack $ V.code v <> ": " <> V.message v
 
 -- | On success responses (200 or 201), deserialize the JSON response body or
 --   return the deserialization error message.

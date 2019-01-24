@@ -1,14 +1,9 @@
-{-# LANGUAGE DeriveGeneric, OverloadedStrings, TemplateHaskell #-}
+{-# LANGUAGE DeriveGeneric, OverloadedStrings #-}
 
 module Data.Billing.UsageAggregate
     (
       -- * Types
       UsageAggregate (..)
-      -- * Lenses
-    , _id
-    , name
-    , properties
-    , _type
       -- * Gauge
     , toGauges
     ) where
@@ -18,7 +13,6 @@ import Data.Text (Text)
 import qualified Data.Text as T
 import GHC.Generics
 
-import Control.Lens (makeLenses, (^.))
 import Data.Aeson
 import Data.HashMap.Strict (HashMap, (!))
 import qualified Data.HashMap.Strict as H
@@ -41,50 +35,48 @@ import Text.Time (formatTime)
 --
 --   <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)#json-element-definitions>
 data UsageAggregate = UsageAggregate
-    { __id        :: {-# UNPACK #-} !Text
-    , _name       :: {-# UNPACK #-} !Text
-    , _properties :: {-# UNPACK #-} !Ap.AggregateProperty
-    , __type      :: {-# UNPACK #-} !Text
+    { _id        :: {-# UNPACK #-} !Text
+    , name       :: {-# UNPACK #-} !Text
+    , properties :: {-# UNPACK #-} !Ap.AggregateProperty
+    , _type      :: {-# UNPACK #-} !Text
     } deriving (Generic, Show)
 
 instance FromJSON UsageAggregate where
     parseJSON = genericParseJSON aesonOptions
-
-makeLenses ''UsageAggregate
 
 -- | Construct gauges from `GetRateCardResponse` and list of `UsageAggregate`.
 toGauges :: Gr.GetRateCardResponse -> [UsageAggregate] -> [G.Gauge]
 toGauges r =
     concatMap fGauges
   where
-    meters  = indexMeters (r ^. Gr.meters)
-    fGauges = usageAggregateToGauges (r ^. Gr.currency) meters
+    meters  = indexMeters $ Gr.meters r
+    fGauges = usageAggregateToGauges (Gr.currency r) meters
 
 -- | Construct gauges from meter lookup map and individual `UsageAggregate`.
 usageAggregateToGauges
     :: Text -> HashMap Text M.Meter -> UsageAggregate -> [G.Gauge]
 usageAggregateToGauges currency meters usage = catMaybes
     [ Just usageGauge
-    , costGauge <$> H.lookup (usage ^. (properties . Ap.meterId)) meters
+    , costGauge <$> H.lookup (Ap.meterId $ properties usage) meters
     ]
   where
     namePrefix = gaugeNamePrefix usage
     baseLabels = baseGaugeLabels usage
-    quantity   = usage ^. (properties . Ap.quantity)
-    startTime  = usage ^. (properties . Ap.usageStartTime)
+    quantity   = Ap.quantity $ properties usage
+    startTime  = Ap.usageStartTime $ properties usage
     usageGauge = G.Gauge
-        { G._name   = namePrefix <> "_usage"
-        , G._help   = namePrefix <> "_usage"
-        , G._labels = baseLabels
-        , G._value  = quantity
-        , G._time   = Just startTime
+        { G.name   = namePrefix <> "_usage"
+        , G.help   = namePrefix <> "_usage"
+        , G.labels = baseLabels
+        , G.value  = quantity
+        , G.time   = Just startTime
         }
     costGauge m = G.Gauge
-        { G._name   = namePrefix <> "_cost"
-        , G._help   = namePrefix <> "_cost"
-        , G._labels = baseLabels ++ costGaugeLabels currency m
-        , G._value  = quantity * resolveUnitCost m
-        , G._time   = Just startTime
+        { G.name   = namePrefix <> "_cost"
+        , G.help   = namePrefix <> "_cost"
+        , G.labels = baseLabels ++ costGaugeLabels currency m
+        , G.value  = quantity * resolveUnitCost m
+        , G.time   = Just startTime
         }
 
 -- | Derive gauge name prefix from `UsageAggregate`.
@@ -92,37 +84,37 @@ gaugeNamePrefix :: UsageAggregate -> Text
 gaugeNamePrefix u =
     Sn.metricName $ "azure_" <> T.intercalate "_" ns
   where
-    p  = u ^. properties
-    ns = catMaybes [p ^. Ap.meterCategory, p ^. Ap.meterName, p ^. Ap.unit]
+    p  = properties u
+    ns = catMaybes [Ap.meterCategory p, Ap.meterName p, Ap.unit p]
 
 -- | Derive base gauge labels from `UsageAggregate`.
 baseGaugeLabels :: UsageAggregate -> [(Text, Text)]
 baseGaugeLabels u =
     -- Static cloud provider label easing query composition
     [ ("cloud_provider",     "Azure")
-    , ("meter_id",           p ^. Ap.meterId)
-    , ("meter_category",     fromMaybe "Unknown" (p ^. Ap.meterCategory))
-    , ("meter_sub_category", fromMaybe "N/A" (p ^. Ap.meterSubCategory))
-    , ("meter_name",         fromMaybe "Unknown" (p ^. Ap.meterName))
-    , ("meter_region",       fromMaybe "N/A" (p ^. Ap.meterRegion))
-    , ("meter_unit",         fromMaybe "Unknown" (p ^. Ap.unit))
-    , ("subscription_id",    p ^. Ap.subscriptionId)
+    , ("meter_id",           Ap.meterId p)
+    , ("meter_category",     fromMaybe "Unknown" $ Ap.meterCategory p)
+    , ("meter_sub_category", fromMaybe "N/A" $ Ap.meterSubCategory p)
+    , ("meter_name",         fromMaybe "Unknown" $ Ap.meterName p)
+    , ("meter_region",       fromMaybe "N/A" $ Ap.meterRegion p)
+    , ("meter_unit",         fromMaybe "Unknown" $ Ap.unit p)
+    , ("subscription_id",    Ap.subscriptionId p)
     -- Time labels easing queries of aggregation
     , ("year",               T.pack $ formatTime "%Y" time)
     , ("month",              T.pack $ formatTime "%m" time)
     , ("year_month",         T.pack $ formatTime "%Y-%m" time)
     , ("date",               T.pack $ formatTime "%Y-%m-%d" time)
     ]
-    ++ maybe [] instanceDataLabels (p ^. Ap.instanceData)
+    ++ maybe [] instanceDataLabels (Ap.instanceData p)
   where
-    p    = u ^. properties
-    time = p ^. Ap.usageStartTime
+    p    = properties u
+    time = Ap.usageStartTime p
 
 -- | Resolve the unit cost from `Meter`.
 --
 --   TODO: Resolve the accurate per-unit cost from usage quantity.
 resolveUnitCost :: M.Meter -> Scientific
-resolveUnitCost m = (m ^. M.meterRates) ! "0"
+resolveUnitCost m = M.meterRates m ! "0"
 
 -- | Derive cost gauge specific labels from `UsageAggregate`.
 costGaugeLabels :: Text -> M.Meter -> [(Text, Text)]
@@ -134,18 +126,18 @@ costGaugeLabels currency m =
 -- | Derive gauge labels from `InstanceData`.
 instanceDataLabels :: Id.InstanceData -> [(Text, Text)]
 instanceDataLabels i =
-    [ ("resource_id",       T.toLower $ r ^. Rd.resourceUri)
-    , ("resource_region",   r ^. Rd.location)
-    , ("resource_group",    d ^. Rm.resourceGroup)
-    , ("resource_name",     d ^. Rm.resourceName)
-    , ("resource_provider", d ^. Rm.resourceProvider)
-    , ("resource_type",     d ^. Rm.resourceType)
+    [ ("resource_id",       T.toLower $ Rd.resourceUri r)
+    , ("resource_region",   Rd.location r)
+    , ("resource_group",    Rm.resourceGroup d)
+    , ("resource_name",     Rm.resourceName d)
+    , ("resource_provider", Rm.resourceProvider d)
+    , ("resource_type",     Rm.resourceType d)
     ]
-    ++ maybe [] (resourceInfoLabels "tag_")  (r ^. Rd.tags)
-    ++ maybe [] (resourceInfoLabels "info_") (r ^. Rd.additionalInfo)
+    ++ maybe [] (resourceInfoLabels "tag_")  (Rd.tags r)
+    ++ maybe [] (resourceInfoLabels "info_") (Rd.additionalInfo r)
   where
-    r = i ^. Id.resourceData
-    d = parseResourceId (r ^. Rd.resourceUri)
+    r = Id.resourceData i
+    d = parseResourceId $ Rd.resourceUri r
 
 -- | Derive gauge labels from resource info map.
 --
@@ -162,4 +154,4 @@ resourceInfoLabels n m =
 
 -- | Construct a meters lookup map indexed by meter ID for efficient searching.
 indexMeters :: [M.Meter] -> HashMap Text M.Meter
-indexMeters = H.fromList . map (\m -> (m ^. M.meterId, m))
+indexMeters = H.fromList . map (\m -> (M.meterId m, m))

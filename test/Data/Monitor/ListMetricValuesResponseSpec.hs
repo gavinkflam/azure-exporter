@@ -30,21 +30,21 @@ spec =
 -- | Text response for `toGauges` test.
 testResponse :: Lr.ListMetricValuesResponse
 testResponse = Lr.ListMetricValuesResponse
-    { Lr._cost                       = 0
-    , Lr._interval                   = testTexts ! "interval"
-    , Lr._namespace                  = testTexts ! "namespace"
-    , Lr._resourceregion             = testTexts ! "resourceRegion"
-    , Lr._timespan                   = testTexts ! "timespan"
-    , Lr._value                      =
+    { Lr.cost                       = 0
+    , Lr.interval                   = testTexts ! "interval"
+    , Lr.namespace                  = testTexts ! "namespace"
+    , Lr.resourceregion             = testTexts ! "resourceRegion"
+    , Lr.timespan                   = testTexts ! "timespan"
+    , Lr.value                      =
         [ M.Metric
-            { M.__id                 = testTexts ! "metricId"
-            , M.__type               = testTexts ! "metricType"
-            , M._name                = Ls.LocalizableString
-                { Ls._value          = testTexts ! "metricName"
-                , Ls._localizedValue = testTexts ! "metricName"
+            { M._id                 = testTexts ! "metricId"
+            , M._type               = testTexts ! "metricType"
+            , M.name                = Ls.LocalizableString
+                { Ls.value          = testTexts ! "metricName"
+                , Ls.localizedValue = testTexts ! "metricName"
                 }
-            , M._unit                = testTexts ! "metricUnit"
-            , M._timeseries          = testTimeseries
+            , M.unit                = testTexts ! "metricUnit"
+            , M.timeseries          = testTimeseries
             }
         ]
     }
@@ -53,14 +53,14 @@ testResponse = Lr.ListMetricValuesResponse
 testTimeseries :: [Ts.TimeSeriesElement]
 testTimeseries =
     [ Ts.TimeSeriesElement
-        { Ts.__data              =
+        { Ts._data              =
             [ Mv.MetricValue
-                { Mv._average   = Just 4.2
-                , Mv._count     = Nothing
-                , Mv._maximum   = Nothing
-                , Mv._minimum   = Nothing
-                , Mv._timeStamp = testTexts ! "timestamp"
-                , Mv._total     = Nothing
+                { Mv.average   = Just 4.2
+                , Mv.count     = Nothing
+                , Mv.maximum   = Nothing
+                , Mv.minimum   = Nothing
+                , Mv.timeStamp = testTexts ! "timestamp"
+                , Mv.total     = Nothing
                 }
             ]
         }
@@ -70,9 +70,9 @@ testTimeseries =
 expectedGauges :: [G.Gauge]
 expectedGauges =
     [ G.Gauge
-        { G._name   = (testTexts ! "gaugeNamePrefix") <> "_average"
-        , G._help   = (testTexts ! "gaugeNamePrefix") <> "_average"
-        , G._labels =
+        { G.name   = (testTexts ! "gaugeNamePrefix") <> "_average"
+        , G.help   = (testTexts ! "gaugeNamePrefix") <> "_average"
+        , G.labels =
             [ ("resource_group",    T.toLower (testTexts ! "resourceGroup"))
             , ("resource_id",       T.toLower (testTexts ! "resourceId"))
             , ("resource_name",     T.toLower (testTexts ! "resourceName"))
@@ -81,8 +81,8 @@ expectedGauges =
             , ("resource_type",     T.toLower (testTexts ! "resourceType"))
             , ("subscription_id",   T.toLower (testTexts ! "subscriptionId"))
             ]
-        , G._value  = 4.2
-        , G._time   = Nothing
+        , G.value  = 4.2
+        , G.time   = Nothing
         }
     ]
 

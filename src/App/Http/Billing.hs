@@ -8,7 +8,6 @@ import Control.Monad.Fail (MonadFail)
 import Data.List (sort)
 import Data.Text (Text)
 
-import Control.Lens ((^.))
 import Network.HTTP.Client (Manager)
 
 import Control.Monad.Fail.Trans (failLeft)
@@ -39,11 +38,11 @@ fetchUsageAggregates
 fetchUsageAggregates manager token params = do
     res <- failLeft =<< httpJson errorExtractor manager (A.request token params)
 
-    case res ^. AR.nextLink of
-        Nothing -> return (res ^. AR.value)
-        Just _  -> (++ (res ^. AR.value)) <$>
+    case AR.nextLink res of
+        Nothing -> return $ AR.value res
+        Just _  -> (++ AR.value res) <$>
             fetchUsageAggregates manager token
-            (params { A._continuationToken = AR.continuationToken res })
+            (params { A.continuationToken = AR.continuationToken res })
 
 -- | Fetch rate card from Azure.
 fetchRateCard

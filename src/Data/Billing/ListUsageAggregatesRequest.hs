@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 -- | Lists the usage aggregates of a subscription.
 --
@@ -17,8 +17,6 @@ import Data.Text.Encoding (encodeUtf8)
 import Network.HTTP.Client
     (Request(..), parseRequest_, responseTimeoutMicro, setQueryString)
 
-import Control.Lens (makeLenses, (^.))
-
 import Data.AzureRm.Contract (billingApiVersion)
 import Data.AzureRm.Request (addAuthHeader)
 
@@ -26,14 +24,12 @@ import Data.AzureRm.Request (addAuthHeader)
 --
 --   <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)#request>
 data Params = Params
-    { _subscriptionId         :: {-# UNPACK #-} !Text
-    , _aggregationGranularity :: {-# UNPACK #-} !Text
-    , _reportedStartTime      :: {-# UNPACK #-} !Text
-    , _reportedEndTime        :: {-# UNPACK #-} !Text
-    , _continuationToken      :: Maybe Text
+    { subscriptionId         :: {-# UNPACK #-} !Text
+    , aggregationGranularity :: {-# UNPACK #-} !Text
+    , reportedStartTime      :: {-# UNPACK #-} !Text
+    , reportedEndTime        :: {-# UNPACK #-} !Text
+    , continuationToken      :: Maybe Text
     } deriving Show
-
-makeLenses ''Params
 
 -- | Construct URL from subscription ID.
 url :: Text -> String
@@ -49,13 +45,13 @@ queryParams :: Params -> [(ByteString, Maybe ByteString)]
 queryParams p =
     maybeAdd params "continuationToken" maybeToken
   where
-    maybeToken = encodeUtf8 <$> (p ^. continuationToken)
+    maybeToken = encodeUtf8 <$> continuationToken p
     param      = Just . encodeUtf8
     params     =
         [ ("api-version",            param billingApiVersion)
-        , ("aggregationGranularity", param (p ^. aggregationGranularity))
-        , ("reportedStartTime",      param (p ^. reportedStartTime))
-        , ("reportedEndTime",        param (p ^. reportedEndTime))
+        , ("aggregationGranularity", param $ aggregationGranularity p)
+        , ("reportedStartTime",      param $ reportedStartTime p)
+        , ("reportedEndTime",        param $ reportedEndTime p)
         ]
 
 -- | Add the parameter to params for `Just` value, or return the original
@@ -76,5 +72,5 @@ request token p =
     setQueryString params $ addAuthHeader token req'
   where
     params = queryParams p
-    req    = parseRequest_ $ url (p ^. subscriptionId)
+    req    = parseRequest_ $ url $ subscriptionId p
     req'   = req { responseTimeout = responseTimeoutMicro 90000000 }

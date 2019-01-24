@@ -22,7 +22,7 @@ constructAppEnv = do
     refreshToken manager config var
 
     return En.AppEnv
-        { En._accessToken = var
-        , En._config      = config
-        , En._httpManager = manager
+        { En.accessToken = var
+        , En.config      = config
+        , En.httpManager = manager
         }

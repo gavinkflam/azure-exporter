@@ -10,7 +10,6 @@ import Control.Monad.Fail (MonadFail)
 import Data.Time.Clock (NominalDiffTime, addUTCTime)
 import Data.Time.Clock.System (systemToUTCTime)
 
-import Control.Lens ((^.))
 import Network.HTTP.Client (Manager)
 
 import Control.Monad.Fail.Trans (failLeft)
@@ -40,13 +39,13 @@ refreshToken manager conf tokenTVar = do
     writeTVar tokenTVar $ T.fromResponse resp
   where
     params = AT.Params
-        { AT._clientId     = conf ^. Cf.clientId
-        , AT._clientSecret = conf ^. Cf.clientSecret
-        , AT._tenantId     = conf ^. Cf.tenantId
+        { AT.clientId     = Cf.clientId conf
+        , AT.clientSecret = Cf.clientSecret conf
+        , AT.tenantId     = Cf.tenantId conf
         }
 
 -- | Check if the given token is still valid.
 tokenExpired :: MonadTime m => NominalDiffTime -> T.AccessToken -> m Bool
 tokenExpired offset t = do
     now <- getSystemTime
-    return $ (t ^. T.expiresOn) < addUTCTime (- offset) (systemToUTCTime now)
+    return $ T.expiresOn t < addUTCTime (- offset) (systemToUTCTime now)

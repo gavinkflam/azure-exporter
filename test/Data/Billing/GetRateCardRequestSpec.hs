@@ -47,11 +47,11 @@ testRequest = R.request (testTexts ! "accessToken") testParams
 -- | Test params.
 testParams :: R.Params
 testParams = R.Params
-    { R._subscriptionId = testTexts ! "subscriptionId"
-    , R._offerId        = testTexts ! "offerId"
-    , R._currency       = testTexts ! "currency"
-    , R._locale         = testTexts ! "locale"
-    , R._regionInfo     = testTexts ! "regionInfo"
+    { R.subscriptionId = testTexts ! "subscriptionId"
+    , R.offerId        = testTexts ! "offerId"
+    , R.currency       = testTexts ! "currency"
+    , R.locale         = testTexts ! "locale"
+    , R.regionInfo     = testTexts ! "regionInfo"
     }
 
 -- | The expected authorization header.

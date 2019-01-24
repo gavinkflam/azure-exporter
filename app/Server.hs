@@ -6,7 +6,6 @@ module Server
 
 import Control.Monad.Reader (runReaderT)
 
-import Control.Lens ((^.))
 import Web.Scotty.Trans (scottyT)
 
 import App (app)
@@ -17,4 +16,4 @@ import qualified Data.App.Config as Cf
 -- | Start the exporter HTTP server.
 runServer :: AppEnv -> IO ()
 runServer appEnv =
-    scottyT (appEnv ^. En.config . Cf.port) (`runReaderT` appEnv) app
+    scottyT (Cf.port $ En.config appEnv) (`runReaderT` appEnv) app

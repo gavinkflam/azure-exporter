@@ -10,7 +10,6 @@ module Text.AzureRm.ResourceSpec
 import Data.Text (Text, toLower)
 import qualified Data.Text as T
 
-import Control.Lens ((^.))
 import qualified Data.AzureRm.ResourceMetadata as M
 import Data.HashMap.Strict (HashMap, (!))
 import qualified Data.HashMap.Strict as HM
@@ -24,20 +23,15 @@ spec = do
         id'  = R.resourceId subResourceId
 
     describe "parseResourceId" $ do
-        it "extracts the resource group correctly" $
-            (meta ^. M.resourceGroup)
+        it "extracts the resource group correctly" $ M.resourceGroup meta
             `shouldBe` toLower (testDatastore ! "resourceGroup")
-        it "extracts the resource name correctly" $
-            (meta ^. M.resourceName)
+        it "extracts the resource name correctly" $ M.resourceName meta
             `shouldBe` toLower (testDatastore ! "resourceName")
-        it "extracts the resource provider correctly" $
-            (meta ^. M.resourceProvider)
+        it "extracts the resource provider correctly" $ M.resourceProvider meta
             `shouldBe` toLower (testDatastore ! "resourceProvider")
-        it "extracts the resource type correctly" $
-            (meta ^. M.resourceType)
+        it "extracts the resource type correctly" $ M.resourceType meta
             `shouldBe` toLower (testDatastore ! "resourceType")
-        it "extracts the subscription ID correctly" $
-            (meta ^. M.subscriptionId)
+        it "extracts the subscription ID correctly" $ M.subscriptionId meta
             `shouldBe` toLower (testDatastore ! "subscriptionId")
 
     describe "resourceId" $ do

@@ -29,20 +29,20 @@ spec =
 -- | Test response for deriving access token.
 testResponse :: Akr.AcquireAccessTokenResponse
 testResponse = Akr.AcquireAccessTokenResponse
-    { Akr._accessToken  = testTexts ! "accessToken"
-    , Akr._expiresIn    = testTexts ! "expiresIn"
-    , Akr._expiresOn    = testTexts ! "expiresOn"
-    , Akr._extExpiresIn = testTexts ! "extExpiresIn"
-    , Akr._notBefore    = testTexts ! "notBefore"
-    , Akr._resource     = testTexts ! "resource"
-    , Akr._tokenType    = testTexts ! "tokenType"
+    { Akr.accessToken  = testTexts ! "accessToken"
+    , Akr.expiresIn    = testTexts ! "expiresIn"
+    , Akr.expiresOn    = testTexts ! "expiresOn"
+    , Akr.extExpiresIn = testTexts ! "extExpiresIn"
+    , Akr.notBefore    = testTexts ! "notBefore"
+    , Akr.resource     = testTexts ! "resource"
+    , Akr.tokenType    = testTexts ! "tokenType"
     }
 
 -- | The expected access token derived.
 expectedAccessToken :: Ak.AccessToken
 expectedAccessToken = Ak.AccessToken
-    { Ak._token     = testTexts ! "accessToken"
-    , Ak._expiresOn = expiresOnTime
+    { Ak.token     = testTexts ! "accessToken"
+    , Ak.expiresOn = expiresOnTime
     }
 
 -- | The expected expires on time.

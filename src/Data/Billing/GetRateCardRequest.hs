@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 -- | Get resource price and meter metadata for a subscription.
 --
@@ -15,7 +15,6 @@ import Data.ByteString (ByteString)
 import Data.Text (Text, unpack)
 import Data.Text.Encoding (encodeUtf8)
 
-import Control.Lens (makeLenses, (^.))
 import Network.HTTP.Client
     (Request(..), parseRequest_, responseTimeoutMicro, setQueryString)
 
@@ -26,14 +25,12 @@ import Data.AzureRm.Request (addAuthHeader)
 --
 --   <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)#request>
 data Params = Params
-    { _subscriptionId :: {-# UNPACK #-} !Text
-    , _offerId        :: {-# UNPACK #-} !Text
-    , _currency       :: {-# UNPACK #-} !Text
-    , _locale         :: {-# UNPACK #-} !Text
-    , _regionInfo     :: {-# UNPACK #-} !Text
+    { subscriptionId :: {-# UNPACK #-} !Text
+    , offerId        :: {-# UNPACK #-} !Text
+    , currency       :: {-# UNPACK #-} !Text
+    , locale         :: {-# UNPACK #-} !Text
+    , regionInfo     :: {-# UNPACK #-} !Text
     } deriving Show
-
-makeLenses ''Params
 
 -- | Construct URL from subscription ID.
 url :: Text -> String
@@ -55,13 +52,13 @@ queryParams p =
 filterQuery :: Params -> Text
 filterQuery p =
     "OfferDurableId eq '"
-    <> p ^. offerId
+    <> offerId p
     <> "' and Currency eq '"
-    <> p ^. currency
+    <> currency p
     <> "' and Locale eq '"
-    <> p ^. locale
+    <> locale p
     <> "' and RegionInfo eq '"
-    <> p ^. regionInfo
+    <> regionInfo p
     <> "'"
 
 -- | Construct request from access token and params.
@@ -72,5 +69,5 @@ request token p =
     setQueryString params $ addAuthHeader token req'
   where
     params = queryParams p
-    req    = parseRequest_ $ url (p ^. subscriptionId)
+    req    = parseRequest_ $ url $ subscriptionId p
     req'   = req { responseTimeout = responseTimeoutMicro 180000000 }

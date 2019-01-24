@@ -10,7 +10,6 @@ import Control.Monad.Reader (MonadReader, ask)
 import Data.Text (Text)
 import qualified Data.Text as T
 
-import Control.Lens ((^.))
 import Network.HTTP.Client (Manager)
 
 import Control.Monad.STM.Class (MonadTVarReader(..))
@@ -26,31 +25,31 @@ assembleArgs
     => String -> String -> m (Manager, Text, A.Params, G.Params)
 assembleArgs startTime endTime = do
     env   <- ask
-    token <- readTVar (env ^. En.accessToken)
+    token <- readTVar $ En.accessToken env
 
-    let config  = env ^. En.config
-        manager = env ^. En.httpManager
+    let config  = En.config env
+        manager = En.httpManager env
         aParams = usagesParams config (T.pack startTime) (T.pack endTime)
         gParams = rateCardParams config
 
-    return (manager, token ^. Ak.token, aParams, gParams)
+    return (manager, Ak.token token, aParams, gParams)
 
 -- | Construct params for `UsageAggregateRequest`.
 usagesParams :: Cf.Config -> Text -> Text -> A.Params
 usagesParams config startTime endTime = A.Params
-    { A._subscriptionId         = config ^. Cf.subscriptionId
-    , A._aggregationGranularity = "daily"
-    , A._reportedStartTime      = startTime
-    , A._reportedEndTime        = endTime
-    , A._continuationToken      = Nothing
+    { A.subscriptionId         = Cf.subscriptionId config
+    , A.aggregationGranularity = "daily"
+    , A.reportedStartTime      = startTime
+    , A.reportedEndTime        = endTime
+    , A.continuationToken      = Nothing
     }
 
 -- | Construct params for `GetRateCardRequest`.
 rateCardParams :: Cf.Config -> G.Params
 rateCardParams config = G.Params
-    { G._subscriptionId = config ^. Cf.subscriptionId
-    , G._offerId        = config ^. Cf.offerId
-    , G._currency       = config ^. Cf.currency
-    , G._locale         = config ^. Cf.locale
-    , G._regionInfo     = config ^. Cf.regionInfo
+    { G.subscriptionId = Cf.subscriptionId config
+    , G.offerId        = Cf.offerId config
+    , G.currency       = Cf.currency config
+    , G.locale         = Cf.locale config
+    , G.regionInfo     = Cf.regionInfo config
     }

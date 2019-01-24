@@ -56,11 +56,11 @@ testRequest = L.request (testTexts ! "accessToken") testParams
 -- | Test params.
 testParams :: L.Params
 testParams = L.Params
-    { L._subscriptionId         = testTexts ! "subscriptionId"
-    , L._aggregationGranularity = testTexts ! "aggregationGranularity"
-    , L._reportedStartTime      = testTexts ! "reportedStartTime"
-    , L._reportedEndTime        = testTexts ! "reportedEndTime"
-    , L._continuationToken      = Just $ testTexts ! "continuationToken"
+    { L.subscriptionId         = testTexts ! "subscriptionId"
+    , L.aggregationGranularity = testTexts ! "aggregationGranularity"
+    , L.reportedStartTime      = testTexts ! "reportedStartTime"
+    , L.reportedEndTime        = testTexts ! "reportedEndTime"
+    , L.continuationToken      = Just $ testTexts ! "continuationToken"
     }
 
 -- | The expected authorization header.

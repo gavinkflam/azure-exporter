@@ -1,12 +1,9 @@
-{-# LANGUAGE DeriveGeneric, OverloadedStrings, TemplateHaskell #-}
+{-# LANGUAGE DeriveGeneric, OverloadedStrings #-}
 
 module Data.Billing.ListUsageAggregatesResponse
     (
       -- * Types
       ListUsageAggregatesResponse (..)
-      -- * Lenses
-    , value
-    , nextLink
       -- * Query
     , continuationToken
     ) where
@@ -15,7 +12,6 @@ import Data.Text (Text)
 import Data.Text.Encoding (decodeUtf8, encodeUtf8)
 import GHC.Generics
 
-import Control.Lens (makeLenses)
 import Data.Aeson
 import Network.HTTP.Types.URI (parseSimpleQuery)
 
@@ -26,19 +22,17 @@ import Data.Billing.UsageAggregate (UsageAggregate)
 --
 --   <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219001(v%3dazure.100)#json-element-definitions>
 data ListUsageAggregatesResponse = ListUsageAggregatesResponse
-    { _value    :: [UsageAggregate]
-    , _nextLink :: Maybe Text
+    { value    :: [UsageAggregate]
+    , nextLink :: Maybe Text
     } deriving (Generic, Show)
 
 instance FromJSON ListUsageAggregatesResponse where
     parseJSON = genericParseJSON aesonOptions
 
-makeLenses ''ListUsageAggregatesResponse
-
 -- | Extract continuation token from `ListUsageAggregatesResponse`.
 continuationToken :: ListUsageAggregatesResponse -> Maybe Text
 continuationToken res =
-    case _nextLink res of
+    case nextLink res of
         Nothing  -> Nothing
         Just url ->
             decodeUtf8 <$> lookup "continuationToken" q

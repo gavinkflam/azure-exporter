@@ -1,20 +1,14 @@
-{-# LANGUAGE DeriveGeneric, TemplateHaskell #-}
+{-# LANGUAGE DeriveGeneric #-}
 
 module Data.Billing.GetRateCardResponse
     (
       -- * Types
       GetRateCardResponse (..)
-      -- * Lenses
-    , meters
-    , currency
-    , locale
-    , isTaxIncluded
     ) where
 
 import Data.Text (Text)
 import GHC.Generics
 
-import Control.Lens (makeLenses)
 import Data.Aeson
 
 import Data.Aeson.Options (capitalizeAesonOptions)
@@ -24,13 +18,11 @@ import Data.Billing.Meter (Meter)
 --
 --   <https://docs.microsoft.com/en-us/previous-versions/azure/reference/mt219004(v%3dazure.100)#response>
 data GetRateCardResponse = GetRateCardResponse
-    { _meters        :: [Meter]
-    , _currency      :: {-# UNPACK #-} !Text
-    , _locale        :: {-# UNPACK #-} !Text
-    , _isTaxIncluded :: !Bool
+    { meters        :: [Meter]
+    , currency      :: {-# UNPACK #-} !Text
+    , locale        :: {-# UNPACK #-} !Text
+    , isTaxIncluded :: !Bool
     } deriving (Generic, Show)
 
 instance FromJSON GetRateCardResponse where
     parseJSON = genericParseJSON capitalizeAesonOptions
-
-makeLenses ''GetRateCardResponse

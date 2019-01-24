@@ -1,16 +1,13 @@
-{-# LANGUAGE DeriveGeneric, TemplateHaskell #-}
+{-# LANGUAGE DeriveGeneric #-}
 
 module Data.Error.ErrorResponse
     (
       -- * Types
       ErrorResponse (..)
-      -- * Lenses
-    , _error
     ) where
 
 import GHC.Generics
 
-import Control.Lens (makeLenses)
 import Data.Aeson
 
 import Data.Aeson.Options (aesonOptions)
@@ -20,10 +17,8 @@ import Data.Error.ErrorValue (ErrorValue)
 --
 --   <https://github.com/Microsoft/api-guidelines/blob/master/Guidelines.md#errorresponse--object>
 newtype ErrorResponse = ErrorResponse
-    { __error :: ErrorValue
+    { _error :: ErrorValue
     } deriving (Generic, Show)
 
 instance FromJSON ErrorResponse where
     parseJSON = genericParseJSON aesonOptions
-
-makeLenses ''ErrorResponse

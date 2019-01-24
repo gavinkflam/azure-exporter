@@ -1,19 +1,7 @@
-{-# LANGUAGE TemplateHaskell #-}
-
 module Data.App.Config
     (
       -- * Types
       Config(..)
-      -- * Lenses
-    , clientId
-    , clientSecret
-    , port
-    , subscriptionId
-    , tenantId
-    , offerId
-    , currency
-    , locale
-    , regionInfo
       -- * Configurations
     , getConfig
     ) where
@@ -22,24 +10,20 @@ import Data.Maybe (fromMaybe)
 import Data.Text (Text)
 import qualified Data.Text as T
 
-import Control.Lens (makeLenses)
-
 import Control.Monad.System.MonadEnv (MonadEnv, getEnv, lookupEnv)
 
 -- | Configurations for the application.
 data Config = Config
-    { _clientId       :: {-# UNPACK #-} !Text
-    , _clientSecret   :: {-# UNPACK #-} !Text
-    , _port           :: {-# UNPACK #-} !Int
-    , _subscriptionId :: {-# UNPACK #-} !Text
-    , _tenantId       :: {-# UNPACK #-} !Text
-    , _offerId        :: {-# UNPACK #-} !Text
-    , _currency       :: {-# UNPACK #-} !Text
-    , _locale         :: {-# UNPACK #-} !Text
-    , _regionInfo     :: {-# UNPACK #-} !Text
+    { clientId       :: {-# UNPACK #-} !Text
+    , clientSecret   :: {-# UNPACK #-} !Text
+    , port           :: {-# UNPACK #-} !Int
+    , subscriptionId :: {-# UNPACK #-} !Text
+    , tenantId       :: {-# UNPACK #-} !Text
+    , offerId        :: {-# UNPACK #-} !Text
+    , currency       :: {-# UNPACK #-} !Text
+    , locale         :: {-# UNPACK #-} !Text
+    , regionInfo     :: {-# UNPACK #-} !Text
     } deriving (Eq, Show)
-
-makeLenses ''Config
 
 -- | Construct configuration from environment variables.
 getConfig :: MonadEnv m => m Config
@@ -55,15 +39,15 @@ getConfig = do
     regionInfo'     <- T.pack <$> getEnvDefault "US" "REGION_INFO"
 
     return Config
-        { _clientId       = clientId'
-        , _clientSecret   = clientSecret'
-        , _port           = port'
-        , _subscriptionId = subscriptionId'
-        , _tenantId       = tenantId'
-        , _offerId        = offerId'
-        , _currency       = currency'
-        , _locale         = locale'
-        , _regionInfo     = regionInfo'
+        { clientId       = clientId'
+        , clientSecret   = clientSecret'
+        , port           = port'
+        , subscriptionId = subscriptionId'
+        , tenantId       = tenantId'
+        , offerId        = offerId'
+        , currency       = currency'
+        , locale         = locale'
+        , regionInfo     = regionInfo'
         }
 
 -- | Get an environment variable with a fallback default.

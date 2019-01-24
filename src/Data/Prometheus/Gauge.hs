@@ -1,15 +1,9 @@
-{-# LANGUAGE OverloadedStrings, TemplateHaskell #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Data.Prometheus.Gauge
     (
       -- * Types
       Gauge (..)
-      -- * Lenses
-    , name
-    , help
-    , labels
-    , value
-    , time
       -- * Output
     , renderGauges
     ) where
@@ -19,7 +13,6 @@ import Data.List (intersperse)
 import Data.Text (Text)
 import Data.Text.Encoding (encodeUtf8Builder)
 
-import Control.Lens (makeLenses, (^.))
 import Data.Scientific (Scientific)
 import Data.Time.Clock (UTCTime)
 
@@ -30,18 +23,16 @@ import Text.Time (formatTime)
 --
 --   <https://prometheus.io/docs/instrumenting/writing_exporters/#metrics>
 data Gauge = Gauge
-    { _name   :: {-# UNPACK #-} !Text
-    , _help   :: {-# UNPACK #-} !Text
-    , _labels :: [(Text, Text)]
-    , _value  :: {-# UNPACK #-} !Scientific
-    , _time   :: Maybe UTCTime
+    { name   :: {-# UNPACK #-} !Text
+    , help   :: {-# UNPACK #-} !Text
+    , labels :: [(Text, Text)]
+    , value  :: {-# UNPACK #-} !Scientific
+    , time   :: Maybe UTCTime
     } deriving (Eq, Show)
-
-makeLenses ''Gauge
 
 -- | Order gauges by time.
 instance Ord Gauge where
-    compare a b = compare (a ^. time) (b ^. time)
+    compare a b = compare (time a) (time b)
 
 -- | Output gauges as metric exposition text.
 --
@@ -67,17 +58,17 @@ renderGauges gs = mconcat $ intersperse (byteString "\n\n") $ map renderGauge gs
 renderGauge :: Gauge -> Builder
 renderGauge g = mconcat
     [ byteString "# HELP "
-    , encodeUtf8Builder (g ^. name)
+    , encodeUtf8Builder $ name g
     , byteString " "
-    , encodeUtf8Builder (g ^. help)
+    , encodeUtf8Builder $ help g
     , byteString "\n# TYPE "
-    , encodeUtf8Builder (g ^. name)
+    , encodeUtf8Builder $ name g
     , byteString " gauge\n"
-    , encodeUtf8Builder (g ^. name)
-    , renderLabels (g ^. labels)
+    , encodeUtf8Builder $ name g
+    , renderLabels $ labels g
     , byteString " "
-    , string8 $ showFixed (g ^. value)
-    , maybe "" (string8 . formatTime " %s") (g ^. time)
+    , string8 $ showFixed $ value g
+    , maybe "" (string8 . formatTime " %s") $ time g
     ]
 
 -- | Output labels as metric exposition text.

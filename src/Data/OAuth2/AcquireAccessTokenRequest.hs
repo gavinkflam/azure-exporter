@@ -1,4 +1,4 @@
-{-# LANGUAGE DeriveGeneric, OverloadedStrings, TemplateHaskell #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 -- | Service-to-service access token request with a shared secret.
 --
@@ -18,7 +18,6 @@ import Data.Text (Text, lines, stripEnd, unpack)
 import Data.Text.Encoding (encodeUtf8)
 import Prelude hiding (lines)
 
-import Control.Lens (makeLenses, (^.))
 import Data.Aeson (decode)
 import Network.HTTP.Client (Request, parseRequest_, urlEncodedBody)
 
@@ -29,12 +28,10 @@ import Data.Response.Aeson (ErrorHandler)
 --
 --   <https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-oauth2-client-creds-grant-flow#first-case-access-token-request-with-a-shared-secret>
 data Params = Params
-    { _clientId     :: {-# UNPACK #-} !Text
-    , _clientSecret :: {-# UNPACK #-} !Text
-    , _tenantId     :: {-# UNPACK #-} !Text
+    { clientId     :: {-# UNPACK #-} !Text
+    , clientSecret :: {-# UNPACK #-} !Text
+    , tenantId     :: {-# UNPACK #-} !Text
     } deriving Show
-
-makeLenses ''Params
 
 -- | Construct URL from tenant ID.
 url :: Text -> String
@@ -48,16 +45,16 @@ form :: Params -> [(ByteString, ByteString)]
 form p =
     [ ("grant_type",    "client_credentials")
     , ("resource",      "https://management.azure.com/")
-    , ("client_id",     encodeUtf8 (p ^. clientId))
-    , ("client_secret", encodeUtf8 (p ^. clientSecret))
+    , ("client_id",     encodeUtf8 $ clientId p)
+    , ("client_secret", encodeUtf8 $ clientSecret p)
     ]
 
 -- | Construct request from params.
 request :: Params -> Request
 request p =
-    urlEncodedBody (form p) $ parseRequest_ $ "POST " <> url (p ^. tenantId)
+    urlEncodedBody (form p) $ parseRequest_ $ "POST " <> url (tenantId p)
 
 -- | Extract readable error message from `ErrorResponse` JSON `ByteString`.
 errorExtractor :: ErrorHandler
 errorExtractor =
-    fmap (unpack . stripEnd . head . lines . (^. errorDescription)) . decode
+    fmap (unpack . stripEnd . head . lines . errorDescription) . decode

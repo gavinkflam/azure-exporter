@@ -1,22 +1,14 @@
-{-# LANGUAGE DeriveGeneric, TemplateHaskell #-}
+{-# LANGUAGE DeriveGeneric #-}
 
 module Data.OAuth2.ErrorResponse
     (
       -- * Types
       ErrorResponse (..)
-      -- * Lenses
-    , correlationId
-    , _error
-    , errorCodes
-    , errorDescription
-    , timestamp
-    , traceId
     ) where
 
 import Data.Text (Text)
 import GHC.Generics
 
-import Control.Lens (makeLenses)
 import Data.Aeson
 
 import Data.Aeson.Options (oAuth2AesonOptions)
@@ -25,15 +17,13 @@ import Data.Aeson.Options (oAuth2AesonOptions)
 --
 --   <https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-oauth2-on-behalf-of-flow#error-response-example>
 data ErrorResponse = ErrorResponse
-    { _correlationId    :: {-# UNPACK #-} !Text
-    , __error           :: {-# UNPACK #-} !Text
-    , _errorCodes       :: [Int]
-    , _errorDescription :: {-# UNPACK #-} !Text
-    , _timestamp        :: {-# UNPACK #-} !Text
-    , _traceId          :: {-# UNPACK #-} !Text
+    { correlationId    :: {-# UNPACK #-} !Text
+    , _error           :: {-# UNPACK #-} !Text
+    , errorCodes       :: [Int]
+    , errorDescription :: {-# UNPACK #-} !Text
+    , timestamp        :: {-# UNPACK #-} !Text
+    , traceId          :: {-# UNPACK #-} !Text
     } deriving (Generic, Show)
 
 instance FromJSON ErrorResponse where
     parseJSON = genericParseJSON oAuth2AesonOptions
-
-makeLenses ''ErrorResponse

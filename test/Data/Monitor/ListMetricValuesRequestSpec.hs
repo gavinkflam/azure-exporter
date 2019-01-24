@@ -54,10 +54,10 @@ testRequest =
 -- | Test params.
 testParams :: L.Params
 testParams = L.Params
-    { L._aggregation = testTexts ! "aggregation"
-    , L._metricNames = testTexts ! "metricnames"
-    , L._resourceId  = testTexts ! "resourceId"
-    , L._timespan    = testTexts ! "timespan"
+    { L.aggregation = testTexts ! "aggregation"
+    , L.metricNames = testTexts ! "metricnames"
+    , L.resourceId  = testTexts ! "resourceId"
+    , L.timespan    = testTexts ! "timespan"
     }
 
 -- | Derive the query item from `testTexts` key.
