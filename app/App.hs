@@ -12,7 +12,6 @@ import Control.Monad.App.AppM (AppM)
 import Network.Wai.Middleware.RequestLogger (logStdout)
 import Web.Scotty.Trans (ScottyT, get, middleware)
 
-import qualified Data.Route.Billing as Rob
 import qualified Data.Route.Monitor as Rom
 import qualified Data.Route.Ping as V
 
@@ -20,6 +19,5 @@ import qualified Data.Route.Ping as V
 app :: ScottyT Text AppM ()
 app = do
     middleware logStdout
-    get "/billing/metrics" Rob.metrics
     get "/monitor/metrics" Rom.metrics
     get "/ping" V.ping
